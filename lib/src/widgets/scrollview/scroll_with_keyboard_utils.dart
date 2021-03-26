@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class IncrementIntent extends Intent {
-  const IncrementIntent(this.amount);
+  const IncrementIntent([this.amount = 1.0]);
 
   final double amount;
 }
 
 class DecrementIntent extends Intent {
-  const DecrementIntent(this.amount);
+  const DecrementIntent([this.amount = 1.0]);
 
   final double amount;
 }
