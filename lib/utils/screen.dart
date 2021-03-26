@@ -1,4 +1,4 @@
-import 'package:base_project/utils/utils.dart';
+import 'package:some_basic_utils/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
