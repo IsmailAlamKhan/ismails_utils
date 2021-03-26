@@ -1,6 +1,5 @@
 export 'const.dart';
 export 'debounce.dart';
-export 'duration.dart';
 export 'enum.dart';
 export 'exception.dart';
 export 'extenstion.dart';
