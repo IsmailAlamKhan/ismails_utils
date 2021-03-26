@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:some_basic_utils/utils/utils.dart';
+import '../src.dart';
 
 class ResponsiveScreen extends StatelessWidget {
   const ResponsiveScreen({

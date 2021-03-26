@@ -1,6 +1,7 @@
-import 'package:some_basic_utils/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../src.dart';
 
 class ScreenUtil {
   final BuildContext context;

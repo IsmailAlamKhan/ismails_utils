@@ -5,7 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:graphx/graphx.dart';
 
-import '../some_basic_utils.dart';
+import '../src.dart';
 
 class DynamicImage extends StatelessWidget {
   const DynamicImage({
