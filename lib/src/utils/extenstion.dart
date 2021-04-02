@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-
+import 'package:get/get.dart';
 import 'package:graphx/graphx.dart';
 import 'utils.dart';
 
@@ -30,6 +30,8 @@ extension ExtendedNum on num {
 
 extension ExtendedBuildContext on BuildContext {
   GRect? get getRenderObjectBounds => ContextUtils.getRenderObjectBounds(this);
+  Color get primaryColor => theme.primaryColor;
+  Color get accentColor => theme.accentColor;
 }
 
 extension ExtendedOrientation on Orientation {
