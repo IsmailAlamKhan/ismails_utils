@@ -5,63 +5,33 @@ import '../src.dart';
 
 class ScreenUtil {
   final BuildContext context;
+  ScreenUtil.of(this.context);
+  double get dp => context.width;
 
-  ScreenUtil(this.context);
-  static ScreenUtil get find => Get.find();
-  double get dp => context.devicePixelRatio * 160;
+  bool get smallPhone => dp.between(0, 359);
+  bool get medPhone => dp.between(360, 399);
+  bool get largePhone => dp.between(400, 479);
+  bool get xlargePhone => dp.between(480, 599);
 
-  bool get smallPhone {
-    const _firstBreak = 0;
-    const _lastBreak = 359;
-    return dp >= _firstBreak && dp < _lastBreak;
-  }
+  bool get smallTab => dp.between(600, 719);
+  bool get medTab => dp.between(720, 839);
+  bool get largeTab => dp.between(840, 959);
+  bool get xlargeTab => dp.between(960, 1053);
 
-  bool get medPhone {
-    const _firstBreak = 360;
-    const _lastBreak = 399;
-
-    return dp >= _firstBreak && dp < _lastBreak;
-  }
-
-  bool get largePhone {
-    const _firstBreak = 400;
-    const _lastBreak = 479;
-
-    return dp >= _firstBreak && dp < _lastBreak;
-  }
-
-  bool get xlargePhone {
-    const _firstBreak = 480;
-    const _lastBreak = 599;
-    return dp >= _firstBreak && dp < _lastBreak;
-  }
-
-  bool get smallTab {
-    const _firstBreak = 600;
-    const _lastBreak = 719;
-    return dp >= _firstBreak && dp <= _lastBreak;
-  }
-
-  bool get medTab {
-    const _firstBreak = 420;
-    const _lastBreak = 839;
-    return dp >= _firstBreak && dp < _lastBreak;
-  }
-
-  bool get largeTab {
-    const _firstBreak = 840;
-    const _lastBreak = 959;
-    return dp >= _firstBreak && dp < _lastBreak;
-  }
-
-  bool get xlargeTab {
-    const _firstBreak = 960;
-    const _lastBreak = 1053;
-    return dp >= _firstBreak && dp <= _lastBreak;
-  }
+  bool get smallDesktop => dp.between(1024, 1279);
+  bool get mediumDesktop => dp.between(1280, 1439);
+  bool get largeDesktop => dp.between(1440, 1599);
+  bool get xlargeDesktop => dp.between(1600, 1919);
+  bool get xxlargeDesktop => dp >= 1922;
 
   bool get phone => smallPhone || medPhone || largePhone || xlargePhone;
   bool get tab => smallTab || medTab || largeTab || xlargeTab;
+  bool get desktop =>
+      smallDesktop ||
+      mediumDesktop ||
+      largeDesktop ||
+      xlargeDesktop ||
+      xxlargeDesktop;
 
   ScreenSize get screenSize {
     if (smallPhone) {
@@ -93,7 +63,7 @@ class ScreenUtil {
     return 'xxxhdpi';
   }
 
-  double get pixelRation {
+  double get pixelRatio {
     if (dp.between(160, 240)) return 1.0;
     if (dp.between(240, 320)) return 1.5;
     if (dp.between(320, 480)) return 2.0;
