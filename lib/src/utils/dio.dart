@@ -38,19 +38,42 @@ class DioClient {
   }
 
   /// Get request with a bit of modification
-  Future<Response> post(
-    String url, {
+  Future<Response> postDeleteUpdate(
+    String url,
+    RequestType requestType, {
     Map<String, dynamic>? queryParams,
     Options? options,
     required dynamic data,
   }) async {
     try {
-      final res = await _dio.post(
-        url,
-        queryParameters: queryParams,
-        data: data,
-        options: options,
-      );
+      late Response res;
+      switch (requestType) {
+        case RequestType.post:
+          res = await _dio.post(
+            url,
+            queryParameters: queryParams,
+            data: data,
+            options: options,
+          );
+          break;
+        case RequestType.put:
+          res = await _dio.put(
+            url,
+            queryParameters: queryParams,
+            data: data,
+            options: options,
+          );
+          break;
+        case RequestType.delete:
+          res = await _dio.delete(
+            url,
+            queryParameters: queryParams,
+            data: data,
+            options: options,
+          );
+          break;
+        default:
+      }
 
       return res;
     } on DioError catch (e) {

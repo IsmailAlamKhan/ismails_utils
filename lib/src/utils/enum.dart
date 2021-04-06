@@ -12,3 +12,5 @@ enum ScreenSize {
 }
 
 enum PrintType { Error, Success, Info }
+
+enum RequestType { put, post, delete }
