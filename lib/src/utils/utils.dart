@@ -1,5 +1,6 @@
 export 'const.dart';
 export 'debounce.dart';
+export 'dio.dart';
 export 'enum.dart';
 export 'exception.dart';
 export 'extenstion.dart';
