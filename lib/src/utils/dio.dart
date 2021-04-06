@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:get/get.dart' hide GetConnect, Response, FormData;
 import 'package:graphx/graphx.dart';
 
 import '../../some_basic_utils.dart';
 
-class DioClient extends GetxService {
-  static DioClient get instance => Get.find();
+class DioClient {
+  static DioClient get instance => DioClient();
   Dio get _dio => Dio()
     ..httpClientAdapter
     ..interceptors.add(

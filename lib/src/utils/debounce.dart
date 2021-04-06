@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class Debouncer {
   final int? milliseconds;
@@ -12,6 +11,6 @@ class Debouncer {
     if (_timer != null) {
       _timer!.cancel();
     }
-    _timer = Timer(milliseconds!.milliseconds, action);
+    _timer = Timer(Duration(milliseconds: milliseconds!), action);
   }
 }

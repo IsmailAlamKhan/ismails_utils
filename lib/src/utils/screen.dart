@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 import '../src.dart';
 
 class ScreenUtil {
   final BuildContext context;
   ScreenUtil.of(this.context);
-  double get dp => context.width;
+  double get dp => MediaQuery.of(context).size.width;
 
   bool get smallPhone => dp.between(0, 359);
   bool get medPhone => dp.between(360, 399);

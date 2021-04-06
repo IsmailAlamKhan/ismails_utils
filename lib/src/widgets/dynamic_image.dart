@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graphx/graphx.dart';
-import 'package:get/get.dart';
 import '../src.dart';
 
 class DynamicImage extends StatelessWidget {
@@ -96,7 +95,7 @@ class DynamicImage extends StatelessWidget {
       return Builder(builder: (context) {
         return CachedNetworkImage(
           placeholder: (_, __) => Container(
-            color: context.theme.primaryColor.withOpacity(.3),
+            color: Theme.of(context).primaryColor.withOpacity(.3),
           ),
           height: height,
           width: width,
@@ -111,7 +110,7 @@ class DynamicImage extends StatelessWidget {
             padding: EdgeInsets.all(8.0),
             child: Text(
               'Unsupported format',
-              style: context.textTheme.headline4,
+              style: Theme.of(context).textTheme.headline4,
             ),
           ),
         );
