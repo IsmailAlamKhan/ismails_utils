@@ -37,7 +37,6 @@ class DioClient {
     }
   }
 
-  /// Get request with a bit of modification
   Future<Response> postDeleteUpdate(
     String url,
     RequestType requestType, {
