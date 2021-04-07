@@ -17,6 +17,7 @@ class DioClient {
         requestHeader: false,
         responseHeader: false,
         request: false,
+        responseBody: true,
         requestBody: true,
       ),
     );
