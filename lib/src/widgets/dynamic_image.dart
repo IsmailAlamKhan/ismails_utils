@@ -7,8 +7,8 @@ import 'package:graphx/graphx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../src.dart';
 
-class UPPImage extends StatelessWidget {
-  const UPPImage({
+class DynamicImage extends StatelessWidget {
+  const DynamicImage({
     Key? key,
     required this.image,
     this.width,
@@ -22,7 +22,7 @@ class UPPImage extends StatelessWidget {
     this.isSvg,
   })  : assert(
           image is File || image is Uint8List || image is String,
-          'UPPImage - Only String, File and Uint8List is supported',
+          'DynamicImage - Only String, File and Uint8List is supported',
         ),
         super(key: key);
   final VoidCallback? onTap, onDoubleTap, onLongPress;
