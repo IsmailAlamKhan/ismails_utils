@@ -7,7 +7,7 @@ class ConnectivityService {
   ConnectivityResult _connectivity = ConnectivityResult.none;
   ConnectivityResult get connectivity => _connectivity;
 
-  ConnectivityService() {
+  ConnectivityService.init() {
     Connectivity().onConnectivityChanged.listen((event) {
       _connectivity = event;
       LoggerService.instance.logger

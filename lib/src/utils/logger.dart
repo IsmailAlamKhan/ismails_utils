@@ -5,7 +5,7 @@ class LoggerService {
 
   late Logger logger;
 
-  LoggerService() {
+  LoggerService.init() {
     logger = Logger(printer: PrettyPrinter());
     logger.i('Logger service started');
     instance = this;

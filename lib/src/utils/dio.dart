@@ -7,7 +7,7 @@ import 'package:graphx/graphx.dart';
 import '../src.dart';
 
 class DioClient {
-  DioClient(
+  DioClient.init(
     this.host,
     this.port,
     this.baseOptions, {
