@@ -1,15 +1,16 @@
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graphx/graphx.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../src.dart';
 
-class DynamicImage extends StatelessWidget {
-  const DynamicImage({
+class UPPImage extends StatelessWidget {
+  const UPPImage({
     Key? key,
-    this.image,
+    required this.image,
     this.width,
     this.height,
     this.onTap,
@@ -21,7 +22,7 @@ class DynamicImage extends StatelessWidget {
     this.isSvg,
   })  : assert(
           image is File || image is Uint8List || image is String,
-          'DynamicImage - Only String, File and Uint8List is supported',
+          'UPPImage - Only String, File and Uint8List is supported',
         ),
         super(key: key);
   final VoidCallback? onTap, onDoubleTap, onLongPress;
@@ -35,33 +36,43 @@ class DynamicImage extends StatelessWidget {
   final bool? isSvg;
 
   bool get _isNetwork =>
-      !(image?.startsWith(BaseConsts.kasssetIMAGEPATH) ?? true) ||
+      !(image?.startsWith(Consts.kasssetIMAGEPATH) ?? true) ||
       image.toString().startsWith('http') ||
       image.toString().startsWith('https');
   bool get _svg => isSvg ?? image.toString().contains('.svg');
 
   @override
   Widget build(BuildContext context) {
-    if (hero != null) {
-      return Hero(
-        tag: hero!,
-        child: GestureDetector(
-          onDoubleTap: onDoubleTap,
-          onLongPress: onLongPress,
-          onTap: onTap,
-          child: _build,
-        ),
-      );
-    }
-    return GestureDetector(
-      onDoubleTap: onDoubleTap,
-      onLongPress: onLongPress,
-      onTap: onTap,
+    return AnimatedSwitcher(
+      duration: Duration(milliseconds: 500),
+      layoutBuilder: (currentChild, previousChildren) => currentChild!,
       child: _build,
     );
   }
 
   Widget get _build {
+    if (hero != null) {
+      return Hero(
+        tag: hero!,
+        child: GestureDetector(
+          key: ValueKey(image),
+          onDoubleTap: onDoubleTap,
+          onLongPress: onLongPress,
+          onTap: onTap,
+          child: _image,
+        ),
+      );
+    }
+    return GestureDetector(
+      key: ValueKey(image),
+      onDoubleTap: onDoubleTap,
+      onLongPress: onLongPress,
+      onTap: onTap,
+      child: _image,
+    );
+  }
+
+  Widget get _image {
     if (_svg) {
       return SvgPicture.asset(
         image,
@@ -92,29 +103,30 @@ class DynamicImage extends StatelessWidget {
           width: width,
         );
       }
-      return Builder(builder: (context) {
-        return CachedNetworkImage(
-          placeholder: (_, __) => Container(
-            color: Theme.of(context).primaryColor.withOpacity(.3),
-          ),
-          height: height,
-          width: width,
-          imageUrl: image!,
-          fit: fit,
-        );
-      });
+      return CachedNetworkImage(
+        placeholder: (context, __) => Container(
+          color: Theme.of(context).primaryColor,
+        ),
+        height: height,
+        width: width,
+        imageUrl: image!,
+        fit: fit,
+      );
     } else {
-      return Builder(builder: (context) {
-        return FittedBox(
-          child: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
+      return FittedBox(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Builder(builder: (context) {
+            return Text(
               'Unsupported format',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ),
-        );
-      });
+              style: Theme.of(context)
+                  .textTheme
+                  .headline6
+                  ?.copyWith(color: Colors.red),
+            );
+          }),
+        ),
+      );
     }
   }
 }

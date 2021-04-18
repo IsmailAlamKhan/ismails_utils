@@ -1,9 +1,13 @@
+export 'connectivity.dart';
 export 'const.dart';
 export 'debounce.dart';
 export 'dio.dart';
 export 'enum.dart';
 export 'exception.dart';
 export 'extenstion.dart';
+export 'file_service.dart';
 export 'global_methods.dart';
+export 'logger.dart';
 export 'screen.dart';
 export 'typedef.dart';
+export 'uppexception.dart';

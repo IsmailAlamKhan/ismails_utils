@@ -1,60 +1,59 @@
 import 'package:dio/dio.dart';
 
-import 'utils.dart';
+import 'logger.dart';
 
-class CustomDioException implements Exception {
-  CustomDioException.error(dynamic e) {
+class CustomException implements Exception {
+  CustomException.error(dynamic e) {
     message = e.toString();
-    CustomPrint(
-      [message],
-      printType: PrintType.Error,
-    );
+    LoggerService.instance.logger.e(message);
   }
-  CustomDioException.fromDioError(DioError dioError) {
+  CustomException.fromDioError(DioError dioError) {
     switch (dioError.type) {
       case DioErrorType.cancel:
-        message = "Request to API server was cancelled";
+        message = 'Request cancelled by user';
         break;
       case DioErrorType.connectTimeout:
-        message = "Connection timeout with API server";
+        message = 'Connection timed out';
         break;
       case DioErrorType.other:
-        message = "Connection to API server failed due to internet connection";
+        message = "Couldn't connect to server";
         break;
       case DioErrorType.receiveTimeout:
-        message = "Receive timeout in connection with API server";
+        message = 'Response time out';
         break;
       case DioErrorType.response:
-        message = _handleError(dioError.response!.statusCode);
+        if (dioError.response == null) {
+          message = dioError.message;
+        } else {
+          message = _handleError(dioError.response);
+        }
         break;
       case DioErrorType.sendTimeout:
-        message = "Send timeout in connection with API server";
+        message = 'Request send time out';
         break;
       default:
-        message = "Something went wrong";
+        message = 'Ops, something went wrong';
         break;
     }
-    CustomPrint(
-      [message],
-      printType: PrintType.Error,
-    );
+    LoggerService.instance.logger.e(message);
   }
 
   String? message;
 
-  String _handleError(int? statusCode) {
+  String _handleError(Response? res) {
+    final statusCode = res!.statusCode;
     switch (statusCode) {
       case 400:
-        return 'Bad request';
+        return 'Bad Request';
       case 404:
-        return 'The requested resource was not found';
+        return 'Not found';
       case 500:
         return 'Internal server error';
       default:
-        return 'Oops something went wrong';
+        return 'Something went wrong';
     }
   }
 
   @override
-  String toString() => message!;
+  String toString() => message ?? '';
 }

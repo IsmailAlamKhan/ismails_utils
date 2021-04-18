@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -88,4 +90,10 @@ extension ExtendedType on Object {
       return toString();
     }
   }
+}
+
+extension FileExtension on File {
+  String get read => FileService.instance.readFile(this);
+  void write(String val, [FileMode mode = FileMode.append]) =>
+      FileService.instance.writeFile(val, this, mode);
 }
