@@ -10,4 +10,4 @@ export 'global_methods.dart';
 export 'logger.dart';
 export 'screen.dart';
 export 'typedef.dart';
-export 'uppexception.dart';
+export 'exception.dart';
