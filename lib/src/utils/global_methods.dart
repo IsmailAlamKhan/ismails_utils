@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'utils.dart';
 
@@ -51,3 +52,6 @@ bool get isMaterial =>
     Platform.isWindows ||
     Platform.isFuchsia ||
     Platform.isLinux;
+
+PlatformException throwPlatformException(String messege) =>
+    PlatformException(code: 'un-supported', message: messege);

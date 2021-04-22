@@ -1,5 +1,5 @@
-name: some_basic_utils
-description: A new Flutter package project.
+name: ismails_utils
+description: Some utils for any flutter project.
 version: 0.0.2
 author: Md Ismail Alam Khan
 homepage: null
@@ -12,10 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
   cached_network_image: 3.0.0-nullsafety
-  connectivity: ^3.0.3
+  connectivity_plus: ^3.0.3
   dio: ^4.0.0-beta7
-  flutter_svg: ^0.21.0-nullsafety.0
-  graphx: ^1.0.0-nullsafety.0
   logger: ^1.0.0
 
 dev_dependencies:

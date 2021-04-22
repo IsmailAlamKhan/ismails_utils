@@ -61,8 +61,8 @@ class FileService {
     }
   }
 
-  Future<void> init() async {
-    localPath = await _localPath;
-    instance = this;
+  static Future<void> init() async {
+    FileService().localPath = await FileService()._localPath;
+    instance = FileService();
   }
 }
