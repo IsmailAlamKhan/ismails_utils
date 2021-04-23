@@ -1,4 +1,4 @@
-# some_basic_utils
+# ismails_utils
 
 A new Flutter package project.
 

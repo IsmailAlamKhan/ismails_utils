@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:some_basic_utils/some_basic_utils.dart';
+import 'package:ismails_utils/ismails_utils.dart';
 
 Future<void> main() async {
   LoggerService.init();
