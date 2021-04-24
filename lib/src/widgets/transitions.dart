@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class FadeSlideTransition extends AnimatedWidget {
   const FadeSlideTransition({
-    required this.animationController,
+    required this.animation,
     required this.slide,
     required this.child,
-  }) : super(listenable: animationController);
-  final Animation<double> animationController;
+  }) : super(listenable: animation);
+  final Animation<double> animation;
   final Tween<Offset> slide;
   final Widget child;
 
@@ -49,10 +49,10 @@ class FadeSlideTransition extends AnimatedWidget {
 
 class FadeScaleTransition extends AnimatedWidget {
   const FadeScaleTransition({
-    required this.animationController,
+    required this.animation,
     required this.child,
-  }) : super(listenable: animationController);
-  final Animation<double> animationController;
+  }) : super(listenable: animation);
+  final Animation<double> animation;
   final Widget child;
 
   Animation<double> get _progress => listenable as Animation<double>;
@@ -92,13 +92,13 @@ class FadeScaleTransition extends AnimatedWidget {
 
 class FadeSizeTransition extends AnimatedWidget {
   const FadeSizeTransition({
-    required this.animationController,
+    required this.animation,
     required this.child,
     this.axisAlignment = 0.0,
     this.isReverse = false,
     this.axis = Axis.vertical,
-  }) : super(listenable: animationController);
-  final Animation<double> animationController;
+  }) : super(listenable: animation);
+  final Animation<double> animation;
   final Widget child;
   final double axisAlignment;
   final bool isReverse;
