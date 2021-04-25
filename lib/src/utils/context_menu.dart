@@ -76,11 +76,14 @@ class ContextMenu {
           barrierLabel: '',
         ),
       );
-  Widget area(Widget child, VoidCallback callback) {
+  Widget area({
+    required Widget child,
+    required Function(ContextMenu contextMenu)? callback,
+  }) {
     return Listener(
       onPointerDown: (event) {
         if (event.mouseButton.rightClick) {
-          callback();
+          callback?.call(this);
         }
       },
       child: child,
