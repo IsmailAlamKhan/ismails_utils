@@ -36,22 +36,22 @@ class DesktopTitleBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WindowTitleBarBox(
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: context.contextMenu.area(
+      child: context.contextMenu.area(
+        callback: (contextMenu, event) {
+          contextMenu.iconMenu(event.localPosition);
+        },
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(3.0),
               child: DynamicImage(image: logo),
-              callback: (contextMenu, event) {
-                contextMenu.iconMenu(event.localPosition);
-              },
             ),
-          ),
-          Expanded(child: MoveWindow()),
-          MinimizeWindowButton(animate: true),
-          MaximizeWindowButton(animate: true),
-          CloseWindowButton(animate: true),
-        ],
+            Expanded(child: MoveWindow()),
+            MinimizeWindowButton(animate: true),
+            MaximizeWindowButton(animate: true),
+            CloseWindowButton(animate: true),
+          ],
+        ),
       ),
     );
   }
