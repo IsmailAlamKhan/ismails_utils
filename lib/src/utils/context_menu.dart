@@ -89,7 +89,7 @@ class ContextMenu {
         ),
         */
       );
-  Widget area({
+  Widget clickArea({
     required Widget child,
     required Function(
       ContextMenu contextMenu,

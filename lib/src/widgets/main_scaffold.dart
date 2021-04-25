@@ -35,11 +35,11 @@ class DesktopTitleBar extends StatelessWidget {
   final String logo;
   @override
   Widget build(BuildContext context) {
-    return WindowTitleBarBox(
-      child: context.contextMenu.area(
-        callback: (contextMenu, event) {
-          contextMenu.iconMenu(event.localPosition);
-        },
+    return context.contextMenu.clickArea(
+      callback: (contextMenu, event) {
+        contextMenu.iconMenu(event.localPosition);
+      },
+      child: WindowTitleBarBox(
         child: Row(
           children: [
             Padding(
