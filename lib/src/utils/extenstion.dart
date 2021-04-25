@@ -101,3 +101,18 @@ extension FileExtension on File {
         mode,
       );
 }
+
+extension PointerDownEventExtended on PointerEvent {
+  MouseButton get mouseButton {
+    switch (buttons) {
+      case 1:
+        return MouseButton.LeftMouse;
+      case 2:
+        return MouseButton.RightMouse;
+      case 4:
+        return MouseButton.MiddleMouse;
+      default:
+        return MouseButton.None;
+    }
+  }
+}
