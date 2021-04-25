@@ -17,5 +17,8 @@ bool get isMaterial =>
     Platform.isFuchsia ||
     Platform.isLinux;
 
+bool get isDesktop =>
+    Platform.isLinux || Platform.isWindows || Platform.isMacOS;
+
 PlatformException throwPlatformException(String messege) =>
     PlatformException(code: 'un-supported', message: messege);
