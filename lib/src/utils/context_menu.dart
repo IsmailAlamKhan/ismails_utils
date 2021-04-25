@@ -166,5 +166,5 @@ class _Route<T> extends PopupRoute<T> {
       page(ctx, anim, secAnima);
 
   @override
-  Duration get transitionDuration => const Duration(milliseconds: 500);
+  Duration get transitionDuration => const Duration(milliseconds: 100);
 }
