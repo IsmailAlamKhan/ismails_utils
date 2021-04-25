@@ -76,6 +76,16 @@ class ContextMenu {
           barrierLabel: '',
         ),
       );
+  Widget area(Widget child, VoidCallback callback) {
+    return Listener(
+      onPointerDown: (event) {
+        if (event.mouseButton.rightClick) {
+          callback();
+        }
+      },
+      child: child,
+    );
+  }
 }
 
 class FileIconMenuModel {
