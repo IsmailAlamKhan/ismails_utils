@@ -1,88 +1,56 @@
-import 'dart:io';
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ismails_utils/ismails_utils.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   LoggerService.init();
   await FileService.init();
+  doWhenWindowReady(() => appWindow.show());
+
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: ThemeMode.dark,
       // home: ContextLessNavigation(MyHomePage(title: 'Flutter Demo Home Page')),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  final _dir = Directory('path');
-  late List<FileSystemEntity> _list;
-  @override
-  void initState() {
-    super.initState();
-    _list = _dir.listSync(recursive: true, followLinks: true);
-    final stream = _dir.watch(events: FileSystemEvent.all, recursive: true);
-    stream.listen((event) {
-      _list = _dir.listSync(recursive: true, followLinks: true);
-      setState(() {});
-    });
-  }
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: ListView.builder(
-        itemCount: _list.length,
-        itemBuilder: (context, index) => ListTile(
-          title: Text(_list[index].path),
-        ),
-      ),
-    );
-  }
-}
-
-class Home2 extends StatelessWidget {
-  const Home2({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: BackButton(
-          onPressed: () {
-            ContextLessNavigation.navigateBack();
+        leading: Listener(
+          onPointerDown: (event) {
+            if (event.mouseButton.rightClick) {
+              ContextMenu.of(context).iconMenu(event.localPosition);
+            }
           },
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.ac_unit_outlined),
-            onPressed: () {
-              showDialog(
-                  context: ContextLessNavigation.context,
-                  builder: (context) => AlertDialog(),
-                  barrierDismissible: true);
-            },
+          child: IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.access_time),
           ),
-        ],
+        ),
       ),
     );
   }

@@ -44,7 +44,7 @@ class DynamicImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       layoutBuilder: (currentChild, previousChildren) => currentChild!,
       child: _build,
     );

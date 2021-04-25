@@ -56,7 +56,7 @@ class DioClient {
         final socket = await Socket.connect(
           host,
           port,
-          timeout: Duration(seconds: 2),
+          timeout: const Duration(seconds: 2),
         );
         socket.destroy();
         return ConnectivityCheck(

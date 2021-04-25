@@ -8,7 +8,7 @@ class ContextLessNavigation {
     if (key.currentContext != null) {
       return key.currentContext!;
     } else {
-      throw 'You need to use the key provided by ContextLessNavigation on the Materialapp\'s navigator key prop';
+      throw "You need to use the key provided by ContextLessNavigation on the Materialapp's navigator key prop";
     }
   }
 
