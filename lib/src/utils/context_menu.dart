@@ -78,12 +78,16 @@ class ContextMenu {
       );
   Widget area({
     required Widget child,
-    required Function(ContextMenu contextMenu)? callback,
+    required Function(
+      ContextMenu contextMenu,
+      PointerDownEvent event,
+    )?
+        callback,
   }) {
     return Listener(
       onPointerDown: (event) {
         if (event.mouseButton.rightClick) {
-          callback?.call(this);
+          callback?.call(this, event);
         }
       },
       child: child,
