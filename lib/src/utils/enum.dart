@@ -11,7 +11,5 @@ enum ScreenSize {
   NONE
 }
 
-enum PrintType { Error, Success, Info }
-
 enum RequestType { put, post, delete }
-enum MouseButton { RightMouse, LeftMouse, MiddleMouse, None }
+enum MouseClick { rightButton, leftButton, middleButton, UNK }

@@ -103,16 +103,22 @@ extension FileExtension on File {
 }
 
 extension PointerDownEventExtended on PointerEvent {
-  MouseButton get mouseButton {
+  MouseClick get mouseButton {
     switch (buttons) {
       case 1:
-        return MouseButton.LeftMouse;
+        return MouseClick.leftButton;
       case 2:
-        return MouseButton.RightMouse;
+        return MouseClick.rightButton;
       case 4:
-        return MouseButton.MiddleMouse;
+        return MouseClick.middleButton;
       default:
-        return MouseButton.None;
+        return MouseClick.UNK;
     }
   }
+}
+
+extension ExtendedMouseButton on MouseClick {
+  bool get rightClick => this == MouseClick.rightButton;
+  bool get leftClick => this == MouseClick.leftButton;
+  bool get middleClick => this == MouseClick.middleButton;
 }
