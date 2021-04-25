@@ -33,6 +33,7 @@ extension ExtendedBuildContext on BuildContext {
   GRect? get getRenderObjectBounds => ContextUtils.getRenderObjectBounds(this);
   Color get primaryColor => Theme.of(this).primaryColor;
   Color get accentColor => Theme.of(this).accentColor;
+  ContextMenu get contextMenu => ContextMenu.of(this);
 }
 
 extension ExtendedOrientation on Orientation {

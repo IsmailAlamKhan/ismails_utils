@@ -60,6 +60,18 @@ class ContextMenu {
     required Offset offset,
   }) =>
       Navigator.of(context).push(
+        _Route(
+          (context, animation, secondaryAnimation) => Stack(
+            children: [
+              Positioned(
+                top: offset.dy,
+                left: offset.dx,
+                child: SizedBox.fromSize(size: size, child: menu(animation)),
+              ),
+            ],
+          ),
+        ),
+        /*
         PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) => Stack(
             children: [
@@ -75,6 +87,7 @@ class ContextMenu {
           opaque: false,
           barrierLabel: '',
         ),
+        */
       );
   Widget area({
     required Widget child,
@@ -127,3 +140,31 @@ List<FileIconMenuModel> fileIconMenuList = [
     onTap: () => appWindow.close(),
   ),
 ];
+
+class _Route<T> extends PopupRoute<T> {
+  _Route(this.page);
+  final Widget Function(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+  ) page;
+  @override
+  Color? get barrierColor => Colors.transparent;
+
+  @override
+  bool get barrierDismissible => true;
+
+  @override
+  String? get barrierLabel => 'Context Manu';
+
+  @override
+  Widget buildPage(
+    BuildContext ctx,
+    Animation<double> anim,
+    Animation<double> secAnima,
+  ) =>
+      page(ctx, anim, secAnima);
+
+  @override
+  Duration get transitionDuration => const Duration(milliseconds: 500);
+}
