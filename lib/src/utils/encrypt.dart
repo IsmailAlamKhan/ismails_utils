@@ -7,7 +7,7 @@ class EncryptService {
   final iv = IV.fromLength(16);
   late final Encrypter encrypter;
   Encrypted encrypt(String input) => encrypter.encrypt(input, iv: iv);
-  void decrypt(Encrypted input) => encrypter.decrypt(input, iv: iv);
+  String decrypt(String input) => encrypter.decrypt64(input, iv: iv);
 
   EncryptService.init() {
     encrypter = Encrypter(AES(key));
