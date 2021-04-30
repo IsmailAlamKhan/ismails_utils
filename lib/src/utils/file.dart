@@ -24,6 +24,5 @@ class FileService {
 
   File makeFile(String name, [String? extraPath]) =>
       throw throwPlatformException('File system not supported on web');
-  void _init() =>
-      throw throwPlatformException('File system not supported on web');
+  void _init() {}
 }

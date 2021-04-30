@@ -37,7 +37,7 @@ class FileService {
   }
 
   File makeFile(String name, [String? extraPath]) {
-    final _file = File('${localPath.path}$extraPath/$name');
+    final _file = File('${localPath.path}${extraPath ?? ''}/$name');
     if (_file.existsSync()) {
       LoggerService.instance.logger.i('File exists');
       return _file;
