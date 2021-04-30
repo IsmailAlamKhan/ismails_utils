@@ -3,7 +3,7 @@ import 'package:ismails_utils/ismails_utils.dart';
 
 class EncryptService {
   static late EncryptService instance;
-  final key = Key.fromUtf8('EOPn6SSTvGcapjHA4dXA9xHZw2LjwWGFoWZMGLE59Ls=');
+  final key = Key.fromUtf8('EOPn6SSTvGcapjHA4dXA9xHZw2LjwWG=');
   final iv = IV.fromLength(16);
   late final Encrypter encrypter;
   Encrypted encrypt(String input) => encrypter.encrypt(input, iv: iv);
