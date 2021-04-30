@@ -4,6 +4,9 @@ import 'package:dio/dio.dart';
 import '../src.dart';
 
 class FileService {
+  FileService.init() {
+    _init();
+  }
   static FileService get instance =>
       throw throwPlatformException('File system not supported on web');
   void writeFile(String val, File file, [FileMode mode = FileMode.append]) =>
@@ -21,6 +24,6 @@ class FileService {
 
   File makeFile(String name, [String? extraPath]) =>
       throw throwPlatformException('File system not supported on web');
-  static Future<void> init() async =>
+  void _init() =>
       throw throwPlatformException('File system not supported on web');
 }

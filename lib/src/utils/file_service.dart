@@ -7,6 +7,9 @@ import '../src.dart';
 import 'logger.dart';
 
 class FileService {
+  FileService.init() {
+    _init();
+  }
   static late FileService instance;
   late Directory localPath;
   Future<Directory> get _localPath async {
@@ -61,8 +64,10 @@ class FileService {
     }
   }
 
-  static Future<void> init() async {
-    FileService().localPath = await FileService()._localPath;
-    instance = FileService();
+  Future<void> _init() async {
+    localPath = await _localPath;
+    instance = this;
+    // ignore: no_runtimetype_tostring
+    LoggerService.instance.logger.i('$runtimeType Started');
   }
 }
