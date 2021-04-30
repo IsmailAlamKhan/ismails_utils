@@ -1,4 +1,5 @@
 import 'package:encrypt/encrypt.dart';
+import 'package:ismails_utils/ismails_utils.dart';
 
 class EncryptService {
   static late EncryptService instance;
@@ -11,5 +12,7 @@ class EncryptService {
   EncryptService.init() {
     encrypter = Encrypter(AES(key));
     instance = this;
+    // ignore: no_runtimetype_tostring
+    LoggerService.instance.logger.i('$runtimeType Started');
   }
 }
