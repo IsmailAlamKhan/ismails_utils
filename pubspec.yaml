@@ -19,7 +19,7 @@ dependencies:
   graphx: ^1.0.0-nullsafety.0
   logger: ^1.0.0
   provider: ^5.0.0
-
+  encrypt: ^5.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
