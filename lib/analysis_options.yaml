@@ -1,0 +1,25 @@
+include: package:lint/analysis_options.yaml
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+  strong-mode:
+    implicit-casts: true
+  errors:
+    avoid_types_on_closure_parameters: ignore
+    avoid_positional_boolean_parameters: ignore
+    avoid_classes_with_only_static_members: ignore
+    constant_identifier_names: ignore
+    missing_required_param: error
+    annotate_overrides: warning
+    prefer_constructors_over_static_methods: ignore
+    overridden_fields: ignore
+    use_setters_to_change_properties: ignore
+    avoid_dynamic_calls: ignore
+    prefer_asserts_with_message: info
+    missing_return: error
+    sort_pub_dependencies: ignore
+
+linter:
+  rules:
+    - prefer_relative_imports
