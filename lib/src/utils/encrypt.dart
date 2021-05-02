@@ -1,5 +1,5 @@
 import 'package:encrypt/encrypt.dart';
-import 'package:ismails_utils/ismails_utils.dart';
+import '../../ismails_utils.dart';
 
 class EncryptService {
   static late EncryptService instance;

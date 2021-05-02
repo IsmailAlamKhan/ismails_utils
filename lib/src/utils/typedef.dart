@@ -7,3 +7,7 @@ typedef ResponsiveWidget = Widget Function(
   BuildContext context,
   ScreenUtil screenUtil,
 );
+typedef SnackBarAnimBuilder = Widget Function(
+  Animation<double> animation,
+  Widget child,
+);

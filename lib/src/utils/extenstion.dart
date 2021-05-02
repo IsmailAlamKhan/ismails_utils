@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:graphx/graphx.dart';
+import '../src.dart';
 import 'utils.dart';
 
 extension ExtendedString on String {
@@ -34,6 +35,18 @@ extension ExtendedBuildContext on BuildContext {
   Color get primaryColor => Theme.of(this).primaryColor;
   Color get accentColor => Theme.of(this).accentColor;
   ContextMenu get contextMenu => ContextMenu.of(this);
+  void customSnackbar({
+    required String text,
+    required Color color,
+    Duration duration = const Duration(seconds: 3),
+    Duration animDuration = const Duration(milliseconds: 500),
+  }) =>
+      CustomSnackbar(
+        text: text,
+        color: color,
+        animDuration: animDuration,
+        duration: duration,
+      ).show(this);
 }
 
 extension ExtendedOrientation on Orientation {
@@ -122,4 +135,22 @@ extension ExtendedMouseButton on MouseClick {
   bool get rightClick => this == MouseClick.rightButton;
   bool get leftClick => this == MouseClick.leftButton;
   bool get middleClick => this == MouseClick.middleButton;
+}
+
+extension ExtendedCustomSnackbar on CustomSnackbar {
+  CustomSnackbar copyWith({
+    Duration? duration,
+    Duration? animDuration,
+    String? text,
+    Color? color,
+    SnackBarAnimBuilder? animBuilder,
+  }) {
+    return CustomSnackbar(
+      animDuration: animDuration ?? this.animDuration,
+      text: text ?? this.text,
+      color: color ?? this.color,
+      duration: duration ?? this.duration,
+      animBuilder: animBuilder ?? this.animBuilder,
+    );
+  }
 }

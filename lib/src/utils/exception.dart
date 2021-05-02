@@ -54,80 +54,85 @@ class CustomException implements Exception {
     }
   }
 
-  String fromFirebaseErrorCodes(String errorCode) {
+  CustomException.fromFirebaseErrorCodes(String errorCode) {
     switch (errorCode) {
       case 'invalid-email':
-        return 'The email is badly formatted.';
-
+        message = 'The email is badly formatted.';
+        break;
       case 'unauthorized-domain':
-        return 'This domain is not authorized for OAuth.';
-
+        message = 'This domain is not authorized for OAuth.';
+        break;
       case 'popup-closed-by-user':
-        return 'Cancelled by user.';
-
+        message = 'Cancelled by user.';
+        break;
       case 'account-exists-with-different-credential':
-        return 'You already have an account with this email but with different credential.';
-
+        message =
+            'You already have an account with this email but with different credential.';
+        break;
       case 'wrong-password':
-        return 'Invalid User credentials.';
-
+        message = 'Invalid User credentials.';
+        break;
       case 'network-request-failed':
-        return 'Please check your internet connection';
-
+        message = 'Please check your internet connection';
+        break;
       case 'too-many-requests':
-        return 'You inserted wrong login credentials several times. Take a break please!';
-
+        message =
+            'You inserted wrong login credentials several times. Take a break please!';
+        break;
       case 'user-disabled':
-        return 'Your account has been disabled or deleted. Please contact the system administrator.';
-
+        message =
+            'Your account has been disabled or deleted. Please contact the system administrator.';
+        break;
       case 'requires-recent-login':
-        return 'Please login again and try again!';
-
+        message = 'Please login again and try again!';
+        break;
       case 'email-already-exists':
       case 'email-already-in-use':
-        return 'Email address is already in use by an existing user.';
-
+        message = 'Email address is already in use by an existing user.';
+        break;
       case 'user-not-found':
-        return 'We could not find user account associated with the email address or phone number.';
-
+        message =
+            'We could not find user account associated with the email address or phone number.';
+        break;
       case 'phone-number-already-exists':
-        return 'The phone number is already in use by an existing user.';
-
+        message = 'The phone number is already in use by an existing user.';
+        break;
       case 'invalid-phone-number':
-        return 'The phone number is not a valid phone number!';
-
+        message = 'The phone number is not a valid phone number!';
+        break;
       case 'invalid-email  ':
-        return 'The email address is not a valid email address!';
-
+        message = 'The email address is not a valid email address!';
+        break;
       case 'cannot-delete-own-user-account':
-        return 'You cannot delete your own user account.';
-
+        message = 'You cannot delete your own user account.';
+        break;
       case 'aborted':
-        return 'Aborted due to errors.';
-
+        message = 'Aborted due to errors.';
+        break;
       case 'already-exists':
-        return 'The document already exits.';
-
+        message = 'The document already exits.';
+        break;
       case 'cancelled':
-        return 'Cancelled.';
-
+        message = 'Cancelled.';
+        break;
       case 'internal':
-        return 'Internal Server Error.';
-
+        message = 'Internal Server Error.';
+        break;
       case 'permission-denied':
-        return "You don't have sufficient permissions. Please login again";
-
+        message = "You don't have sufficient permissions. Please login again";
+        break;
       case 'unauthenticated':
-        return 'Your session is expired Please relogin.';
-
+        message = 'Your session is expired Please relogin.';
+        break;
       case 'not-found':
-        return 'The Document is not found.';
-
+        message = 'The Document is not found.';
+        break;
       case 'object-not-found':
-        return 'Could not find the file or the photo.';
-
+        message = 'Could not find the file or the photo.';
+        break;
       default:
-        return 'Oops! Something went wrong. Try again later.';
+        message = 'Oops! Something went wrong. Try again later.';
+        break;
     }
   }
 

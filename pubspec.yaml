@@ -2,7 +2,7 @@ name: ismails_utils
 description: Some utils for any flutter project.
 version: 0.0.4
 author: Md Ismail Alam Khan
-homepage: null
+homepage: "null"
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -20,10 +20,10 @@ dependencies:
   logger: ^1.0.0
   provider: ^5.0.0
   encrypt: ^5.0.0
+  lint: ^1.5.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  lint: ^1.5.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

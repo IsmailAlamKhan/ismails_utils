@@ -7,8 +7,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   LoggerService.init();
-  await FileService.init();
-  doWhenWindowReady(() => appWindow.show());
+  FileService.init();
+  if (isDesktop) doWhenWindowReady(() => appWindow.show());
 
   runApp(MyApp());
 }
@@ -25,9 +25,10 @@ class _MyAppState extends State<MyApp> {
       title: 'Flutter Demo',
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
+
       themeMode: ThemeMode.dark,
       // home: ContextLessNavigation(MyHomePage(title: 'Flutter Demo Home Page')),
-      home: MyHomePage(),
+      home: const ContextLessNavigation(MyHomePage()),
     );
   }
 }
@@ -41,13 +42,11 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         leading: Listener(
           onPointerDown: (event) {
-            if (event.mouseButton.rightClick) {
-              ContextMenu.of(context).iconMenu(event.localPosition);
-            }
+            ContextLessNavigation.showErrorSnackbar(text: 'Hello');
           },
           child: IconButton(
             onPressed: () {},
-            icon: Icon(Icons.access_time),
+            icon: const Icon(Icons.access_time),
           ),
         ),
       ),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 
@@ -5,6 +7,7 @@ import '../../ismails_utils.dart';
 
 class ContextMenu {
   final BuildContext context;
+
   ContextMenu.of(this.context);
   Future<T?> iconMenu<T>(Offset offset) {
     return open(
@@ -71,23 +74,6 @@ class ContextMenu {
             ],
           ),
         ),
-        /*
-        PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => Stack(
-            children: [
-              Positioned(
-                top: offset.dy,
-                left: offset.dx,
-                child: SizedBox.fromSize(size: size, child: menu(animation)),
-              ),
-            ],
-          ),
-          barrierColor: Colors.transparent,
-          barrierDismissible: true,
-          opaque: false,
-          barrierLabel: '',
-        ),
-        */
       );
   Widget clickArea({
     required Widget child,
@@ -142,7 +128,10 @@ List<FileIconMenuModel> fileIconMenuList = [
 ];
 
 class _Route<T> extends PopupRoute<T> {
-  _Route(this.page);
+  _Route(this.page, {this.barrierDismissible = true});
+
+  @override
+  bool barrierDismissible;
   final Widget Function(
     BuildContext context,
     Animation<double> animation,
@@ -150,9 +139,6 @@ class _Route<T> extends PopupRoute<T> {
   ) page;
   @override
   Color? get barrierColor => Colors.transparent;
-
-  @override
-  bool get barrierDismissible => true;
 
   @override
   String? get barrierLabel => 'Context Manu';
