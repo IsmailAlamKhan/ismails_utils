@@ -68,4 +68,8 @@ class ScreenUtil {
     if (dp.between(480, 640)) return 3.0;
     return 4.0;
   }
+
+  double toDp(int px) {
+    return px * (MediaQuery.of(context).size.width / 3) / 100;
+  }
 }
