@@ -6,6 +6,7 @@ typedef StateMixinErrorWidget = Widget Function(String value);
 typedef ResponsiveWidget = Widget Function(
   BuildContext context,
   ScreenUtil screenUtil,
+  Widget? child,
 );
 typedef SnackBarAnimBuilder = Widget Function(
   Animation<double> animation,
