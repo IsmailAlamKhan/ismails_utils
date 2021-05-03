@@ -1,5 +1,5 @@
 /// Const Class
-abstract class Consts {
+abstract class IsmailsConstants {
   ///Get the following url ['assets']
   static const String kassetPATH = 'assets';
 

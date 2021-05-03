@@ -7,7 +7,7 @@ import 'package:graphx/graphx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../src.dart';
 
-class DynamicImage extends StatelessWidget {
+class DynamicImage<T> extends StatelessWidget {
   const DynamicImage({
     Key? key,
     required this.image,
@@ -30,13 +30,13 @@ class DynamicImage extends StatelessWidget {
   final double? height;
   final String? hero;
 
-  final dynamic image;
+  final T image;
   final BoxFit fit;
   final BorderRadius? borderRadius;
   final bool? isSvg;
 
   bool get _isNetwork =>
-      !(image?.startsWith(Consts.kasssetIMAGEPATH) ?? true) ||
+      !image.toString().startsWith(IsmailsConstants.kasssetIMAGEPATH) ||
       image.toString().startsWith('http') ||
       image.toString().startsWith('https');
   bool get _svg => isSvg ?? image.toString().contains('.svg');
@@ -74,22 +74,38 @@ class DynamicImage extends StatelessWidget {
 
   Widget get _image {
     if (_svg) {
-      return SvgPicture.asset(
-        image,
-        fit: fit,
-        height: height,
-        width: width,
-      );
+      if (image is String) {
+        return SvgPicture.asset(
+          image.toString(),
+          fit: fit,
+          height: height,
+          width: width,
+        );
+      } else if (image is File) {
+        return SvgPicture.file(
+          image as File,
+          fit: fit,
+          height: height,
+          width: width,
+        );
+      } else {
+        return SvgPicture.memory(
+          image as Uint8List,
+          fit: fit,
+          height: height,
+          width: width,
+        );
+      }
     } else if (image is File) {
       return Image.file(
-        image!,
+        image as File,
         fit: fit,
         height: height,
         width: width,
       );
     } else if (image is Uint8List) {
       return Image.memory(
-        image!,
+        image as Uint8List,
         fit: fit,
         height: height,
         width: width,
@@ -97,7 +113,7 @@ class DynamicImage extends StatelessWidget {
     } else if (image is String) {
       if (!_isNetwork) {
         return Image.asset(
-          image!,
+          image.toString(),
           fit: fit,
           height: height,
           width: width,
@@ -109,7 +125,7 @@ class DynamicImage extends StatelessWidget {
         ),
         height: height,
         width: width,
-        imageUrl: image!,
+        imageUrl: image.toString(),
         fit: fit,
       );
     } else {
