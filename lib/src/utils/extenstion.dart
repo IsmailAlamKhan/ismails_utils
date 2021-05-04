@@ -126,7 +126,7 @@ extension PointerDownEventExtended on PointerEvent {
       case 4:
         return MouseClick.middleButton;
       default:
-        return MouseClick.UNK;
+        return MouseClick.unk;
     }
   }
 }
@@ -153,4 +153,9 @@ extension ExtendedCustomSnackbar on CustomSnackbar {
       animBuilder: animBuilder ?? this.animBuilder,
     );
   }
+}
+
+extension ExtendedControlAffinity on ControlAffinity {
+  bool get trailing => this == ControlAffinity.trailing;
+  bool get leading => this == ControlAffinity.leading;
 }

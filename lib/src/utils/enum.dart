@@ -12,4 +12,5 @@ enum ScreenSize {
 }
 
 enum RequestType { put, post, delete }
-enum MouseClick { rightButton, leftButton, middleButton, UNK }
+enum MouseClick { rightButton, leftButton, middleButton, unk }
+enum ControlAffinity { trailing, leading }
