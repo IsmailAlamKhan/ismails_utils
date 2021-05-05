@@ -2,25 +2,44 @@ import 'package:flutter/material.dart';
 
 import '../src.dart';
 
-class CustomDropdownFormField<T> extends DropdownButtonFormField<T> {
-  final List<IsmailFormFieldItem<T>> options;
-
-  CustomDropdownFormField({
-    required this.options,
+class IsmailDropdownButtonFormField<T> extends IsmailFormField<T> {
+  IsmailDropdownButtonFormField({
+    required String name,
+    required List<IsmailFormFieldItem<T>> options,
     FormFieldValidator<T?>? validator,
-    InputDecoration? decoration,
+    InputDecoration decoration = const InputDecoration(),
     ValueChanged<T?>? onChanged,
   }) : super(
+          name: name,
           validator: validator,
           onChanged: onChanged,
           decoration: decoration,
-          items: options
-              .map(
-                (e) => DropdownMenuItem<T>(
-                  value: e.value,
-                  child: e,
+          builder: (state) {
+            final field = state as _IsmailDropdownButtonFormFieldState<T>;
+            return InputDecorator(
+              decoration: field.decoration,
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton(
+                  value: field.value,
+                  onChanged: field.didChange,
+                  items: options
+                      .map(
+                        (e) => DropdownMenuItem(
+                          value: e.value,
+                          child: e,
+                        ),
+                      )
+                      .toList(),
                 ),
-              )
-              .toList(),
+              ),
+            );
+          },
         );
+
+  @override
+  _IsmailDropdownButtonFormFieldState<T> createState() =>
+      _IsmailDropdownButtonFormFieldState<T>();
 }
+
+class _IsmailDropdownButtonFormFieldState<T>
+    extends IsmailFormFieldState<IsmailDropdownButtonFormField<T>, T> {}

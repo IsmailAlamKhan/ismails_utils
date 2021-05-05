@@ -1,39 +1,45 @@
 import 'package:flutter/material.dart';
 import '../src.dart';
 
-class GroupCheckboxFormField<T> extends FormField<List<T>> {
+class IsmailGroupCheckboxFormField<T> extends IsmailFormField<List<T>> {
   final List<IsmailFormFieldItem<T>> options;
-  final ValueChanged<List<T>> onChanged;
-  final ControlAffinity controlAffinity;
-  final InputDecoration? decoration;
 
+  final ControlAffinity controlAffinity;
   @override
   final bool enabled;
   @override
   final FormFieldValidator<List<T>>? validator;
-  GroupCheckboxFormField({
+
+  IsmailGroupCheckboxFormField({
+    required String name,
     required this.options,
-    required this.onChanged,
+    ValueChanged<List<T>?>? onChanged,
     this.controlAffinity = ControlAffinity.leading,
     this.validator,
-    this.decoration,
+    InputDecoration decoration = const InputDecoration(),
     this.enabled = true,
     List<T>? initialValue,
   }) : super(
-          initialValue: initialValue,
-          builder: (field) => InputDecorator(
-            decoration: decoration?.copyWith(
-                  errorText: field.errorText,
-                ) ??
-                InputDecoration(
-                  errorText: field.errorText,
+            name: name,
+            decoration: decoration,
+            onChanged: onChanged,
+            initialValue: initialValue,
+            builder: (state) {
+              final field = state as _GroupCheckboxFormFieldState<T>;
+              return InputDecorator(
+                decoration: state.decoration,
+                child: IsmailGroupCheckBox<T>(
+                  controlAffinity: controlAffinity,
+                  onChanged: field.didChange,
+                  options: options,
+                  value: field.value,
                 ),
-            child: GroupCheckBox<T>(
-              controlAffinity: controlAffinity,
-              onChanged: field.didChange,
-              options: options,
-              value: field.value,
-            ),
-          ),
-        );
+              );
+            });
+  @override
+  _GroupCheckboxFormFieldState<T> createState() =>
+      _GroupCheckboxFormFieldState<T>();
 }
+
+class _GroupCheckboxFormFieldState<T>
+    extends IsmailFormFieldState<IsmailGroupCheckboxFormField<T>, List<T>> {}

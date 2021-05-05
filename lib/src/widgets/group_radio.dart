@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../src.dart';
 
-class GroupRadio<T> extends StatefulWidget {
-  const GroupRadio({
+class IsmailGroupRadio<T> extends StatefulWidget {
+  const IsmailGroupRadio({
     Key? key,
     this.value,
     required this.options,
@@ -15,10 +15,10 @@ class GroupRadio<T> extends StatefulWidget {
   final ValueChanged<T> onChanged;
   final ControlAffinity controlAffinity;
   @override
-  _GroupRadioState<T> createState() => _GroupRadioState<T>();
+  _IsmailGroupRadioState<T> createState() => _IsmailGroupRadioState<T>();
 }
 
-class _GroupRadioState<T> extends State<GroupRadio<T>> {
+class _IsmailGroupRadioState<T> extends State<IsmailGroupRadio<T>> {
   Widget _item(IsmailFormFieldItem<T> item) {
     final control = Radio<T>(
       groupValue: widget.value,

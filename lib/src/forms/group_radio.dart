@@ -2,41 +2,48 @@ import 'package:flutter/material.dart';
 
 import '../src.dart';
 
-class GroupRadioFormField<T> extends FormField<T> {
+class IsmailGroupRadioFormField<T> extends IsmailFormField<T> {
   final List<IsmailFormFieldItem<T>> options;
-  final ValueChanged<List<T>> onChanged;
+
   final ControlAffinity controlAffinity;
-  final InputDecoration? decoration;
+
   @override
   final FormFieldValidator<T>? validator;
   @override
   final bool enabled;
 
-  GroupRadioFormField({
+  IsmailGroupRadioFormField({
+    required String name,
     required this.options,
-    required this.onChanged,
+    ValueChanged<T?>? onChanged,
     this.controlAffinity = ControlAffinity.leading,
-    this.decoration,
+    InputDecoration decoration = const InputDecoration(),
     this.validator,
-    AutovalidateMode? autovalidateMode,
+    AutovalidateMode autovalidateMode = AutovalidateMode.disabled,
     this.enabled = true,
     T? initialValue,
   }) : super(
+          name: name,
+          decoration: decoration,
+          onChanged: onChanged,
           initialValue: initialValue,
           autovalidateMode: autovalidateMode,
-          builder: (field) => InputDecorator(
-            decoration: decoration?.copyWith(
-                  errorText: field.errorText,
-                ) ??
-                InputDecoration(
-                  errorText: field.errorText,
-                ),
-            child: GroupRadio<T>(
-              controlAffinity: controlAffinity,
-              onChanged: field.didChange,
-              options: options,
-              value: field.value,
-            ),
-          ),
+          builder: (state) {
+            final field = state as _GroupRadioFormFieldState<T>;
+            return InputDecorator(
+              decoration: field.decoration,
+              child: IsmailGroupRadio<T>(
+                controlAffinity: controlAffinity,
+                onChanged: field.didChange,
+                options: options,
+                value: field.value,
+              ),
+            );
+          },
         );
+  @override
+  _GroupRadioFormFieldState<T> createState() => _GroupRadioFormFieldState<T>();
 }
+
+class _GroupRadioFormFieldState<T>
+    extends IsmailFormFieldState<IsmailGroupRadioFormField<T>, T> {}

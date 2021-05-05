@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../src.dart';
 
-class GroupCheckBox<T> extends StatefulWidget {
-  const GroupCheckBox({
+class IsmailGroupCheckBox<T> extends StatefulWidget {
+  const IsmailGroupCheckBox({
     Key? key,
     this.value,
     required this.options,
@@ -15,10 +15,10 @@ class GroupCheckBox<T> extends StatefulWidget {
   final ValueChanged<List<T>> onChanged;
   final ControlAffinity controlAffinity;
   @override
-  _GroupCheckBoxState<T> createState() => _GroupCheckBoxState<T>();
+  _IsmailGroupCheckBoxState<T> createState() => _IsmailGroupCheckBoxState<T>();
 }
 
-class _GroupCheckBoxState<T> extends State<GroupCheckBox<T>> {
+class _IsmailGroupCheckBoxState<T> extends State<IsmailGroupCheckBox<T>> {
   final _selectedListItems = <T>[];
   @override
   void initState() {
