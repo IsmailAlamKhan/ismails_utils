@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import '../src.dart';
 
@@ -7,24 +8,26 @@ class IsmailFormField<T> extends FormField<T?> {
   final VoidCallback? onReset;
   final InputDecoration decoration;
   final FocusNode? focusNode;
+  final ValueTransformer<T>? valueTransformer;
 
   const IsmailFormField({
     Key? key,
     required this.name,
     this.focusNode,
+    this.valueTransformer,
     this.onReset,
     this.onChanged,
     this.decoration = const InputDecoration(),
     FormFieldSetter<T>? onSaved,
     T? initialValue,
-    AutovalidateMode autovalidateMode = AutovalidateMode.onUserInteraction,
+    AutovalidateMode? autovalidateMode,
     bool enabled = true,
     FormFieldValidator<T>? validator,
     required FormFieldBuilder<T?> builder,
   }) : super(
           key: key,
           initialValue: initialValue,
-          autovalidateMode: autovalidateMode,
+          autovalidateMode: autovalidateMode ?? AutovalidateMode.disabled,
           builder: builder,
           onSaved: onSaved,
           validator: validator,
@@ -40,7 +43,7 @@ class IsmailFormFieldState<F extends IsmailFormField<T?>, T>
     extends FormFieldState<T?> {
   late final FocusNode _focusNode = widget.focusNode ?? FocusNode();
 
-  FocusNode? get focusNode => _focusNode;
+  FocusNode get focusNode => _focusNode;
   IsmailFormState? _ismailFormState;
 
   @override
@@ -50,12 +53,25 @@ class IsmailFormFieldState<F extends IsmailFormField<T?>, T>
   bool get hasError => super.hasError || widget.decoration.errorText != null;
   @override
   bool get isValid => super.isValid && widget.decoration.errorText == null;
+
+  bool get enabled => widget.enabled && (_ismailFormState?.enabled ?? true);
+
   bool _touched = false;
-  late final _formInitVal = (_ismailFormState?.initialValue ??
-      const <String, dynamic>{})[widget.name] as T?;
+
   T? get initialValue {
-    debugPrint(_ismailFormState?.initialValue[widget.name].toString());
-    return widget.initialValue ?? _formInitVal;
+    final _formInitVal = (_ismailFormState?.initialValue ??
+        const <String, dynamic>{})[widget.name];
+    if (_formInitVal is! T) {
+      if (_formInitVal != null) {
+        ismailLog(
+          'Warning the initial Value you passed ${_formInitVal.runtimeType}'
+          ' is not the same type as the field',
+        );
+      }
+      return widget.initialValue;
+    } else {
+      return widget.initialValue ?? _formInitVal;
+    }
   }
 
   @override
@@ -64,6 +80,7 @@ class IsmailFormFieldState<F extends IsmailFormField<T?>, T>
     _ismailFormState = IsmailForm.of(context);
     _ismailFormState?.registerField(widget.name, this);
     _focusNode.addListener(_touchedHandler);
+    setValue(initialValue);
   }
 
   @override
@@ -105,5 +122,22 @@ class IsmailFormFieldState<F extends IsmailFormField<T?>, T>
     super.reset();
     setValue(initialValue);
     widget.onReset?.call();
+  }
+
+  @override
+  void save() {
+    super.save();
+    if (_ismailFormState != null) {
+      if (enabled || !_ismailFormState!.widget.skipDisabled) {
+        _ismailFormState!.setInternalFieldValue(
+          widget.name,
+          null != widget.valueTransformer
+              ? widget.valueTransformer!(value)
+              : value,
+        );
+      } else {
+        _ismailFormState!.removeInternalFieldValue(widget.name);
+      }
+    }
   }
 }

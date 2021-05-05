@@ -7,22 +7,29 @@ class IsmailGroupRadioFormField<T> extends IsmailFormField<T> {
 
   final ControlAffinity controlAffinity;
 
-  @override
-  final FormFieldValidator<T>? validator;
-  @override
-  final bool enabled;
-
   IsmailGroupRadioFormField({
+    Key? key,
     required String name,
     required this.options,
     ValueChanged<T?>? onChanged,
     this.controlAffinity = ControlAffinity.leading,
     InputDecoration decoration = const InputDecoration(),
-    this.validator,
+    FormFieldValidator<T>? validator,
     AutovalidateMode autovalidateMode = AutovalidateMode.disabled,
-    this.enabled = true,
+    bool enabled = true,
     T? initialValue,
+    FocusNode? focusNode,
+    VoidCallback? onReset,
+    FormFieldSetter<T>? onSaved,
+    ValueTransformer<T>? valueTransformer,
   }) : super(
+          onReset: onReset,
+          onSaved: onSaved,
+          validator: validator,
+          valueTransformer: valueTransformer,
+          key: key,
+          focusNode: focusNode,
+          enabled: enabled,
           name: name,
           decoration: decoration,
           onChanged: onChanged,

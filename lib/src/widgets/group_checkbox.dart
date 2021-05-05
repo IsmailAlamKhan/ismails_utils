@@ -6,6 +6,7 @@ class IsmailGroupCheckBox<T> extends StatefulWidget {
   const IsmailGroupCheckBox({
     Key? key,
     this.value,
+    this.focusNode,
     required this.options,
     required this.onChanged,
     required this.controlAffinity,
@@ -14,6 +15,7 @@ class IsmailGroupCheckBox<T> extends StatefulWidget {
   final List<IsmailFormFieldItem<T>> options;
   final ValueChanged<List<T>> onChanged;
   final ControlAffinity controlAffinity;
+  final FocusNode? focusNode;
   @override
   _IsmailGroupCheckBoxState<T> createState() => _IsmailGroupCheckBoxState<T>();
 }
@@ -39,6 +41,7 @@ class _IsmailGroupCheckBoxState<T> extends State<IsmailGroupCheckBox<T>> {
 
   Widget _item(IsmailFormFieldItem<T> item) {
     final control = Checkbox(
+      focusNode: widget.focusNode,
       value: _selectedListItems.contains(item.value),
       onChanged: (value) {
         value ??= false;
@@ -48,7 +51,7 @@ class _IsmailGroupCheckBoxState<T> extends State<IsmailGroupCheckBox<T>> {
     final label = GestureDetector(
       onTap: () {
         final value = _selectedListItems.contains(item.value);
-        _onChange(value, item);
+        _onChange(!value, item);
       },
       child: item,
     );

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 
 import '../src.dart';
@@ -11,6 +12,7 @@ class IsmailForm extends StatefulWidget {
     this.onChanged,
     this.autovalidateMode,
     this.onWillPop,
+    this.skipDisabled = true,
   }) : super(key: key);
   final Widget child;
   final bool enabled;
@@ -18,6 +20,8 @@ class IsmailForm extends StatefulWidget {
   final VoidCallback? onChanged;
   final AutovalidateMode? autovalidateMode;
   final WillPopCallback? onWillPop;
+  final bool skipDisabled;
+
   @override
   IsmailFormState createState() => IsmailFormState();
 
@@ -55,23 +59,25 @@ class IsmailFormState extends State<IsmailForm> {
   void registerField(String name, IsmailFormFieldState field) {
     assert(() {
       if (_fields.containsKey(name)) {
-        debugPrint(
+        ismailLog(
           'Warning! Replacing duplicate Field for $name'
           ' -- this is OK to ignore as long as the field was intentionally replaced',
         );
       }
       return true;
     }());
+    ismailLog('Registered field $name');
     _fields[name] = field;
   }
 
   void unregisterField(String name, IsmailFormFieldState field) {
     assert(_fields.containsKey(name));
     if (field == _fields[name]) {
+      ismailLog('Unregistered field $name');
       _fields.remove(name);
     } else {
       assert(() {
-        debugPrint(
+        ismailLog(
           'Warning! Ignoring Field unregistration for $name'
           ' -- this is OK to ignore as long as the field was intentionally replaced',
         );

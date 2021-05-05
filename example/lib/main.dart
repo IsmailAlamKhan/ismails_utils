@@ -36,51 +36,52 @@ class _HomeState extends State<Home> {
           onPressed: () {
             formKey.currentState?.saveAndValidate();
             final _fields = formKey.currentState!.fields;
-            for (var item in _fields.keys) {
-              log('key = $item value = ${_fields[item]!.value}');
+            for (final item in _fields.keys) {
+              ismailLog('key = $item value = ${_fields[item]!.value}');
             }
           },
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: IsmailForm(
-          initialValue: {'Radio': 'Ok'},
-          key: formKey,
-          onChanged: () {},
-          child: Column(
-            children: [
-              IsmailGroupRadioFormField<String>(
-                name: 'Radio',
-                decoration: const InputDecoration(labelText: 'Hello'),
-                validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'Please fix the errors';
-                  }
-                },
-                options: list,
-              ),
-              IsmailGroupCheckboxFormField<String>(
-                name: 'Checkbox',
-                decoration: const InputDecoration(labelText: 'Hello'),
-                validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'Please fix the errors';
-                  }
-                },
-                options: list,
-              ),
-              IsmailDropdownButtonFormField<String>(
-                name: 'Dropdown',
-                validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'Please fix the errors';
-                  }
-                },
-                options: list,
-              ),
-            ],
-          ),
+      body: IsmailForm(
+        key: formKey,
+        child: ListView(
+          padding: const EdgeInsets.all(8.0),
+          children: [
+            IsmailGroupRadioFormField<String>(
+              onChanged: print,
+              name: 'Radio',
+              decoration: const InputDecoration(labelText: 'Hello'),
+              validator: (value) {
+                if (value?.isEmpty ?? true) {
+                  return 'Please fix the errors';
+                }
+              },
+              options: list,
+            ),
+            IsmailGroupCheckboxFormField<String>(
+              name: 'Checkbox',
+              decoration: const InputDecoration(labelText: 'Hello'),
+              validator: (value) {
+                if (value?.isEmpty ?? true) {
+                  return 'Please fix the errors';
+                }
+              },
+              options: list,
+            ),
+            IsmailDropdownButtonFormField<String>(
+              name: 'Dropdown',
+              validator: (value) {
+                if (value?.isEmpty ?? true) {
+                  return 'Please fix the errors';
+                }
+              },
+              options: list,
+            ),
+            IsmailTextFormField(
+              // isPass: true,
+              name: 'TextField',
+            )
+          ],
         ),
       ),
     );
