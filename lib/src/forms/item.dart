@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class IsmailFormFieldItem<T> extends StatelessWidget {
-  const IsmailFormFieldItem({
+class IsmailFormFieldOption<T> extends StatelessWidget {
+  const IsmailFormFieldOption({
     Key? key,
     required this.value,
     this.child,

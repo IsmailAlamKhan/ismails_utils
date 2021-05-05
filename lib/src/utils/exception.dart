@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 
-class CustomException implements Exception {
-  CustomException.error(dynamic e) {
+class IsmailException implements Exception {
+  IsmailException.error(dynamic e) {
     message = e.toString();
   }
-  CustomException.fromDioError(DioError dioError) {
+  IsmailException.fromDioError(DioError dioError) {
     switch (dioError.type) {
       case DioErrorType.cancel:
         message = 'Request cancelled by user';
@@ -50,7 +50,7 @@ class CustomException implements Exception {
     }
   }
 
-  CustomException.fromFirebaseErrorCodes(String errorCode) {
+  IsmailException.fromFirebaseErrorCodes(String errorCode) {
     switch (errorCode) {
       case 'invalid-email':
         message = 'The email is badly formatted.';

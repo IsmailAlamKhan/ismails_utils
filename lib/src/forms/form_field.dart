@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import '../src.dart';
 
@@ -8,10 +9,14 @@ class IsmailFormField<T> extends FormField<T?> {
   final InputDecoration decoration;
   final FocusNode? focusNode;
   final ValueTransformer<T>? valueTransformer;
+  final bool wantClearIcon;
+  final Widget? clearIcon;
 
   const IsmailFormField({
     Key? key,
     required this.name,
+    this.wantClearIcon = false,
+    this.clearIcon,
     this.focusNode,
     this.valueTransformer,
     this.onReset,
@@ -47,6 +52,7 @@ class IsmailFormFieldState<F extends IsmailFormField<T?>, T>
 
   @override
   F get widget => super.widget as F;
+  String get name => widget.name;
 
   @override
   bool get hasError => super.hasError || widget.decoration.errorText != null;
@@ -107,8 +113,34 @@ class IsmailFormFieldState<F extends IsmailFormField<T?>, T>
     FocusScope.of(context).requestFocus(focusNode);
   }
 
+  Widget get clearIcon => IconButton(
+        icon: widget.clearIcon ?? const Icon(Icons.clear),
+        onPressed: () {
+          didChange(null);
+        },
+      );
+
+  Widget? get _suffixIcon {
+    if (widget.decoration.suffixIcon != null) {
+      if (!widget.wantClearIcon) {
+        return widget.decoration.suffixIcon!;
+      } else {
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            widget.decoration.suffixIcon!,
+            clearIcon,
+          ],
+        );
+      }
+    } else {
+      return !widget.wantClearIcon ? null : clearIcon;
+    }
+  }
+
   InputDecoration get decoration => widget.decoration.copyWith(
         errorText: widget.decoration.errorText ?? errorText,
+        suffixIcon: _suffixIcon,
       );
   @override
   void didChange(T? val) {

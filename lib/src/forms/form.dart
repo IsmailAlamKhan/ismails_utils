@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../src.dart';
@@ -16,7 +17,7 @@ class IsmailForm extends StatefulWidget {
   final Widget child;
   final bool enabled;
   final Map<String, dynamic> initialValue;
-  final VoidCallback? onChanged;
+  final ValueChanged<Map<String, dynamic>>? onChanged;
   final AutovalidateMode? autovalidateMode;
   final WillPopCallback? onWillPop;
   final bool skipDisabled;
@@ -43,6 +44,30 @@ class IsmailFormState extends State<IsmailForm> {
 
   Map<String, IsmailFormFieldState> get fields => _fields;
 
+  final _inValidFields = <IsmailFormFieldState>[];
+  List<IsmailFormFieldState> get inValidFields => _inValidFields;
+
+  late StreamController<String> _valueChanged;
+
+  @override
+  void dispose() {
+    _valueChanged.close();
+    super.dispose();
+  }
+
+  bool _isValid = false;
+  bool get isValid => _isValid;
+  late Stream<String> valueChanged;
+  @override
+  void initState() {
+    _valueChanged = StreamController<String>.broadcast();
+    valueChanged = _valueChanged.stream;
+    Timer(const Duration(milliseconds: 500), () {
+      _valueChanged.add('Start');
+    });
+    super.initState();
+  }
+
   void setInternalFieldValue(String name, dynamic value) {
     setState(() {
       _value[name] = value;
@@ -67,6 +92,11 @@ class IsmailFormState extends State<IsmailForm> {
     }());
     ismailLog('Registered field $name');
     _fields[name] = field;
+    if (!field.isValid) {
+      inValidFields.add(field);
+    }
+    _isValid = _inValidFields.isEmpty;
+    _valueChanged.add('Field added');
   }
 
   void unregisterField(String name, IsmailFormFieldState field) {
@@ -74,6 +104,10 @@ class IsmailFormState extends State<IsmailForm> {
     if (field == _fields[name]) {
       ismailLog('Unregistered field $name');
       _fields.remove(name);
+
+      inValidFields.remove(field);
+      _isValid = _inValidFields.isEmpty;
+      _valueChanged.add('Field Removed');
     } else {
       assert(() {
         ismailLog(
@@ -114,7 +148,24 @@ class IsmailFormState extends State<IsmailForm> {
       key: _formKey,
       autovalidateMode: widget.autovalidateMode,
       onWillPop: widget.onWillPop,
-      onChanged: widget.onChanged,
+      onChanged: () {
+        final fields = <String, dynamic>{};
+        for (final item in _fields.keys) {
+          final field = _fields[item];
+          final value = field?.value;
+          fields.addAll({item: value});
+          if (!field!.isValid) {
+            if (!_inValidFields.contains(field)) {
+              _inValidFields.add(field);
+            }
+          } else {
+            _inValidFields.remove(field);
+          }
+        }
+        _isValid = _inValidFields.isEmpty;
+        _valueChanged.add('On Change');
+        widget.onChanged?.call(fields);
+      },
       child: FocusTraversalGroup(
         policy: WidgetOrderTraversalPolicy(),
         child: widget.child,

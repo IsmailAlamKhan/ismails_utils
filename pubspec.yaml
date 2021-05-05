@@ -17,6 +17,7 @@ dependencies:
   dio: ^4.0.0-beta7
   encrypt: ^5.0.0
   graphx: ^1.0.0-nullsafety.0
+  intl: ^0.17.0
   lint: ^1.5.3
 dev_dependencies:
   flutter_test:
@@ -26,6 +27,7 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.
 flutter: null
+
 # To add assets to your package, add an assets section, like this:
 # assets:
 #   - images/a_dot_burr.jpeg

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:ismails_utils/ismails_utils.dart';
 
 void main() {
@@ -22,66 +23,132 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final GlobalKey<IsmailFormState> formKey = GlobalKey<IsmailFormState>();
-  final List<IsmailFormFieldItem<String>> list = const [
-    IsmailFormFieldItem(value: 'Ok'),
-    IsmailFormFieldItem(value: 'No'),
+  final List<IsmailFormFieldOption<String>> list = const [
+    IsmailFormFieldOption(value: 'Ok'),
+    IsmailFormFieldOption(value: 'No'),
+    IsmailFormFieldOption(value: 'Never'),
+    IsmailFormFieldOption(value: 'Noooo'),
   ];
+
+  final List<IsmailFormFieldOption<String>> _textFieldList = [];
+  int index = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.save),
-          onPressed: () {
-            formKey.currentState?.saveAndValidate();
-            final _fields = formKey.currentState!.fields;
-            for (final item in _fields.keys) {
-              ismailLog('key = $item value = ${_fields[item]!.value}');
-            }
-          },
-        ),
+      appBar: AppBar(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            _textFieldList.add(IsmailFormFieldOption(value: 'Index $index'));
+            index++;
+          });
+        },
       ),
       body: IsmailForm(
         key: formKey,
-        child: ListView(
+        onChanged: (value) {
+          LoggerService.instance.logToConsole(value.toString());
+        },
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(8.0),
-          children: [
-            IsmailGroupRadioFormField<String>(
-              onChanged: print,
-              name: 'Radio',
-              decoration: const InputDecoration(labelText: 'Hello'),
-              validator: (value) {
-                if (value?.isEmpty ?? true) {
-                  return 'Please fix the errors';
-                }
-              },
-              options: list,
-            ),
-            IsmailGroupCheckboxFormField<String>(
-              name: 'Checkbox',
-              decoration: const InputDecoration(labelText: 'Hello'),
-              validator: (value) {
-                if (value?.isEmpty ?? true) {
-                  return 'Please fix the errors';
-                }
-              },
-              options: list,
-            ),
-            IsmailDropdownButtonFormField<String>(
-              name: 'Dropdown',
-              validator: (value) {
-                if (value?.isEmpty ?? true) {
-                  return 'Please fix the errors';
-                }
-              },
-              options: list,
-            ),
-            IsmailTextFormField(
-              // isPass: true,
-              name: 'TextField',
-            )
-          ],
+          child: Column(
+            children: [
+              SizedBox(
+                height: 50,
+                child: IsmailFormChangeListner(
+                  builder: (__, _, form) => ListView.builder(
+                    itemCount: form.inValidFields.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(form.inValidFields[index].name),
+                    ),
+                  ),
+                ),
+              ),
+              IsmailRadioGroupFormField<String>(
+                wantClearIcon: true,
+                onChanged: print,
+                name: 'Radio',
+                decoration: const InputDecoration(labelText: 'Hello'),
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Please fix the errors';
+                  }
+                },
+                options: list,
+              ),
+              IsmailCheckboxGroupFormField<String>(
+                name: 'Checkbox',
+                decoration: const InputDecoration(labelText: 'Hello'),
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Please fix the errors';
+                  }
+                },
+                options: list,
+              ),
+              IsmailDropdownButtonFormField<String>(
+                wantClearIcon: true,
+                name: 'Dropdown',
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Please fix the errors';
+                  }
+                },
+                options: list,
+              ),
+              for (var textField in _textFieldList)
+                IsmailTextFormField(
+                  // initialValue: 'Hello',
+                  onChanged: (value) {},
+                  decoration: InputDecoration(labelText: textField.value),
+                  validator: (value) {
+                    if (value != 'hello') return 'Please write Hello';
+                  },
+                  wantClearIcon: true,
+                  name: textField.value,
+                ),
+              FormBuilderDateTimePicker(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                name: 'DateTime',
+                validator: (value) {
+                  if (value != null) {
+                    if (value.isBefore(DateTime.now())) {
+                      return 'Must be older';
+                    }
+                  }
+                },
+              ),
+              SubmitButton(
+                onTap: () {
+                  formKey.currentState?.saveAndValidate();
+                  final _fields = formKey.currentState!.fields;
+                  for (final item in _fields.keys) {
+                    ismailLog('key = $item value = ${_fields[item]!.value}');
+                  }
+                },
+              ),
+            ],
+          ),
         ),
+      ),
+    );
+  }
+}
+
+class SubmitButton extends StatelessWidget {
+  const SubmitButton({
+    Key? key,
+    this.onTap,
+  }) : super(key: key);
+  final VoidCallback? onTap;
+  @override
+  Widget build(BuildContext context) {
+    return IsmailFormChangeListner(
+      builder: (context, child, form) => ElevatedButton(
+        onPressed: !form.isValid ? null : onTap,
+        child: const Text('Submit'),
       ),
     );
   }

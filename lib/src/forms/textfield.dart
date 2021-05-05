@@ -292,6 +292,7 @@ class IsmailTextFormField extends IsmailFormField<String> {
   IsmailTextFormField({
     Key? key,
     required String name,
+    bool wantClearIcon = false,
     FormFieldValidator<String>? validator,
     String? initialValue,
     bool readOnly = false,
@@ -303,6 +304,7 @@ class IsmailTextFormField extends IsmailFormField<String> {
     AutovalidateMode autovalidateMode = AutovalidateMode.disabled,
     VoidCallback? onReset,
     FocusNode? focusNode,
+    Widget? clearIcon,
     this.controller,
     this.keyboardType,
     this.textInputAction,
@@ -360,6 +362,8 @@ class IsmailTextFormField extends IsmailFormField<String> {
         ),
         assert(maxLength == null || maxLength > 0),
         super(
+          clearIcon: clearIcon,
+          wantClearIcon: wantClearIcon,
           key: key,
           initialValue: controller != null ? controller.text : initialValue,
           name: name,
@@ -440,7 +444,9 @@ class IsmailTextFormField extends IsmailFormField<String> {
     AutovalidateMode autovalidateMode = AutovalidateMode.disabled,
     VoidCallback? onReset,
     FocusNode? focusNode,
+    bool wantClearIcon = false,
     this.controller,
+    Widget? clearIcon,
     this.keyboardType,
     this.textInputAction,
     this.textCapitalization = TextCapitalization.none,
@@ -497,6 +503,8 @@ class IsmailTextFormField extends IsmailFormField<String> {
         ),
         assert(maxLength == null || maxLength > 0),
         super(
+          clearIcon: clearIcon,
+          wantClearIcon: wantClearIcon,
           key: key,
           initialValue: controller != null ? controller.text : initialValue,
           name: name,
@@ -604,7 +612,7 @@ class _IsmailTextFormFieldState
     super.didChange(value);
 
     if (_textEditingController!.text != value) {
-      _textEditingController!.text = value!;
+      _textEditingController!.text = value ?? '';
     }
   }
 
@@ -654,14 +662,24 @@ class _IsmailTextFormFieldState
         );
   }
 
+  Widget? get suffixIcon {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (_obsecureText) textShowIcon else textHideIcon,
+        super.decoration.suffixIcon ?? const SizedBox.shrink(),
+      ],
+    );
+  }
+
   @override
   InputDecoration get decoration {
     if (widget.isPass) {
-      return widget.decoration.copyWith(
-        suffixIcon: _obsecureText ? textShowIcon : textHideIcon,
-      );
+      return super.decoration.copyWith(
+            suffixIcon: suffixIcon,
+          );
     } else {
-      return widget.decoration;
+      return super.decoration;
     }
   }
 }

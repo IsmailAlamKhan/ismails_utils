@@ -52,7 +52,7 @@ class FileService {
     if (file.existsSync()) {
       file.writeAsStringSync(val, mode: mode);
     } else {
-      throw CustomException.error('File was not found');
+      throw IsmailException.error('File was not found');
     }
   }
 
@@ -60,7 +60,7 @@ class FileService {
     if (file.existsSync()) {
       return file.readAsStringSync();
     } else {
-      throw CustomException.error('File was not found');
+      throw IsmailException.error('File was not found');
     }
   }
 

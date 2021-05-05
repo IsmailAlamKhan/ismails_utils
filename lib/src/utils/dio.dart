@@ -78,7 +78,7 @@ class DioClient {
   }) async {
     final _connectivityCheck = await connectivityCheck;
     if (!_connectivityCheck.canConnect) {
-      throw CustomException.error(_connectivityCheck.messege);
+      throw IsmailException.error(_connectivityCheck.messege);
     }
     try {
       final res = await _dio.get(
@@ -88,9 +88,9 @@ class DioClient {
       );
       return res;
     } on DioError catch (e) {
-      throw CustomException.fromDioError(e);
+      throw IsmailException.fromDioError(e);
     } catch (e) {
-      throw CustomException.error(e.toString());
+      throw IsmailException.error(e.toString());
     }
   }
 
@@ -102,7 +102,7 @@ class DioClient {
   }) async {
     final _connectivityCheck = await connectivityCheck;
     if (!_connectivityCheck.canConnect) {
-      throw CustomException.error(_connectivityCheck.messege);
+      throw IsmailException.error(_connectivityCheck.messege);
     }
 
     try {
@@ -115,7 +115,7 @@ class DioClient {
 
       return res;
     } on DioError catch (e) {
-      throw CustomException.fromDioError(e);
+      throw IsmailException.fromDioError(e);
     }
   }
 
@@ -127,7 +127,7 @@ class DioClient {
   }) async {
     final _connectivityCheck = await connectivityCheck;
     if (!_connectivityCheck.canConnect) {
-      throw CustomException.error(_connectivityCheck.messege);
+      throw IsmailException.error(_connectivityCheck.messege);
     }
 
     try {
@@ -140,7 +140,7 @@ class DioClient {
 
       return res;
     } on DioError catch (e) {
-      throw CustomException.fromDioError(e);
+      throw IsmailException.fromDioError(e);
     }
   }
 }

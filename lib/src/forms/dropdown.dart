@@ -6,7 +6,7 @@ class IsmailDropdownButtonFormField<T> extends IsmailFormField<T> {
   IsmailDropdownButtonFormField({
     Key? key,
     required String name,
-    required List<IsmailFormFieldItem<T>> options,
+    required List<IsmailFormFieldOption<T>> options,
     FormFieldValidator<T?>? validator,
     InputDecoration decoration = const InputDecoration(),
     ValueChanged<T?>? onChanged,
@@ -17,7 +17,11 @@ class IsmailDropdownButtonFormField<T> extends IsmailFormField<T> {
     VoidCallback? onReset,
     FormFieldSetter<T>? onSaved,
     ValueTransformer<T>? valueTransformer,
+    bool wantClearIcon = false,
+    Widget? clearIcon,
   }) : super(
+          clearIcon: clearIcon,
+          wantClearIcon: wantClearIcon,
           valueTransformer: valueTransformer,
           key: key,
           onReset: onReset,
