@@ -21,6 +21,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final List<IsmailFormFieldItem<String>> list = [
+    IsmailFormFieldItem(value: 'Ok'),
+    IsmailFormFieldItem(value: 'No'),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,37 +36,53 @@ class _HomeState extends State<Home> {
           },
         ),
       ),
-      body: Form(
-        key: formKey,
-        child: Column(
-          children: [
-            GroupRadioFormField<String>(
-              decoration: const InputDecoration(labelText: 'Hello'),
-              validator: (value) {
-                if (value?.isEmpty ?? true) {
-                  return 'Please fix the errors';
-                }
-              },
-              onChanged: print,
-              options: const [
-                FormFieldItem(value: 'Ok'),
-                FormFieldItem(value: 'No'),
-              ],
-            ),
-            GroupCheckboxFormField<String>(
-              decoration: const InputDecoration(labelText: 'Hello'),
-              validator: (value) {
-                if (value?.isEmpty ?? true) {
-                  return 'Please fix the errors';
-                }
-              },
-              onChanged: print,
-              options: const [
-                FormFieldItem(value: 'Ok'),
-                FormFieldItem(value: 'No'),
-              ],
-            ),
-          ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Form(
+          key: formKey,
+          onChanged: () {},
+          child: Column(
+            children: [
+              GroupRadioFormField<String>(
+                initialValue: 'Ok',
+                decoration: const InputDecoration(labelText: 'Hello'),
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Please fix the errors';
+                  }
+                },
+                onChanged: print,
+                options: const [
+                  IsmailFormFieldItem(value: 'Ok'),
+                  IsmailFormFieldItem(value: 'No'),
+                ],
+              ),
+              GroupCheckboxFormField<String>(
+                initialValue: ['No'],
+                decoration: const InputDecoration(labelText: 'Hello'),
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Please fix the errors';
+                  }
+                },
+                onChanged: print,
+                options: const [
+                  IsmailFormFieldItem(value: 'Ok'),
+                  IsmailFormFieldItem(value: 'No'),
+                ],
+              ),
+              CustomDropdownFormField<String>(
+                decoration: const InputDecoration(),
+                onChanged: print,
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Please fix the errors';
+                  }
+                },
+                options: list,
+              ),
+            ],
+          ),
         ),
       ),
     );
