@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
@@ -13,7 +12,8 @@ class DioClient {
     this.baseOptions, {
     this.responseBody = true,
   }) {
-    LoggerService.instance.logger.i(
+    LoggerService.init('Dio');
+    LoggerService.instance.logToConsole(
       'DioClient started, Base Url is ${baseOptions.baseUrl}',
     );
     instance = this;
@@ -45,12 +45,6 @@ class DioClient {
   }
 
   Future<ConnectivityCheck> get connectivityCheck async {
-    if (ConnectivityService.instance.connectivity == ConnectivityResult.none) {
-      return ConnectivityCheck(
-        canConnect: false,
-        messege: "No internet connection",
-      );
-    }
     if (!kIsWeb) {
       try {
         final socket = await Socket.connect(

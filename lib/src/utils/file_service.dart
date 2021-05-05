@@ -25,7 +25,7 @@ class FileService {
   ]) async {
     final dio = DioClient.instance;
     final _name = name != null ? '$name${p.extension(file.path)}' : null;
-    LoggerService.instance.logger.i(_name);
+    LoggerService.instance.logToConsole(_name ?? '');
 
     final formData = FormData.fromMap({
       'file': await MultipartFile.fromFile(
@@ -39,11 +39,11 @@ class FileService {
   File makeFile(String name, [String? extraPath]) {
     final _file = File('${localPath.path}${extraPath ?? ''}/$name');
     if (_file.existsSync()) {
-      LoggerService.instance.logger.i('File exists');
+      LoggerService.instance.logToConsole('File exists');
       return _file;
     } else {
       _file.createSync(recursive: true);
-      LoggerService.instance.logger.i('File created at ${_file.path}');
+      LoggerService.instance.logToConsole('File created at ${_file.path}');
       return _file;
     }
   }
@@ -67,7 +67,8 @@ class FileService {
   Future<void> _init() async {
     localPath = await _localPath;
     instance = this;
+    LoggerService.init('File Service');
     // ignore: no_runtimetype_tostring
-    LoggerService.instance.logger.i('$runtimeType Started');
+    LoggerService.instance.logToConsole('$runtimeType Started');
   }
 }

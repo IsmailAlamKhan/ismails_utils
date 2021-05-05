@@ -12,7 +12,8 @@ class EncryptService {
   EncryptService.init() {
     encrypter = Encrypter(AES(key));
     instance = this;
+    LoggerService.init('Encrypt');
     // ignore: no_runtimetype_tostring
-    LoggerService.instance.logger.i('$runtimeType Started');
+    LoggerService.instance.logToConsole('$runtimeType Started');
   }
 }

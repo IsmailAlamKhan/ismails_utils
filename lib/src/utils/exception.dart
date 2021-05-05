@@ -1,11 +1,8 @@
 import 'package:dio/dio.dart';
 
-import 'logger.dart';
-
 class CustomException implements Exception {
   CustomException.error(dynamic e) {
     message = e.toString();
-    LoggerService.instance.logger.e(message);
   }
   CustomException.fromDioError(DioError dioError) {
     switch (dioError.type) {
@@ -35,7 +32,6 @@ class CustomException implements Exception {
         message = 'Ops, something went wrong';
         break;
     }
-    LoggerService.instance.logger.e(message);
   }
 
   String? message;

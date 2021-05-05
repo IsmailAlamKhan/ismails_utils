@@ -1,13 +1,16 @@
-import 'package:logger/logger.dart';
+import 'dart:developer';
 
 class LoggerService {
   static late LoggerService instance;
+  String _name = 'Ismail Util';
 
-  late Logger logger;
-
-  LoggerService.init() {
-    logger = Logger(printer: PrettyPrinter());
-    logger.i('Logger service started');
+  LoggerService.init([String? name]) {
+    if (name != null) {
+      _name = name;
+    }
     instance = this;
+  }
+  void logToConsole(String msg, {StackTrace? stackTrace}) {
+    log(msg, name: _name, time: DateTime.now(), stackTrace: stackTrace);
   }
 }
