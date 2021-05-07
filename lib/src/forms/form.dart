@@ -100,7 +100,6 @@ class IsmailFormState extends State<IsmailForm> {
   }
 
   void unregisterField(String name, IsmailFormFieldState field) {
-    assert(_fields.containsKey(name));
     if (field == _fields[name]) {
       ismailLog('Unregistered field $name');
       _fields.remove(name);

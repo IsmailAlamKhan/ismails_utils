@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import '../src.dart';
 
@@ -77,6 +76,10 @@ class IsmailFormFieldState<F extends IsmailFormField<T?>, T>
     } else {
       return widget.initialValue ?? _formInitVal;
     }
+  }
+
+  void unregisterField() {
+    _ismailFormState?.unregisterField(widget.name, this);
   }
 
   @override

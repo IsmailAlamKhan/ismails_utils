@@ -296,7 +296,7 @@ class _FormBuilderDateTimePickerState
     BuildContext context,
     DateTime? currentValue,
   ) async {
-    currentValue = value;
+    // currentValue = value;
     DateTime? newValue;
     switch (widget.inputType) {
       case InputType.date:

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'utils.dart';
+import '../src.dart';
 
 typedef StateMixinChild<T> = Widget Function(List<T> value);
 typedef StateMixinErrorWidget = Widget Function(String value);
@@ -12,3 +12,5 @@ typedef SnackBarAnimBuilder = Widget Function(
   Animation<double> animation,
   Widget child,
 );
+
+typedef ListOfIsmailFormFieldOption<T> = List<IsmailFormFieldOption<T>>;

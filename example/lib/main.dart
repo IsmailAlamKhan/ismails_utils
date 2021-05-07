@@ -1,9 +1,16 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:ismails_utils/ismails_utils.dart';
 
-void main() {
-  LoggerService.init();
+final logger = LoggerService();
+final fileService = FileService.instance;
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
   runApp(const MyApp());
 }
 
@@ -22,12 +29,20 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final GlobalKey<IsmailFormState> formKey = GlobalKey<IsmailFormState>();
+  late final GlobalKey<IsmailFormState> formKey = GlobalKey<IsmailFormState>();
   final List<IsmailFormFieldOption<String>> list = const [
     IsmailFormFieldOption(value: 'Ok'),
     IsmailFormFieldOption(value: 'No'),
     IsmailFormFieldOption(value: 'Never'),
     IsmailFormFieldOption(value: 'Noooo'),
+    IsmailFormFieldOption(value: 'Noooo123'),
+    IsmailFormFieldOption(value: 'Noooo123213'),
+    IsmailFormFieldOption(value: 'Noooo123213q234'),
+    IsmailFormFieldOption(value: 'Noooo123213q23421312'),
+    IsmailFormFieldOption(value: 'Noooo123213q2342131212321'),
+    IsmailFormFieldOption(value: 'Noooo123213q234213121232121213'),
+    IsmailFormFieldOption(value: 'Noooo123213q2342131212321212131231'),
+    IsmailFormFieldOption(value: 'Noooo123213q23421312123212121312311231'),
   ];
 
   final List<IsmailFormFieldOption<String>> _textFieldList = [];
@@ -37,17 +52,22 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
+          final _path = await fileService.getLocalPath;
+          final _file = fileService.readFile(File('${_path.path}/g.txt'));
+          logger.logToConsole(_file);
+          /*
           setState(() {
             _textFieldList.add(IsmailFormFieldOption(value: 'Index $index'));
             index++;
           });
+          */
         },
       ),
       body: IsmailForm(
         key: formKey,
         onChanged: (value) {
-          LoggerService.instance.logToConsole(value.toString());
+          logger.logToConsole(value.toString());
         },
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(8.0),
@@ -99,16 +119,29 @@ class _HomeState extends State<Home> {
                 options: list,
               ),
               for (var textField in _textFieldList)
-                IsmailTextFormField(
-                  // initialValue: 'Hello',
-                  onChanged: (value) {},
-                  decoration: InputDecoration(labelText: textField.value),
-                  validator: (value) {
-                    if (value != 'hello') return 'Please write Hello';
-                  },
-                  wantClearIcon: true,
-                  name: textField.value,
-                ),
+                Builder(builder: (context) {
+                  return IsmailTextFormField(
+                    // initialValue: 'Hello',
+                    onChanged: (value) {},
+                    decoration: InputDecoration(
+                      labelText: textField.value,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            log(textField.value);
+                            _textFieldList.remove(textField);
+                          });
+                        },
+                        icon: const Icon(Icons.delete_forever),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value != 'hello') return 'Please write Hello';
+                    },
+                    wantClearIcon: true,
+                    name: textField.value,
+                  );
+                }),
               FormBuilderDateTimePicker(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 name: 'DateTime',
@@ -119,6 +152,25 @@ class _HomeState extends State<Home> {
                     }
                   }
                 },
+              ),
+              IsmailCheckboxFormField(
+                title: const Text('H'),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                name: 'CheckboxSingle',
+                validator: (value) {
+                  if (value == null || !value) {
+                    return 'Please select';
+                  }
+                },
+              ),
+              SizedBox(
+                height: 200,
+                child: IsmailChoiceChipFormField<String>(
+                  name: 'Chips',
+                  runSpacing: 10,
+                  spacing: 10,
+                  options: list,
+                ),
               ),
               SubmitButton(
                 onTap: () {

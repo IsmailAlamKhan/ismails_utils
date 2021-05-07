@@ -202,11 +202,11 @@ class IsmailGroupedCheckbox<T> extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  Ismail_GroupedCheckboxState<T> createState() =>
-      Ismail_GroupedCheckboxState<T>();
+  _IsmailGroupedCheckboxState<T> createState() =>
+      _IsmailGroupedCheckboxState<T>();
 }
 
-class Ismail_GroupedCheckboxState<T> extends State<IsmailGroupedCheckbox<T>> {
+class _IsmailGroupedCheckboxState<T> extends State<IsmailGroupedCheckbox<T>> {
   final selectedListItems = <T>[];
 
   @override

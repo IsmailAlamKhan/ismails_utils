@@ -19,6 +19,7 @@ class IsmailDropdownButtonFormField<T> extends IsmailFormField<T> {
     ValueTransformer<T>? valueTransformer,
     bool wantClearIcon = false,
     Widget? clearIcon,
+    DropdownButtonBuilder? selectedItemBuilder,
   }) : super(
           clearIcon: clearIcon,
           wantClearIcon: wantClearIcon,
@@ -43,6 +44,8 @@ class IsmailDropdownButtonFormField<T> extends IsmailFormField<T> {
                   isDense: field.decoration.isDense ?? false,
                   value: field.value,
                   onChanged: field.didChange,
+                  isExpanded: true,
+                  selectedItemBuilder: selectedItemBuilder,
                   items: options
                       .map(
                         (e) => DropdownMenuItem(

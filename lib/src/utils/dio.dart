@@ -6,16 +6,15 @@ import 'package:flutter/foundation.dart';
 import '../src.dart';
 
 class DioClient {
-  DioClient.init(
+  final logger = LoggerService('Dio');
+  DioClient(
     this.host,
     this.port,
     this.baseOptions, {
     this.responseBody = true,
   }) {
-    LoggerService.init('Dio');
-    LoggerService.instance.logToConsole(
-      'DioClient started, Base Url is ${baseOptions.baseUrl}',
-    );
+    logger
+        .logToConsole('DioClient started, Base Url is ${baseOptions.baseUrl}');
     instance = this;
   }
 
