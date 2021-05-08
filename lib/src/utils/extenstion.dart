@@ -165,3 +165,8 @@ extension ExtendedFormFieldValidators<T> on List<FormFieldValidator<T>> {
     return IsmailFormValidators.compose(this);
   }
 }
+
+extension ExtendedListMapString on List<Map<String, dynamic>> {
+  List<IsmailFormFieldOption<T>> ismailFormFieldOption<T>() =>
+      map((map) => IsmailFormFieldOption<T>.fromJson(map)).toList();
+}
