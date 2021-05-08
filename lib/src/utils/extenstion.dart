@@ -159,3 +159,17 @@ extension ExtendedControlAffinity on ControlAffinity {
   bool get trailing => this == ControlAffinity.trailing;
   bool get leading => this == ControlAffinity.leading;
 }
+
+extension ExtendedFormFieldValidators<T> on List<FormFieldValidator<T>> {
+  FormFieldValidator<T> compose() {
+    return (valueCandidate) {
+      for (final validator in this) {
+        final validatorResult = validator.call(valueCandidate);
+        if (validatorResult != null) {
+          return validatorResult;
+        }
+      }
+      return null;
+    };
+  }
+}
