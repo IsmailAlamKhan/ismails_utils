@@ -71,7 +71,6 @@ class DioClient {
     String url, {
     Map<String, dynamic>? queryParams,
     Options? options,
-    dynamic data,
   }) async {
     final _connectivityCheck = await connectivityCheck;
     if (!_connectivityCheck.canConnect) {
@@ -129,6 +128,31 @@ class DioClient {
 
     try {
       final res = await _dio.put(
+        url,
+        queryParameters: queryParams,
+        data: data,
+        options: options,
+      );
+
+      return res;
+    } on DioError catch (e) {
+      throw IsmailException.fromDioError(e);
+    }
+  }
+
+  Future<Response> delete(
+    String url, {
+    Map<String, dynamic>? queryParams,
+    Options? options,
+    required dynamic data,
+  }) async {
+    final _connectivityCheck = await connectivityCheck;
+    if (!_connectivityCheck.canConnect) {
+      throw IsmailException.error(_connectivityCheck.messege);
+    }
+
+    try {
+      final res = await _dio.delete(
         url,
         queryParameters: queryParams,
         data: data,
