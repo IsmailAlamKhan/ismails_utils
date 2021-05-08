@@ -19,6 +19,7 @@ dependencies:
   graphx: ^1.0.0-nullsafety.0
   intl: ^0.17.0
   lint: ^1.5.3
+  validators: ^3.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
