@@ -7,20 +7,23 @@ import '../src.dart';
 
 class DioClient {
   DioClient(
+    this.baseOptions, {
+    this.wantConnectivityCheck = true,
     this.host,
     this.port,
-    this.baseOptions, {
     this.responseBody = true,
-  }) {
+  }) : assert(!wantConnectivityCheck || host != null || port != null,
+            'DioClient- If you want connectivity check please provide host and port') {
     logger.info('DioClient started, Base Url is ${baseOptions.baseUrl}');
     instance = this;
   }
+  final bool wantConnectivityCheck;
 
   final bool responseBody;
   static late DioClient instance;
   final BaseOptions baseOptions;
-  final String host;
-  final int port;
+  final String? host;
+  final int? port;
 
   Dio get _dio => Dio(baseOptions)
     ..httpClientAdapter
@@ -42,11 +45,16 @@ class DioClient {
   }
 
   Future<ConnectivityCheck> get connectivityCheck async {
+    if (!wantConnectivityCheck) {
+      return ConnectivityCheck(
+        canConnect: true,
+      );
+    }
     if (!kIsWeb) {
       try {
         final socket = await Socket.connect(
           host,
-          port,
+          port!,
           timeout: const Duration(seconds: 2),
         );
         socket.destroy();
@@ -67,7 +75,7 @@ class DioClient {
   }
 
   /// Get request with a bit of modification
-  Future<Response> get(
+  Future<Response<T>> get<T>(
     String url, {
     Map<String, dynamic>? queryParams,
     Options? options,
@@ -77,7 +85,7 @@ class DioClient {
       throw IsmailException.error(_connectivityCheck.messege);
     }
     try {
-      final res = await _dio.get(
+      final res = await _dio.get<T>(
         url,
         queryParameters: queryParams,
         options: options,
@@ -90,7 +98,7 @@ class DioClient {
     }
   }
 
-  Future<Response> post(
+  Future<Response<T>> post<T>(
     String url, {
     Map<String, dynamic>? queryParams,
     Options? options,
@@ -102,7 +110,7 @@ class DioClient {
     }
 
     try {
-      final res = await _dio.post(
+      final res = await _dio.post<T>(
         url,
         queryParameters: queryParams,
         data: data,
@@ -115,7 +123,7 @@ class DioClient {
     }
   }
 
-  Future<Response> put(
+  Future<Response<T>> put<T>(
     String url, {
     Map<String, dynamic>? queryParams,
     Options? options,
@@ -127,7 +135,7 @@ class DioClient {
     }
 
     try {
-      final res = await _dio.put(
+      final res = await _dio.put<T>(
         url,
         queryParameters: queryParams,
         data: data,
@@ -140,7 +148,7 @@ class DioClient {
     }
   }
 
-  Future<Response> delete(
+  Future<Response<T>> delete<T>(
     String url, {
     Map<String, dynamic>? queryParams,
     Options? options,
@@ -152,7 +160,7 @@ class DioClient {
     }
 
     try {
-      final res = await _dio.delete(
+      final res = await _dio.delete<T>(
         url,
         queryParameters: queryParams,
         data: data,

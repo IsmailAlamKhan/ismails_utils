@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 
 import 'package:ismails_utils/ismails_utils.dart';
 
+import 'country_page.dart';
+
 final logger = LoggerService();
 final fileService = FileService.instance;
 Future<void> main() async {
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => const MaterialApp(home: Home());
+  Widget build(BuildContext context) => const MaterialApp(home: CountryPage());
 }
 
 class Home extends StatefulWidget {

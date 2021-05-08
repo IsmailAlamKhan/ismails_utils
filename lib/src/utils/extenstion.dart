@@ -10,6 +10,7 @@ import 'utils.dart';
 extension ExtendedString on String {
   int toInt() => int.parse(this);
   DateTime toDate() => DateTime.parse(this);
+  bool get isAlphabetic => isAlpha(this);
 }
 
 extension ExtendedNum on num {
@@ -47,6 +48,9 @@ extension ExtendedBuildContext on BuildContext {
         animDuration: animDuration,
         duration: duration,
       ).show(this);
+
+  ThemeData get theme => Theme.of(this);
+  TextTheme get textTheme => Theme.of(this).textTheme;
 }
 
 extension ExtendedOrientation on Orientation {
