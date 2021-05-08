@@ -2,6 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:validators/validators.dart';
 
 abstract class IsmailFormValidators {
+  static FormFieldValidator<T> compose<T>(
+      List<FormFieldValidator<T>> validators) {
+    return (valueCandidate) {
+      for (final validator in validators) {
+        final validatorResult = validator.call(valueCandidate);
+        if (validatorResult != null) {
+          return validatorResult;
+        }
+      }
+      return null;
+    };
+  }
+
   static FormFieldValidator<T> required<T>([String? errorText]) {
     return (T? valueCandidate) {
       if (valueCandidate == null ||

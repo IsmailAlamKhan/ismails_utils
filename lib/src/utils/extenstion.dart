@@ -161,15 +161,7 @@ extension ExtendedControlAffinity on ControlAffinity {
 }
 
 extension ExtendedFormFieldValidators<T> on List<FormFieldValidator<T>> {
-  FormFieldValidator<T> compose() {
-    return (valueCandidate) {
-      for (final validator in this) {
-        final validatorResult = validator.call(valueCandidate);
-        if (validatorResult != null) {
-          return validatorResult;
-        }
-      }
-      return null;
-    };
+  FormFieldValidator<T> ismailFormValidatorCompose() {
+    return IsmailFormValidators.compose(this);
   }
 }
