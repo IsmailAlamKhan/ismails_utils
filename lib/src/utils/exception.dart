@@ -40,6 +40,9 @@ class IsmailException implements Exception {
     final statusCode = res!.statusCode;
     switch (statusCode) {
       case 400:
+        if (res.data['error'] != null) {
+          return res.data['error'];
+        }
         return 'Bad Request';
       case 404:
         return 'Not found';
