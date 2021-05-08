@@ -9,7 +9,7 @@ enum InputType { date, time, both }
 // enum PickerType { material, cupertino }
 
 /// Field for `Date`, `Time` and `DateTime` input
-class FormBuilderDateTimePicker extends IsmailFormField<DateTime> {
+class IsmailDateTimePickerFormField extends IsmailFormField<DateTime> {
   /// The date/time picker dialogs to show.
   final InputType inputType;
 
@@ -125,7 +125,7 @@ class FormBuilderDateTimePicker extends IsmailFormField<DateTime> {
   final SelectableDayPredicate? selectableDayPredicate;
 
   /// Creates field for `Date`, `Time` and `DateTime` input
-  FormBuilderDateTimePicker({
+  IsmailDateTimePickerFormField({
     Key? key,
     //From Super
     required String name,
@@ -247,7 +247,7 @@ class FormBuilderDateTimePicker extends IsmailFormField<DateTime> {
 }
 
 class _FormBuilderDateTimePickerState
-    extends IsmailFormFieldState<FormBuilderDateTimePicker, DateTime> {
+    extends IsmailFormFieldState<IsmailDateTimePickerFormField, DateTime> {
   late TextEditingController _textFieldController;
 
   late DateFormat _dateFormat;
