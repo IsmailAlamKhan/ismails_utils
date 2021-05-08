@@ -1,15 +1,35 @@
 import 'dart:developer';
 
-class LoggerService {
-  factory LoggerService([String name = 'Ismail Util']) {
-    _instance._name = name;
-    return _instance;
-  }
-  LoggerService._();
-  static final LoggerService _instance = LoggerService._();
-  String _name = 'Ismail Util';
+final logger = LoggerService();
 
-  void logToConsole(String msg, {StackTrace? stackTrace}) {
-    log(msg, name: _name, time: DateTime.now(), stackTrace: stackTrace);
+class LoggerService {
+  LoggerService([String? name]) {
+    if (name != null) {
+      this.name = name;
+    }
+  }
+  String name = 'Ismail Util';
+  void info(Object? messege) {
+    log('ℹ \x1B[34m$messege\x1B[0m', time: DateTime.now(), name: name);
+  }
+
+  void error(Object? messege, [Object? error, StackTrace? stack]) {
+    log(
+      '😭 \x1B[31m$messege\x1B[0m',
+      time: DateTime.now(),
+      error: error,
+      stackTrace: stack,
+      name: name,
+    );
+  }
+
+  void warning(Object? messege, [Object? error, StackTrace? stack]) {
+    log(
+      '⚠ \x1B[33m$messege\x1B[0m',
+      time: DateTime.now(),
+      error: error,
+      stackTrace: stack,
+      name: name,
+    );
   }
 }

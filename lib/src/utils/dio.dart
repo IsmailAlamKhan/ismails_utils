@@ -6,15 +6,13 @@ import 'package:flutter/foundation.dart';
 import '../src.dart';
 
 class DioClient {
-  final logger = LoggerService('Dio');
   DioClient(
     this.host,
     this.port,
     this.baseOptions, {
     this.responseBody = true,
   }) {
-    logger
-        .logToConsole('DioClient started, Base Url is ${baseOptions.baseUrl}');
+    logger.info('DioClient started, Base Url is ${baseOptions.baseUrl}');
     instance = this;
   }
 
@@ -30,7 +28,7 @@ class DioClient {
       LogInterceptor(
         logPrint: (object) async {
           if (kDebugMode) {
-            debugPrint(object.toString());
+            logger.info(object.toString());
           }
         },
         requestHeader: false,

@@ -67,7 +67,7 @@ class IsmailFormFieldState<F extends IsmailFormField<T?>, T>
         const <String, dynamic>{})[widget.name];
     if (_formInitVal is! T) {
       if (_formInitVal != null) {
-        ismailLog(
+        ismailFormLog.warning(
           'Warning the initial Value you passed ${_formInitVal.runtimeType}'
           ' is not the same type as the field',
         );

@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -51,24 +50,8 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final _path = await fileService.getLocalPath;
-          final _file = fileService.readFile(File('${_path.path}/g.txt'));
-          logger.logToConsole(_file);
-          /*
-          setState(() {
-            _textFieldList.add(IsmailFormFieldOption(value: 'Index $index'));
-            index++;
-          });
-          */
-        },
-      ),
       body: IsmailForm(
         key: formKey,
-        onChanged: (value) {
-          logger.logToConsole(value.toString());
-        },
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -177,7 +160,7 @@ class _HomeState extends State<Home> {
                   formKey.currentState?.saveAndValidate();
                   final _fields = formKey.currentState!.fields;
                   for (final item in _fields.keys) {
-                    ismailLog('key = $item value = ${_fields[item]!.value}');
+                    logger.info('key = $item value = ${_fields[item]!.value}');
                   }
                 },
               ),

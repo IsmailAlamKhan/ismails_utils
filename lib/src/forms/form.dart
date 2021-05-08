@@ -83,14 +83,14 @@ class IsmailFormState extends State<IsmailForm> {
   void registerField(String name, IsmailFormFieldState field) {
     assert(() {
       if (_fields.containsKey(name)) {
-        ismailLog(
+        ismailFormLog.warning(
           'Warning! Replacing duplicate Field for $name'
           ' -- this is OK to ignore as long as the field was intentionally replaced',
         );
       }
       return true;
     }());
-    ismailLog('Registered field $name');
+    ismailFormLog.info('Registered field $name');
     _fields[name] = field;
     if (!field.isValid) {
       inValidFields.add(field);
@@ -101,7 +101,7 @@ class IsmailFormState extends State<IsmailForm> {
 
   void unregisterField(String name, IsmailFormFieldState field) {
     if (field == _fields[name]) {
-      ismailLog('Unregistered field $name');
+      ismailFormLog.info('Unregistered field $name');
       _fields.remove(name);
 
       inValidFields.remove(field);
@@ -109,7 +109,7 @@ class IsmailFormState extends State<IsmailForm> {
       _valueChanged.add('Field Removed');
     } else {
       assert(() {
-        ismailLog(
+        ismailFormLog.warning(
           'Warning! Ignoring Field unregistration for $name'
           ' -- this is OK to ignore as long as the field was intentionally replaced',
         );

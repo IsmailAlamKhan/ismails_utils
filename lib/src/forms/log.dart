@@ -1,5 +1,3 @@
-import 'dart:developer';
+import '../src.dart';
 
-void ismailLog(String text) {
-  log(text, name: 'Ismail Form', time: DateTime.now());
-}
+LoggerService ismailFormLog = LoggerService('Ismail Form');
