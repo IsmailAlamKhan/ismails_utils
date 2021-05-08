@@ -13,9 +13,6 @@ typedef SnackBarAnimBuilder = Widget Function(
   Widget child,
 );
 
-typedef ListOfIsmailFormFieldOption<T> = List<IsmailFormFieldOption<T>>;
-typedef ListOfBool = List<bool>;
-
 typedef AlphabetListViewItemBuilder<T extends AlphabetListViewModel> = Widget
     Function(
   BuildContext context,
