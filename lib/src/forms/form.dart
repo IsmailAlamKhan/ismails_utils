@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../src.dart';
@@ -13,6 +14,7 @@ class IsmailForm extends StatefulWidget {
     this.autovalidateMode,
     this.onWillPop,
     this.skipDisabled = true,
+    this.controller,
   }) : super(key: key);
   final Widget child;
   final bool enabled;
@@ -21,6 +23,7 @@ class IsmailForm extends StatefulWidget {
   final AutovalidateMode? autovalidateMode;
   final WillPopCallback? onWillPop;
   final bool skipDisabled;
+  final IsmailFormController? controller;
 
   @override
   IsmailFormState createState() => IsmailFormState();
@@ -30,57 +33,76 @@ class IsmailForm extends StatefulWidget {
 }
 
 class IsmailFormState extends State<IsmailForm> {
-  final _formKey = GlobalKey<FormState>();
+  late final IsmailFormController controller =
+      widget.controller ?? IsmailFormController();
+  Map<String, dynamic> get initialValue {
+    return widget.initialValue;
+  }
+
+  //* values, methods taken from the controller
+  //* ----------------------------------------
+  Map<String, dynamic> get value => controller.value;
+  Map<String, IsmailFormFieldState> get fields => controller.fields;
+  List<IsmailFormFieldState> get inValidFields => controller.inValidFields;
+  bool get isValid => controller.isValid;
+  void setInternalFieldValue(String name, dynamic value) =>
+      controller.setInternalFieldValue(name, value);
+  void removeInternalFieldValue(String name) =>
+      controller.removeInternalFieldValue(name);
+  void registerField(String name, IsmailFormFieldState field) =>
+      controller.registerField(name, field);
+  void unregisterField(String name, IsmailFormFieldState field) =>
+      controller.unregisterField(name, field);
+  void save() => controller.save();
+  bool validate() => controller.validate();
+  bool saveAndValidate() => controller.saveAndValidate();
+  void patchValue(Map<String, dynamic> val) => controller.patchValue(val);
+  //* -----------------------------------------
 
   bool get enabled => widget.enabled;
 
-  final _fields = <String, IsmailFormFieldState>{};
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: controller._formKey,
+      autovalidateMode: widget.autovalidateMode,
+      onWillPop: widget.onWillPop,
+      onChanged: () => controller._onFormChange(widget.onChanged),
+      child: FocusTraversalGroup(
+        policy: WidgetOrderTraversalPolicy(),
+        child: widget.child,
+      ),
+    );
+  }
+}
 
-  final _value = <String, dynamic>{};
-
+class IsmailFormController extends ChangeNotifier {
   Map<String, dynamic> get value => Map<String, dynamic>.unmodifiable(_value);
-
-  Map<String, dynamic> get initialValue => widget.initialValue;
-
-  Map<String, IsmailFormFieldState> get fields => _fields;
-
-  final _inValidFields = <IsmailFormFieldState>[];
-  List<IsmailFormFieldState> get inValidFields => _inValidFields;
-
-  late StreamController<String> _valueChanged;
-
-  @override
-  void dispose() {
-    _valueChanged.close();
-    super.dispose();
-  }
-
-  bool _isValid = false;
+  Map<String, dynamic> get fieldsWithoutDisposed =>
+      Map<String, dynamic>.unmodifiable(_fieldsWithoutDisposed);
+  Map<String, IsmailFormFieldState> get fields =>
+      Map<String, IsmailFormFieldState>.unmodifiable(_fields);
+  List<IsmailFormFieldState> get inValidFields =>
+      List<IsmailFormFieldState>.unmodifiable(_inValidFields);
   bool get isValid => _isValid;
-  late Stream<String> valueChanged;
-  @override
-  void initState() {
-    _valueChanged = StreamController<String>.broadcast();
-    valueChanged = _valueChanged.stream;
-    Timer(const Duration(milliseconds: 500), () {
-      _valueChanged.add('Start');
-    });
-    super.initState();
-  }
 
   void setInternalFieldValue(String name, dynamic value) {
-    setState(() {
-      _value[name] = value;
-    });
+    assert(_formKey.currentState != null,
+        'IsmailFormController- make sure you attached the form controller to a form');
+    _value[name] = value;
+    notifyListeners();
   }
 
   void removeInternalFieldValue(String name) {
-    setState(() {
-      _value.remove(name);
-    });
+    assert(_formKey.currentState != null,
+        'IsmailFormController- make sure you attached the form controller to a form');
+    _value.remove(name);
+    notifyListeners();
   }
 
   void registerField(String name, IsmailFormFieldState field) {
+    assert(_formKey.currentState != null,
+        'IsmailFormController- make sure you attached the form controller to a form');
     assert(() {
       if (_fields.containsKey(name)) {
         ismailFormLog.warning(
@@ -92,21 +114,25 @@ class IsmailFormState extends State<IsmailForm> {
     }());
     ismailFormLog.info('Registered field $name');
     _fields[name] = field;
+    _fieldsWithoutDisposed[name] = field;
     if (!field.isValid) {
-      inValidFields.add(field);
+      _inValidFields.add(field);
     }
     _isValid = _inValidFields.isEmpty;
-    _valueChanged.add('Field added');
+    Future.microtask(() => notifyListeners());
   }
 
   void unregisterField(String name, IsmailFormFieldState field) {
+    assert(_formKey.currentState != null,
+        'IsmailFormController- make sure you attached the form controller to a form');
     if (field == _fields[name]) {
       ismailFormLog.info('Unregistered field $name');
       _fields.remove(name);
 
-      inValidFields.remove(field);
+      _inValidFields.remove(field);
       _isValid = _inValidFields.isEmpty;
-      _valueChanged.add('Field Removed');
+
+      Future.microtask(() => notifyListeners());
     } else {
       assert(() {
         ismailFormLog.warning(
@@ -119,19 +145,27 @@ class IsmailFormState extends State<IsmailForm> {
   }
 
   void save() {
+    assert(_formKey.currentState != null,
+        'IsmailFormController- make sure you attached the form controller to a form');
     _formKey.currentState!.save();
   }
 
   bool validate() {
+    assert(_formKey.currentState != null,
+        'IsmailFormController- make sure you attached the form controller to a form');
     return _formKey.currentState!.validate();
   }
 
   bool saveAndValidate() {
+    assert(_formKey.currentState != null,
+        'IsmailFormController- make sure you attached the form controller to a form');
     save();
     return validate();
   }
 
   void reset() {
+    assert(_formKey.currentState != null,
+        'IsmailFormController- make sure you attached the form controller to a form');
     _formKey.currentState!.reset();
   }
 
@@ -141,34 +175,31 @@ class IsmailFormState extends State<IsmailForm> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      autovalidateMode: widget.autovalidateMode,
-      onWillPop: widget.onWillPop,
-      onChanged: () {
-        final fields = <String, dynamic>{};
-        for (final item in _fields.keys) {
-          final field = _fields[item];
-          final value = field?.value;
-          fields.addAll({item: value});
-          if (!field!.isValid) {
-            if (!_inValidFields.contains(field)) {
-              _inValidFields.add(field);
-            }
-          } else {
-            _inValidFields.remove(field);
-          }
+  final _formKey = GlobalKey<FormState>();
+  final _fields = <String, IsmailFormFieldState>{};
+  final _fieldsWithoutDisposed = <String, IsmailFormFieldState>{};
+  final _value = <String, dynamic>{};
+  final _inValidFields = <IsmailFormFieldState>[];
+  bool _isValid = false;
+
+  void _onFormChange(ValueChanged<Map<String, dynamic>>? onChanged) {
+    assert(_formKey.currentState != null,
+        'IsmailFormController- make sure you attached the form controller to a form');
+    final fields = <String, dynamic>{};
+    for (final item in _fields.keys) {
+      final field = _fields[item];
+      final value = field?.value;
+      fields.addAll({item: value});
+      if (!field!.isValid) {
+        if (!_inValidFields.contains(field)) {
+          _inValidFields.add(field);
         }
-        _isValid = _inValidFields.isEmpty;
-        _valueChanged.add('On Change');
-        widget.onChanged?.call(fields);
-      },
-      child: FocusTraversalGroup(
-        policy: WidgetOrderTraversalPolicy(),
-        child: widget.child,
-      ),
-    );
+      } else {
+        _inValidFields.remove(field);
+      }
+    }
+    _isValid = _inValidFields.isEmpty;
+    notifyListeners();
+    onChanged?.call(fields);
   }
 }

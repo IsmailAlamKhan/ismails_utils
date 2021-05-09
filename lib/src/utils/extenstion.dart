@@ -174,3 +174,18 @@ extension ExtendedListMapString on List<Map<String, dynamic>> {
   List<IsmailFormFieldOption<T>> ismailFormFieldOption<T>() =>
       map((map) => IsmailFormFieldOption<T>.fromJson(map)).toList();
 }
+
+extension ExtendedChangeNotifer on ChangeNotifier {
+  Widget builder<T extends ChangeNotifier>(
+    WidgetBuilder builder,
+  ) {
+    return ChangeNotifierBuilder<T>(
+      notifier: this as T,
+      builder: builder,
+    );
+  }
+}
+
+extension ExtendedWidget on Widget {
+  Widget get keepAlive => KeepAlivePage(this);
+}

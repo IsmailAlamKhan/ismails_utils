@@ -94,9 +94,7 @@ class IsmailFormFieldState<F extends IsmailFormField<T?>, T>
   @override
   void dispose() {
     _focusNode.removeListener(_touchedHandler);
-    if (widget.focusNode == null) {
-      _focusNode.dispose();
-    }
+
     _ismailFormState?.unregisterField(widget.name, this);
     super.dispose();
   }
