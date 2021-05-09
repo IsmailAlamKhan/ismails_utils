@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import '../src.dart';
 
 typedef StateMixinChild<T> = Widget Function(List<T> value);
@@ -7,6 +8,7 @@ typedef ResponsiveWidget = Widget Function(
   BuildContext context,
   ScreenUtil screenUtil,
   Widget? child,
+  BoxConstraints constraints,
 );
 typedef SnackBarAnimBuilder = Widget Function(
   Animation<double> animation,

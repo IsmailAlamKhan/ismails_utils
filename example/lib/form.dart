@@ -1,3 +1,7 @@
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ismails_utils/ismails_utils.dart';
 
@@ -59,96 +63,66 @@ class _FormPageState extends State<FormPage> {
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: TabBarView(
-                      children: [
-                        Column(
-                          children: [
-                            IsmailRadioGroupFormField<String>(
-                              wantClearIcon: true,
-                              onChanged: print,
-                              name: 'Radio',
-                              decoration:
-                                  const InputDecoration(labelText: 'Hello'),
-                              validator: (value) {
-                                if (value?.isEmpty ?? true) {
-                                  return 'Please fix the errors';
-                                }
-                              },
-                              options: list,
-                            ),
-                            IsmailCheckboxGroupFormField<String>(
-                              name: 'Checkbox',
-                              decoration:
-                                  const InputDecoration(labelText: 'Hello'),
-                              validator: (value) {
-                                if (value?.isEmpty ?? true) {
-                                  return 'Please fix the errors';
-                                }
-                              },
-                              options: list,
-                            ),
-                            IsmailDropdownButtonFormField<String>(
-                              wantClearIcon: true,
-                              name: 'Dropdown',
-                              validator: (value) {
-                                if (value?.isEmpty ?? true) {
-                                  return 'Please fix the errors';
-                                }
-                              },
-                              options: list,
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            IsmailTextFormField(
-                              // initialValue: 'Hello',
-                              onChanged: (value) {},
-                              decoration: const InputDecoration(
-                                labelText: 'TextField',
-                              ),
-                              validator: (value) {
-                                if (value != 'hello')
-                                  return 'Please write Hello';
-                              },
-                              wantClearIcon: true,
-                              name: 'textfield',
-                            ),
-                            IsmailDateTimePickerFormField(
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              name: 'DateTime',
-                              validator: (value) {
-                                if (value != null) {
-                                  if (value.isBefore(DateTime.now())) {
-                                    return 'Must be older';
-                                  }
-                                }
-                              },
-                            ),
-                            IsmailCheckboxFormField(
-                              title: const Text('H'),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              name: 'CheckboxSingle',
-                              validator: (value) {
-                                if (value == null || !value) {
-                                  return 'Please select';
-                                }
-                              },
-                            ),
-                            IsmailChoiceChipFormField<String>(
-                              name: 'Chips',
-                              runSpacing: 10,
-                              spacing: 10,
-                              options: list,
-                            ),
-                          ],
-                        ),
-                      ],
+                  if (kIsWeb)
+                    IsmailFormField<Uint8List>(
+                      name: 'file_picker',
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Please choose a file';
+                        }
+                      },
+                      builder: (field) {
+                        return ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: field.hasError ? Colors.red : null,
+                          ),
+                          onPressed: () async {
+                            try {
+                              final _file =
+                                  await IsmailFilePicker.instance.pickFileWeb();
+                              field.didChange(_file);
+                            } catch (e) {
+                              logger.error(e);
+                            }
+                          },
+                          child: const Text('Pick File'),
+                        );
+                      },
+                    )
+                  else
+                    IsmailFormField<File>(
+                      name: 'file_picker',
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Please choose a file';
+                        }
+                      },
+                      builder: (field) {
+                        return ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: field.hasError ? Colors.red : null,
+                          ),
+                          onPressed: () async {
+                            try {
+                              if (Platform.isWindows) {
+                                final _file =
+                                    IsmailFilePicker.instance.pickFileWindows(
+                                  title: 'Please select an image',
+                                );
+                                field.didChange(_file);
+                              } else {
+                                final _file =
+                                    await IsmailFilePicker.instance.pickFile();
+                                field.didChange(_file);
+                              }
+                            } catch (e) {
+                              logger.error(e);
+                            }
+                          },
+                          child: const Text('Pick File'),
+                        );
+                      },
                     ),
-                  ),
                 ],
               ),
             ),
@@ -172,7 +146,7 @@ class SubmitButton extends StatelessWidget {
     return formController.builder(
       (_) => ElevatedButton(
         style: ElevatedButton.styleFrom(shape: const RoundedRectangleBorder()),
-        onPressed: !formController.isValid ? null : onTap,
+        onPressed: onTap,
         child: const Text('Submit'),
       ),
     );

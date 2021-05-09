@@ -48,3 +48,14 @@ class AlphabetController<T extends AlphabetListViewModel>
     );
   }
 }
+
+class AlphabetListViewInheritedWidget extends InheritedWidget {
+  final AlphabetController controller;
+  const AlphabetListViewInheritedWidget({
+    required Widget child,
+    required this.controller,
+  }) : super(child: child);
+
+  @override
+  bool updateShouldNotify(_) => false;
+}

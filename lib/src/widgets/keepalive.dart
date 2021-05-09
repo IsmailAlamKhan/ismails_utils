@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// wrap this widget [KeepAlivePage] around your Widget or use the keepAlive
+/// extenision to keep the widget alive
 class KeepAlivePage extends StatefulWidget {
   const KeepAlivePage(
     this.child, {

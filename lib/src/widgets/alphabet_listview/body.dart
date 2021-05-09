@@ -4,6 +4,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import '../../src.dart';
 
+/// Makes a list view that you can scroll to each index using
 class AlphabetListView<T extends AlphabetListViewModel> extends StatefulWidget {
   const AlphabetListView({
     Key? key,
@@ -17,50 +18,57 @@ class AlphabetListView<T extends AlphabetListViewModel> extends StatefulWidget {
 
   @override
   _AlphabetListViewState<T> createState() => _AlphabetListViewState<T>();
+  static AlphabetListViewInheritedWidget? of(BuildContext context) => context
+      .dependOnInheritedWidgetOfExactType<AlphabetListViewInheritedWidget>();
 }
 
 class _AlphabetListViewState<T extends AlphabetListViewModel>
     extends State<AlphabetListView<T>> {
-  late AlphabetController controller;
-  @override
-  void initState() {
-    super.initState();
-    controller = AlphabetController(widget.list);
-  }
+  late final AlphabetController _controller = AlphabetController(widget.list);
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned(
-          left: 0,
-          right: 20,
-          top: 0,
-          bottom: 0,
-          child: _build(controller),
-        ),
-        Positioned(
-          right: 0,
-          top: 0,
-          bottom: 0,
-          child: Material(
-            elevation: 6,
-            child: SizedBox(
-              width: 20,
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      for (var i = 0; i < controller.alphabets.length; i++)
-                        AlphabetItem(controller: controller, i: i),
-                    ],
+    return AlphabetListViewInheritedWidget(
+      controller: _controller,
+      child: Builder(
+        builder: (context) {
+          final inheritedWidget = AlphabetListView.of(context);
+          return Stack(
+            children: [
+              Positioned(
+                left: 0,
+                right: 20,
+                top: 0,
+                bottom: 0,
+                child: _build(inheritedWidget!.controller),
+              ),
+              Positioned(
+                right: 0,
+                top: 0,
+                bottom: 0,
+                child: Material(
+                  elevation: 6,
+                  child: SizedBox(
+                    width: 20,
+                    child: Center(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            for (var i = 0;
+                                i < inheritedWidget.controller.alphabets.length;
+                                i++)
+                              AlphabetItem(i: i),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-        ),
-      ],
+            ],
+          );
+        },
+      ),
     );
   }
 
@@ -105,50 +113,27 @@ class _AlphabetListViewState<T extends AlphabetListViewModel>
   }
 }
 
-class AlphabetItem extends StatefulWidget {
+class AlphabetItem extends StatelessWidget {
   const AlphabetItem({
     Key? key,
-    required this.controller,
     required this.i,
   }) : super(key: key);
 
-  final AlphabetController<AlphabetListViewModel> controller;
   final int i;
 
   @override
-  _AlphabetItemState createState() => _AlphabetItemState();
-}
-
-class _AlphabetItemState extends State<AlphabetItem> {
-  @override
-  void initState() {
-    super.initState();
-
-    widget.controller.addListener(() {
-      setState(() {});
-    });
-  }
-
-  @override
-  void dispose() {
-    widget.controller.removeListener(() {
-      setState(() {});
-    });
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final controller = AlphabetListView.of(context)!.controller;
     return GestureDetector(
-      onTap: () {
-        widget.controller.scrollTo(widget.i);
-      },
-      child: Text(
-        widget.controller.alphabets[widget.i],
-        style: context.textTheme.headline6!.copyWith(
-          color: widget.i == widget.controller.currentIndex
-              ? context.theme.primaryColor
-              : null,
+      onTap: () => controller.scrollTo(i),
+      child: controller.builder(
+        (_) => Text(
+          controller.alphabets[i],
+          style: context.textTheme.headline6!.copyWith(
+            color: i == controller.currentIndex
+                ? context.theme.primaryColor
+                : null,
+          ),
         ),
       ),
     );

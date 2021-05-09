@@ -4,13 +4,18 @@ import 'package:flutter/material.dart';
 
 import '../src.dart';
 
-class MainScaffold extends StatelessWidget {
+/// A Scaffold widget that only returns the widget which you give when
+/// the Platform isn't Desktop. In desktop it returns [DesktopTitleBar]
+/// on top of the widget you provide by using the bitsdojo package.
+class MainScaffold<T> extends StatelessWidget {
   const MainScaffold({
     Key? key,
-    required this.logo,
+    this.logo,
     required this.child,
   }) : super(key: key);
-  final String logo;
+
+  /// logo for the [DesktopTitleBar]
+  final T? logo;
   final Widget child;
   @override
   Widget build(BuildContext context) {
@@ -21,31 +26,39 @@ class MainScaffold extends StatelessWidget {
     return Stack(
       children: [
         Positioned.fill(child: child),
-        DesktopTitleBar(logo: logo),
+        DesktopTitleBar<T>(logo: logo),
       ],
     );
   }
 }
 
-class DesktopTitleBar extends StatelessWidget {
+/// A desktop title bar which is taken from the bitsdojo package also
+/// when clicking on any part of the title bar it will open a customized
+/// and functional exit ContextMenu [ContextMenu.exitMenu]. The [T] is used
+/// for the logo which use the [DynamicImage] which will show a network image/
+/// memory image/ asset image/ file image or even svg
+class DesktopTitleBar<T> extends StatelessWidget {
   const DesktopTitleBar({
     Key? key,
-    required this.logo,
+    this.logo,
   }) : super(key: key);
-  final String logo;
+
+  /// a logo that you can show at the most left of your title bar
+  final T? logo;
   @override
   Widget build(BuildContext context) {
     return context.contextMenu.clickArea(
       callback: (contextMenu, event) {
-        contextMenu.iconMenu(event.localPosition);
+        contextMenu.exitMenu(event.localPosition);
       },
       child: WindowTitleBarBox(
         child: Row(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(3.0),
-              child: DynamicImage(image: logo),
-            ),
+            if (logo != null)
+              Padding(
+                padding: const EdgeInsets.all(3.0),
+                child: DynamicImage<T?>(image: logo),
+              ),
             Expanded(child: MoveWindow()),
             MinimizeWindowButton(animate: true),
             MaximizeWindowButton(animate: true),

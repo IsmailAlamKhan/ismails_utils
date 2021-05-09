@@ -7,6 +7,9 @@ import 'package:graphx/graphx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../src.dart';
 
+/// An Image widget which is dynamic returns the image according to the source
+/// you give. Also adds hero to the widget is [hero] property isn't null.
+/// As a bonus the widget animates when the source changes
 class DynamicImage<T> extends StatelessWidget {
   const DynamicImage({
     Key? key,
@@ -25,11 +28,17 @@ class DynamicImage<T> extends StatelessWidget {
           'DynamicImage - Only String, File and Uint8List is supported',
         ),
         super(key: key);
+
+  /// onTap, onDoubleTap, onLongPress which provieds gesuture callback
+  /// on the images
   final VoidCallback? onTap, onDoubleTap, onLongPress;
   final double? width;
   final double? height;
+
+  /// hero tag for the image it automatically adds a Hero widget this isn't null
   final String? hero;
 
+  /// the sourse of the image
   final T image;
   final BoxFit fit;
   final BorderRadius? borderRadius;

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'package:ismails_utils/ismails_utils.dart';
 
+import 'country_page.dart';
 import 'form.dart';
 
 final logger = LoggerService();
@@ -17,5 +18,8 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => const MaterialApp(home: FormPage());
+  Widget build(BuildContext context) => const MaterialApp(
+        home: FormPage(),
+        // home: CountryPage(),
+      );
 }

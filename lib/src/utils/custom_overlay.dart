@@ -9,7 +9,7 @@ class ContextMenu {
   final BuildContext context;
 
   ContextMenu.of(this.context);
-  Future<T?> iconMenu<T>(Offset offset) {
+  Future<T?> exitMenu<T>(Offset offset) {
     return open(
       offset: offset,
       size: const Size(180, 138),
