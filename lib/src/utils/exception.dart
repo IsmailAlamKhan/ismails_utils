@@ -1,9 +1,12 @@
 import 'package:dio/dio.dart';
 
 class IsmailException implements Exception {
-  IsmailException.error(dynamic e) {
+  /// return IsmailException from object
+  IsmailException.error(Object? e) {
     message = e.toString();
   }
+
+  /// return IsmailException from DioError
   IsmailException.fromDioError(DioError dioError) {
     switch (dioError.type) {
       case DioErrorType.cancel:
@@ -53,6 +56,7 @@ class IsmailException implements Exception {
     }
   }
 
+  /// return IsmailException from FromFirebaseErrorCodes
   IsmailException.fromFirebaseErrorCodes(String errorCode) {
     switch (errorCode) {
       case 'invalid-email':
@@ -135,6 +139,7 @@ class IsmailException implements Exception {
     }
   }
 
+  /// returns the messege
   @override
   String toString() => message ?? '';
 }

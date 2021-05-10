@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:ismails_utils/ismails_utils.dart';
+import '../../src.dart';
 
 import 'abstract.dart';
 

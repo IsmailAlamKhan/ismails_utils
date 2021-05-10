@@ -1,5 +1,7 @@
 import '../src.dart';
 
+/// [Country]  class this extends the [AlphabetListViewModel] so you can
+/// use the [AlphabetListView] with this
 class Country extends AlphabetListViewModel {
   Country({
     required String name,

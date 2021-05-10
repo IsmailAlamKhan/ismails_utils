@@ -42,7 +42,7 @@ extension ExtendedBuildContext on BuildContext {
     Duration duration = const Duration(seconds: 3),
     Duration animDuration = const Duration(milliseconds: 500),
   }) =>
-      CustomSnackbar(
+      IsmailSnackbar(
         text: text,
         color: color,
         animDuration: animDuration,
@@ -141,15 +141,15 @@ extension ExtendedMouseButton on MouseClick {
   bool get middleClick => this == MouseClick.middleButton;
 }
 
-extension ExtendedCustomSnackbar on CustomSnackbar {
-  CustomSnackbar copyWith({
+extension ExtendedCustomSnackbar on IsmailSnackbar {
+  IsmailSnackbar copyWith({
     Duration? duration,
     Duration? animDuration,
     String? text,
     Color? color,
     SnackBarAnimBuilder? animBuilder,
   }) {
-    return CustomSnackbar(
+    return IsmailSnackbar(
       animDuration: animDuration ?? this.animDuration,
       text: text ?? this.text,
       color: color ?? this.color,
@@ -165,17 +165,20 @@ extension ExtendedControlAffinity on ControlAffinity {
 }
 
 extension ExtendedFormFieldValidators<T> on List<FormFieldValidator<T>> {
+  /// {@macro IsmailFormValidators.compose}
   FormFieldValidator<T> ismailFormValidatorCompose() {
     return IsmailFormValidators.compose(this);
   }
 }
 
 extension ExtendedListMapString on List<Map<String, dynamic>> {
+  /// Get List of [IsmailFormFieldOption] from a map
   List<IsmailFormFieldOption<T>> ismailFormFieldOption<T>() =>
       map((map) => IsmailFormFieldOption<T>.fromJson(map)).toList();
 }
 
 extension ExtendedChangeNotifer on ChangeNotifier {
+  /// {@macro ismails_utils.widgets.ChangeNotifierBuilder}
   Widget builder<T extends ChangeNotifier>(
     WidgetBuilder builder,
   ) {
@@ -187,5 +190,6 @@ extension ExtendedChangeNotifer on ChangeNotifier {
 }
 
 extension ExtendedWidget on Widget {
+  /// {@macro ismails_utils.widgets.KeepAlivePage}
   Widget get keepAlive => KeepAlivePage(this);
 }

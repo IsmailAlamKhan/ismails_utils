@@ -1,4 +1,6 @@
-enum FutureStatus { LOADING, SUCCESS, ERROR, Empty, IDLE }
+import '../src.dart';
+
+/// ScreenSize enum that is used on [ScreenUtil]
 enum ScreenSize {
   SmallPhone,
   MediumPhone,
@@ -11,6 +13,7 @@ enum ScreenSize {
   NONE
 }
 
-enum RequestType { put, post, delete }
 enum MouseClick { rightButton, leftButton, middleButton, unk }
 enum ControlAffinity { trailing, leading }
+
+typedef ValueTransformer<T> = dynamic Function(T value);

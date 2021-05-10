@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
 import '../src.dart';
 
+/// {@template IsmailFormField}
+/// FormField class which you can extend to use with [IsmailForm]
+/// {@endtemplate}
 class IsmailFormField<T> extends FormField<T?> {
+  /// The name which the form will recognize this by
   final String name;
+
   final FormFieldSetter<T>? onChanged;
   final VoidCallback? onReset;
   final InputDecoration decoration;
   final FocusNode? focusNode;
+
+  /// this is an interesting one when you save the form the value of this Field
+  /// will be converted to what you return on this
   final ValueTransformer<T>? valueTransformer;
+
+  /// if true shows an clear icon on the right
   final bool wantClearIcon;
+
+  /// the Widget to show when [IsmailFormField.wantClearIcon] is true
   final Widget? clearIcon;
 
+  /// {@macro IsmailFormField}
   const IsmailFormField({
     Key? key,
     required this.name,
@@ -46,6 +59,7 @@ class IsmailFormFieldState<F extends IsmailFormField<T?>, T>
     extends FormFieldState<T?> {
   late final FocusNode _focusNode = widget.focusNode ?? FocusNode();
 
+  /// get the focus node
   FocusNode get focusNode => _focusNode;
   IsmailFormState? _ismailFormState;
 
@@ -62,6 +76,7 @@ class IsmailFormFieldState<F extends IsmailFormField<T?>, T>
 
   bool _touched = false;
 
+  /// Initial value of this field might come from the form or the widget
   T? get initialValue {
     final _formInitVal = (_ismailFormState?.initialValue ??
         const <String, dynamic>{})[widget.name];

@@ -5,6 +5,8 @@ import '../src.dart';
 /// A ResponsiveBuilder widget which gives you access to the [ScreenUtil] class
 /// also the [BoxConstraints] of the [LayoutBuilder]
 class ResponsiveBuilder extends StatelessWidget {
+  /// A ResponsiveBuilder widget which gives you access to the [ScreenUtil] class
+  /// also the [BoxConstraints] of the [LayoutBuilder]
   const ResponsiveBuilder({
     Key? key,
     required this.builder,
@@ -12,7 +14,10 @@ class ResponsiveBuilder extends StatelessWidget {
   }) : super(key: key);
 
   /// The builder that will return the widget
-  final ResponsiveWidget builder;
+  final ResponsiveWidgetBuilder builder;
+
+  /// this is the child that property which won't get rebuild when this widget
+  /// rebuilds.
   final Widget? child;
   @override
   Widget build(BuildContext context) {

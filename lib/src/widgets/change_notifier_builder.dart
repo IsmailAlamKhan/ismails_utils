@@ -1,9 +1,12 @@
 import 'package:flutter/widgets.dart';
 
+/// {@template ismails_utils.widgets.ChangeNotifierBuilder}
 /// A builder which updates when the provided change notifier calls
 /// notifylistners
+/// {@endtemplate}
 
 class ChangeNotifierBuilder<T extends ChangeNotifier> extends StatefulWidget {
+  /// {@macro ismails_utils.widgets.ChangeNotifierBuilder}
   const ChangeNotifierBuilder({
     Key? key,
     required this.notifier,

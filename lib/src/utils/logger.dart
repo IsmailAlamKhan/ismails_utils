@@ -1,35 +1,42 @@
 import 'dart:developer';
 
+/// Gives the instance of the LoggerService
 final logger = LoggerService();
 
+/// Simple logger service
 class LoggerService {
+  /// Simple logger service
   LoggerService([String? name]) {
     if (name != null) {
-      this.name = name;
+      _name = name;
     }
   }
-  String name = 'Ismail Util';
+  String _name = 'Ismail Util';
+
+  /// Log an info meesege
   void info(Object? messege) {
-    log('ℹ \x1B[34m$messege\x1B[0m', time: DateTime.now(), name: name);
+    log('ℹ \x1B[34m$messege\x1B[0m', time: DateTime.now(), name: _name);
   }
 
+  /// Log an error meesege
   void error(Object? messege, [Object? error, StackTrace? stack]) {
     log(
       '😭 \x1B[31m$messege\x1B[0m',
       time: DateTime.now(),
       error: error,
       stackTrace: stack,
-      name: name,
+      name: _name,
     );
   }
 
+  /// Log a warning
   void warning(Object? messege, [Object? error, StackTrace? stack]) {
     log(
       '⚠ \x1B[33m$messege\x1B[0m',
       time: DateTime.now(),
       error: error,
       stackTrace: stack,
-      name: name,
+      name: _name,
     );
   }
 }

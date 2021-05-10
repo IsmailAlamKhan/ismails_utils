@@ -16,18 +16,24 @@ class IsmailForm extends StatefulWidget {
     this.skipDisabled = true,
     this.controller,
   }) : super(key: key);
+
   final Widget child;
   final bool enabled;
+
+  /// InitialValue of the form
   final Map<String, dynamic> initialValue;
   final ValueChanged<Map<String, dynamic>>? onChanged;
   final AutovalidateMode? autovalidateMode;
   final WillPopCallback? onWillPop;
   final bool skipDisabled;
+
+  /// an [IsmailFormController] which you can listen to
   final IsmailFormController? controller;
 
   @override
   IsmailFormState createState() => IsmailFormState();
 
+  /// get [IsmailFormState] if there is an [IsmailForm] anccestor
   static IsmailFormState? of(BuildContext context) =>
       context.findAncestorStateOfType<IsmailFormState>();
 }
@@ -35,6 +41,8 @@ class IsmailForm extends StatefulWidget {
 class IsmailFormState extends State<IsmailForm> {
   late final IsmailFormController controller =
       widget.controller ?? IsmailFormController();
+
+  /// initial value of the form
   Map<String, dynamic> get initialValue {
     return widget.initialValue;
   }
@@ -76,16 +84,8 @@ class IsmailFormState extends State<IsmailForm> {
   }
 }
 
+/// The FormController which holds the state of [IsmailForm]
 class IsmailFormController extends ChangeNotifier {
-  Map<String, dynamic> get value => Map<String, dynamic>.unmodifiable(_value);
-  Map<String, dynamic> get fieldsWithoutDisposed =>
-      Map<String, dynamic>.unmodifiable(_fieldsWithoutDisposed);
-  Map<String, IsmailFormFieldState> get fields =>
-      Map<String, IsmailFormFieldState>.unmodifiable(_fields);
-  List<IsmailFormFieldState> get inValidFields =>
-      List<IsmailFormFieldState>.unmodifiable(_inValidFields);
-  bool get isValid => _isValid;
-
   void setInternalFieldValue(String name, dynamic value) {
     assert(_formKey.currentState != null,
         'IsmailFormController- make sure you attached the form controller to a form');
@@ -202,4 +202,20 @@ class IsmailFormController extends ChangeNotifier {
     notifyListeners();
     onChanged?.call(fields);
   }
+
+  /// Value of the form
+  Map<String, dynamic> get value => Map<String, dynamic>.unmodifiable(_value);
+
+  /// all the fields that the [IsmailForm] showed even the disposed ones
+  Map<String, dynamic> get fieldsWithoutDisposed =>
+      Map<String, dynamic>.unmodifiable(_fieldsWithoutDisposed);
+
+  /// all the fields that the [IsmailForm] this won't show the disposed ones
+  Map<String, IsmailFormFieldState> get fields =>
+      Map<String, IsmailFormFieldState>.unmodifiable(_fields);
+
+  /// invalid fields of the form
+  List<IsmailFormFieldState> get inValidFields =>
+      List<IsmailFormFieldState>.unmodifiable(_inValidFields);
+  bool get isValid => _isValid;
 }

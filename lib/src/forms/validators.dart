@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:validators/validators.dart';
 
 abstract class IsmailFormValidators {
+  /// {@template IsmailFormValidators.compose}
+  /// FormFieldValidator from a list of validators
+  /// {@endtemplate}
   static FormFieldValidator<T> compose<T>(
-      List<FormFieldValidator<T>> validators) {
+    List<FormFieldValidator<T>> validators,
+  ) {
     return (valueCandidate) {
       for (final validator in validators) {
         final validatorResult = validator.call(valueCandidate);

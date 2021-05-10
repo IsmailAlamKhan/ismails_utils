@@ -2,24 +2,93 @@ import 'package:flutter/material.dart';
 import 'package:graphx/graphx.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sticky_headers/sticky_headers.dart';
-import '../../src.dart';
 
-/// Makes a list view that you can scroll to each index using
+import '../../src.dart';
+import '_listview.dart';
+import '_sidebar.dart';
+
+/// Makes a list view that you can scroll to each index using alphabets on the
+/// right
 class AlphabetListView<T extends AlphabetListViewModel> extends StatefulWidget {
+  /// Makes a list view that you can scroll to each index using alphabets on the
+  /// right
   const AlphabetListView({
     Key? key,
     required this.list,
     required this.itemBuilder,
-    this.stickyHeaderColor,
+    this.headerBuilder,
+    this.headerTheme,
+    this.sideBarTheme,
+    this.sideBarItemBuilder,
   }) : super(key: key);
+
+  /// {@template ismails_utils.AlphabetListView.list}
+  /// the item which you want to show typically a [ListTile]
+  /// List which you would provide the list of the items must extend [AlphabetListViewModel]
+  /// otherwise the listview won't get the alphabets
+  /// {@endtemplate}
   final List<T> list;
+
+  /// {@template ismails_utils.AlphabetListView.itemBuilder}
+  /// the item which you want to show typically a [ListTile]
+  /// {@endtemplate}
   final AlphabetListViewItemBuilder<T> itemBuilder;
-  final Color Function(double stuckAmmount)? stickyHeaderColor;
+
+  /// {@template ismails_utils.AlphabetListView.headerBuilder}
+  /// This will be shown as the header of the items which will contain the alphabet
+  /// of that part by default a card will be show which you can customize using
+  /// the [AlphabetListView.headerTheme]
+  /// Builder called during layout to allow the header's
+  /// content to be animated or styled based
+  /// on the amount of stickiness the header has.
+  ///
+  /// [context] for your build operation.
+  ///
+  /// [stuckAmount] will have the value of:
+  /// ```
+  ///   0.0 <= value <= 1.0: about to be stuck
+  ///          0.0 == value: at top
+  ///  -1.0 >= value >= 0.0: past stuck
+  /// ```
+  ///
+  /// {@endtemplate}
+  final AlphabetListViewHeaderBuilder? headerBuilder;
+
+  /// {@template ismails_utils.AlphabetListView.headerTheme}
+  /// The theme to modify the header for more customization of the header use
+  /// [AlphabetListView.headerBuilder] with which you can provide a completly
+  /// custom Header you can't customize the shape with this.
+  /// {@endtemplate}
+  final AlphabetListviewTheme? headerTheme;
+
+  /// {@template ismails_utils.AlphabetListView.sideBarTheme}
+  /// The theme to modify the sideBarTheme for more customization of the sideBarTheme
+  ///  use [AlphabetListView.sideBarItemBuilder] with which you can provide a completly
+  /// custom sideBarTheme you can't customize the shape with this.
+  /// {@endtemplate}
+  final AlphabetListviewTheme? sideBarTheme;
+
+  /// {@template ismails_utils.AlphabetListView.sideBarItemBuilder}
+  /// This will be shown as the sidebar which will contain the alphabets
+  /// by clicking any of it you can scroll to that index if you want to
+  /// change the color of the sidebar use the [AlphabetListView.sideBarTheme]
+  /// {@endtemplate}
+  final AlphabetListViewSideBarBuilder? sideBarItemBuilder;
 
   @override
   _AlphabetListViewState<T> createState() => _AlphabetListViewState<T>();
-  static AlphabetListViewInheritedWidget? of(BuildContext context) => context
-      .dependOnInheritedWidgetOfExactType<AlphabetListViewInheritedWidget>();
+
+  /// Gives the InheritedWidget this widget injects to get the [AlphabetController]
+  /// which is a [ChangeNotifier]
+  static AlphabetListViewInheritedWidget of(BuildContext context) {
+    try {
+      return context.dependOnInheritedWidgetOfExactType<
+          AlphabetListViewInheritedWidget>()!;
+    } catch (e) {
+      throw 'To use AlphabetListView.of(context) the BuildContext '
+          'must be a decendant of AlphabetListView';
+    }
+  }
 }
 
 class _AlphabetListViewState<T extends AlphabetListViewModel>
@@ -33,108 +102,25 @@ class _AlphabetListViewState<T extends AlphabetListViewModel>
       child: Builder(
         builder: (context) {
           final inheritedWidget = AlphabetListView.of(context);
-          return Stack(
+          final controller = inheritedWidget.controller;
+          return Row(
             children: [
-              Positioned(
-                left: 0,
-                right: 20,
-                top: 0,
-                bottom: 0,
-                child: _build(inheritedWidget!.controller),
-              ),
-              Positioned(
-                right: 0,
-                top: 0,
-                bottom: 0,
-                child: Material(
-                  elevation: 6,
-                  child: SizedBox(
-                    width: 20,
-                    child: Center(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            for (var i = 0;
-                                i < inheritedWidget.controller.alphabets.length;
-                                i++)
-                              AlphabetItem(i: i),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+              Expanded(
+                child: AlphabetListViewList<T>(
+                  headerTheme: widget.headerTheme,
+                  itemBuilder: widget.itemBuilder,
+                  headerBuilder: widget.headerBuilder,
+                  list: widget.list,
                 ),
+              ),
+              SideBar(
+                controller: controller,
+                sideBarItemBuilder: widget.sideBarItemBuilder,
+                sideBarTheme: widget.sideBarTheme,
               ),
             ],
           );
         },
-      ),
-    );
-  }
-
-  Widget _build(AlphabetController controller) {
-    return ScrollablePositionedList.builder(
-      itemCount: controller.alphabets.length,
-      itemScrollController: controller.itemScrollController,
-      itemPositionsListener: controller.itemPositionsListener,
-      padding: EdgeInsets.zero,
-      itemBuilder: (context, i) {
-        final alphabet = controller.alphabets[i];
-        final _list =
-            AlphabetListViewModel.getListByFirstChar(alphabet, widget.list)
-                as List<T>;
-        if (_list.isEmpty) {
-          return const SizedBox.shrink();
-        }
-        return StickyHeaderBuilder(
-          builder: (context, stuckAmount) {
-            stuckAmount = 1.0 - stuckAmount.clamp(0.0, 1.0);
-            return Material(
-              elevation: 6,
-              // color: UppPallete.kAppbarBg,
-              color: widget.stickyHeaderColor?.call(stuckAmount),
-              child: ListTile(
-                title: Text(
-                  alphabet,
-                  style: context.textTheme.headline4,
-                ),
-              ),
-            );
-          },
-          content: Column(
-            children: [
-              for (var i = 0; i < _list.length; i++)
-                widget.itemBuilder(context, _list, _list[i], i)
-            ],
-          ),
-        );
-      },
-    );
-  }
-}
-
-class AlphabetItem extends StatelessWidget {
-  const AlphabetItem({
-    Key? key,
-    required this.i,
-  }) : super(key: key);
-
-  final int i;
-
-  @override
-  Widget build(BuildContext context) {
-    final controller = AlphabetListView.of(context)!.controller;
-    return GestureDetector(
-      onTap: () => controller.scrollTo(i),
-      child: controller.builder(
-        (_) => Text(
-          controller.alphabets[i],
-          style: context.textTheme.headline6!.copyWith(
-            color: i == controller.currentIndex
-                ? context.theme.primaryColor
-                : null,
-          ),
-        ),
       ),
     );
   }

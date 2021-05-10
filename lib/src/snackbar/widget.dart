@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../../ismails_utils.dart';
 
-class CustomSnackbar extends StatefulWidget {
-  const CustomSnackbar({
+class IsmailSnackbar extends StatefulWidget {
+  const IsmailSnackbar({
     Key? key,
     this.text,
     this.child,
@@ -14,7 +14,7 @@ class CustomSnackbar extends StatefulWidget {
     this.animDuration = const Duration(milliseconds: 500),
   })  : assert(
           text != null || child != null,
-          'CustomSnackbar- Either pass a child or a text',
+          'IsmailSnackbar- Either pass a child or a text',
         ),
         super(key: key);
   final Duration duration, animDuration;
@@ -23,7 +23,7 @@ class CustomSnackbar extends StatefulWidget {
   final Widget? child;
   final SnackBarAnimBuilder? animBuilder;
   @override
-  CustomSnackbarState createState() => CustomSnackbarState();
+  IsmailSnackbarState createState() => IsmailSnackbarState();
 
   void show(BuildContext context, [Widget? child]) {
     final entry = OverlayEntry(
@@ -47,7 +47,7 @@ class CustomSnackbar extends StatefulWidget {
   }
 }
 
-class CustomSnackbarState extends State<CustomSnackbar>
+class IsmailSnackbarState extends State<IsmailSnackbar>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   Timer? timer;

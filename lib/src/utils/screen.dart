@@ -1,26 +1,34 @@
 import 'package:flutter/material.dart';
 import '../src.dart';
 
+/// ScreenUtil class which is used the [ResponsiveBuilder] access this by
+/// using the [ScreenUtil.of] constructor
 class ScreenUtil {
+  /// the main field of this class.
   final BuildContext context;
+
+  /// ScreenUtil class which is used the [ResponsiveBuilder] access this by
+  /// using the [ScreenUtil.of] constructor
   ScreenUtil.of(this.context);
-  double get dp => MediaQuery.of(context).size.width;
+  MediaQueryData get mediaQueryData => MediaQuery.of(context);
+  double get deviceWidth => mediaQueryData.size.width;
+  double get deviceheight => mediaQueryData.size.width;
 
-  bool get smallPhone => dp.between(0, 359);
-  bool get medPhone => dp.between(360, 399);
-  bool get largePhone => dp.between(400, 479);
-  bool get xlargePhone => dp.between(480, 599);
+  bool get smallPhone => deviceWidth.between(0, 359);
+  bool get medPhone => deviceWidth.between(360, 399);
+  bool get largePhone => deviceWidth.between(400, 479);
+  bool get xlargePhone => deviceWidth.between(480, 599);
 
-  bool get smallTab => dp.between(600, 719);
-  bool get medTab => dp.between(720, 839);
-  bool get largeTab => dp.between(840, 959);
-  bool get xlargeTab => dp.between(960, 1053);
+  bool get smallTab => deviceWidth.between(600, 719);
+  bool get medTab => deviceWidth.between(720, 839);
+  bool get largeTab => deviceWidth.between(840, 959);
+  bool get xlargeTab => deviceWidth.between(960, 1053);
 
-  bool get smallDesktop => dp.between(1024, 1279);
-  bool get mediumDesktop => dp.between(1280, 1439);
-  bool get largeDesktop => dp.between(1440, 1599);
-  bool get xlargeDesktop => dp.between(1600, 1919);
-  bool get xxlargeDesktop => dp >= 1922;
+  bool get smallDesktop => deviceWidth.between(1024, 1279);
+  bool get mediumDesktop => deviceWidth.between(1280, 1439);
+  bool get largeDesktop => deviceWidth.between(1440, 1599);
+  bool get xlargeDesktop => deviceWidth.between(1600, 1919);
+  bool get xxlargeDesktop => deviceWidth >= 1922;
 
   bool get phone => smallPhone || medPhone || largePhone || xlargePhone;
   bool get tab => smallTab || medTab || largeTab || xlargeTab;
@@ -53,23 +61,12 @@ class ScreenUtil {
     }
   }
 
-  String get dpText {
-    if (dp.between(160, 240)) return 'mdpi';
-    if (dp.between(240, 320)) return 'hdpi';
-    if (dp.between(320, 480)) return 'xhdpi';
-    if (dp.between(480, 640)) return 'xxhdpi';
-    return 'xxxhdpi';
-  }
-
+  /// Get the pixel ratio of the device
   double get pixelRatio {
-    if (dp.between(160, 240)) return 1.0;
-    if (dp.between(240, 320)) return 1.5;
-    if (dp.between(320, 480)) return 2.0;
-    if (dp.between(480, 640)) return 3.0;
+    if (deviceWidth.between(160, 240)) return 1.0;
+    if (deviceWidth.between(240, 320)) return 1.5;
+    if (deviceWidth.between(320, 480)) return 2.0;
+    if (deviceWidth.between(480, 640)) return 3.0;
     return 4.0;
-  }
-
-  double toDp(int px) {
-    return px * (MediaQuery.of(context).size.width / 3) / 100;
   }
 }

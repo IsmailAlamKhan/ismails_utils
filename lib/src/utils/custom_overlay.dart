@@ -5,10 +5,15 @@ import 'package:flutter/material.dart';
 
 import '../../ismails_utils.dart';
 
+/// Conetext menus
 class ContextMenu {
+  /// main field of this class
   final BuildContext context;
 
+  /// Conetext menus
   ContextMenu.of(this.context);
+
+  /// Window's context menu when clicking on the titlebar
   Future<T?> exitMenu<T>(Offset offset) {
     return open(
       offset: offset,
@@ -57,6 +62,7 @@ class ContextMenu {
     );
   }
 
+  /// Open a contextMenu
   Future<T?> open<T>({
     required Widget Function(Animation<double> animation) menu,
     Size? size,
@@ -75,6 +81,8 @@ class ContextMenu {
           ),
         ),
       );
+
+  /// clickArea to open a conextMenu
   Widget clickArea({
     required Widget child,
     required Function(

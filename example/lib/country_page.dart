@@ -9,7 +9,7 @@ class CountryPage extends StatefulWidget {
 }
 
 class _CountryPageState extends State<CountryPage> {
-  late Future<List<Country>> future = CountryProvider.getCountries;
+  late final Future<List<Country>> future = CountryProvider.getCountries;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,6 +24,26 @@ class _CountryPageState extends State<CountryPage> {
           }
           return AlphabetListView<Country>(
             list: snapshot.data!,
+            headerBuilder: (context, stuckAmount, alphabet) {
+              return Card(
+                color: Color.lerp(Colors.white, Colors.black, stuckAmount),
+                margin: EdgeInsets.zero,
+                shape: const RoundedRectangleBorder(),
+                child: Center(
+                  child: Text(
+                    alphabet,
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                          color: Color.lerp(
+                            Colors.black,
+                            Colors.white,
+                            stuckAmount,
+                          ),
+                        ),
+                  ),
+                ),
+              );
+            },
+            sideBarItemBuilder: (context, isActive, item) => Text(item),
             itemBuilder: (context, list, item, index) => ListTile(
               title: Text(item.name),
             ),

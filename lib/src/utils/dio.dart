@@ -5,7 +5,12 @@ import 'package:flutter/foundation.dart';
 
 import '../src.dart';
 
+/// {@template DioClient}
+/// This is the dioclient which returns a response or an
+/// [IsmailException.fromDioError]
+/// {@endtemplate}
 class DioClient {
+  /// {@macro DioClient}
   DioClient(
     this.baseOptions, {
     this.wantConnectivityCheck = true,
@@ -17,12 +22,26 @@ class DioClient {
     logger.info('DioClient started, Base Url is ${baseOptions.baseUrl}');
     instance = this;
   }
+
+  /// If you want to check the connectivity to the server or not if this is
+  /// true [DioClient.host] and [DioClient.port] musn not be null
   final bool wantConnectivityCheck;
 
+  /// Wether you want to print the responsebody or not when dio logs
   final bool responseBody;
+
+  /// Gives the instance of [DioClient]
   static late DioClient instance;
+
+  /// The base options to provide when initializing
   final BaseOptions baseOptions;
+
+  /// used to check the connectivity with the server that you are making
+  /// http requests to
   final String? host;
+
+  /// used to check the connectivity with the server that you are making
+  /// http requests to
   final int? port;
 
   Dio get _dio => Dio(baseOptions)
@@ -40,13 +59,16 @@ class DioClient {
         requestBody: true,
       ),
     );
+
+  /// Clear the current Dio instance waiting queue.
   void cancelAll() {
     _dio.clear();
   }
 
-  Future<ConnectivityCheck> get connectivityCheck async {
+  /// Used to check the connectivity with the server
+  Future<_ConnectivityCheck> get connectivityCheck async {
     if (!wantConnectivityCheck) {
-      return ConnectivityCheck(
+      return _ConnectivityCheck(
         canConnect: true,
       );
     }
@@ -58,17 +80,17 @@ class DioClient {
           timeout: const Duration(seconds: 2),
         );
         socket.destroy();
-        return ConnectivityCheck(
+        return _ConnectivityCheck(
           canConnect: true,
         );
       } catch (e) {
-        return ConnectivityCheck(
+        return _ConnectivityCheck(
           canConnect: false,
           messege: 'Server down',
         );
       }
     } else {
-      return ConnectivityCheck(
+      return _ConnectivityCheck(
         canConnect: true,
       );
     }
@@ -98,6 +120,7 @@ class DioClient {
     }
   }
 
+  /// Get post with a bit of modification
   Future<Response<T>> post<T>(
     String url, {
     Map<String, dynamic>? queryParams,
@@ -123,6 +146,7 @@ class DioClient {
     }
   }
 
+  /// Get put with a bit of modification
   Future<Response<T>> put<T>(
     String url, {
     Map<String, dynamic>? queryParams,
@@ -148,6 +172,7 @@ class DioClient {
     }
   }
 
+  /// Get delete with a bit of modification
   Future<Response<T>> delete<T>(
     String url, {
     Map<String, dynamic>? queryParams,
@@ -174,10 +199,10 @@ class DioClient {
   }
 }
 
-class ConnectivityCheck {
+class _ConnectivityCheck {
   bool canConnect;
   String messege;
-  ConnectivityCheck({
+  _ConnectivityCheck({
     required this.canConnect,
     this.messege = '',
   });
