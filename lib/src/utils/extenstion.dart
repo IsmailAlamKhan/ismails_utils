@@ -197,3 +197,7 @@ extension ExtendedWidget on Widget {
   /// {@macro ismails_utils.widgets.KeepAlivePage}
   Widget get keepAlive => KeepAlivePage(this);
 }
+
+extension ExtendedList on List {
+  T loop<T>(int index) => this[index % length];
+}

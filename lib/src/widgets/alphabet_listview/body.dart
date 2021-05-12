@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:graphx/graphx.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:sticky_headers/sticky_headers.dart';
 
 import '../../src.dart';
 import '_listview.dart';
