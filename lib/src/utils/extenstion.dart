@@ -8,7 +8,11 @@ import '../src.dart';
 import 'utils.dart';
 
 extension ExtendedString on String {
-  int toInt() => int.parse(this);
+  int? toInt() {
+    if (isEmpty) return null;
+    return int.tryParse(this);
+  }
+
   DateTime toDate() => DateTime.parse(this);
   bool get isAlphabetic => isAlpha(this);
 }
