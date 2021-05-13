@@ -39,3 +39,9 @@ typedef AlphabetListViewHeaderBuilder = Widget Function(
   double stuckAmount,
   String alphabet,
 );
+
+/// The typedef that [IsmailCarousel.builder] uses for the itemBuilder
+typedef CarouselWidgetBuilder<T> = Widget Function(
+  BuildContext context,
+  T item,
+);

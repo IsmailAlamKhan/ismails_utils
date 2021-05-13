@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:ismails_utils/ismails_utils.dart';
 
 import 'country_page.dart';
-// ignore: unused_import
 import 'form.dart';
 
 final logger = LoggerService();
@@ -20,10 +19,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: FormPage(),
-      home: CountryPage(),
+      // home: CountryPage(),
+      home: Scaffold(
+        body: Center(
+          child: IsmailCarousel<Color>.builder(
+            list: Colors.primaries,
+            builder: (context, color) => Container(color: color),
+          ),
+        ),
+      ),
     );
   }
 }

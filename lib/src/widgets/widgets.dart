@@ -1,4 +1,5 @@
 export 'alphabet_listview/alphabet_listview.dart';
+export 'carousel/carousel.dart';
 export 'change_notifier_builder.dart';
 export 'dynamic_image.dart';
 export 'group_checkbox.dart';
