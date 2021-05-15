@@ -235,6 +235,7 @@ class IsmailGroupedRadio<T> extends StatelessWidget {
 
     return Row(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (controlAffinity == ControlAffinity.leading) control,
         Flexible(child: label),

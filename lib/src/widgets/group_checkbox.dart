@@ -273,6 +273,7 @@ class _IsmailGroupedCheckboxState<T> extends State<IsmailGroupedCheckbox<T>> {
 
     return Row(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         if (widget.controlAffinity == ControlAffinity.leading) control,
         Flexible(child: label),
