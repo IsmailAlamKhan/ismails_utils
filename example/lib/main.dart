@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:ismails_utils/ismails_utils.dart';
@@ -25,10 +27,37 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      navigatorKey: ContextLessNavigation.key,
       home: Scaffold(
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.sanitizer),
+              onPressed: () {
+                ContextLessNavigation.showSnackbar(
+                  text: 'Welcome',
+                  action: SnackBarAction(
+                    label: 'Undo',
+                    onPressed: () {},
+                  ),
+                );
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.ac_unit),
+              onPressed: () {
+                ContextLessNavigation.navigateTo(
+                  MaterialPageRoute(
+                    builder: (context) => One(),
+                  ),
+                );
+              },
+            )
+          ],
+        ),
         body: Center(
-          child: IsmailCarousel<Color>.builder(
-            list: Colors.primaries,
+          child: IsmailCarousel.builder(
+            itemCount: Colors.primaries.length,
             controller: controller,
             indicatorCustomizer: IsmailCarouselIndicatorCustomizer(
               activeColor: context.theme.primaryColor,
@@ -41,16 +70,27 @@ class _MyAppState extends State<MyApp> {
                   '${index + 1}',
                   style: TextStyle(
                     color: controller.color(index, customizer),
-                    fontSize: controller.width(index, customizer) - 10,
                   ),
                 ),
               ),
             ),
             // scrollDirection: Axis.vertical,
-            builder: (context, color) => Container(color: color),
+            builder: (context, color) =>
+                Container(color: Colors.primaries[color]),
           ),
         ),
       ),
+    );
+  }
+}
+
+class One extends StatelessWidget {
+  const One({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
     );
   }
 }

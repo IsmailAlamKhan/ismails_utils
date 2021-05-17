@@ -10,7 +10,7 @@ final _defaultController = IsmaiLCarouselController();
 /// it can also be scrolled with Mouse wheel and keyboard
 /// {@endtemplate}
 
-class IsmailCarousel<T> extends StatefulWidget {
+class IsmailCarousel extends StatefulWidget {
   /// @{@macro IsmailCarousel}
   IsmailCarousel({
     Key? key,
@@ -41,21 +41,20 @@ class IsmailCarousel<T> extends StatefulWidget {
     this.physics,
     this.pageSnapping = true,
     this.onPageChanged,
-    required List<T> list,
     this.dragStartBehavior = DragStartBehavior.start,
     this.allowImplicitScrolling = false,
     this.restorationId,
     this.clipBehavior = Clip.hardEdge,
     this.scrollBehavior,
-    required CarouselWidgetBuilder<T> builder,
+    required IndexedWidgetBuilder builder,
     this.wantIndicator = true,
     this.indicatorCustomizer,
-  })  : childrenDelegate = SliverChildBuilderDelegate((ctx, index) {
-          final _item = list.loop<T>(index);
+    required this.itemCount,
+  })   : childrenDelegate = SliverChildBuilderDelegate((ctx, index) {
+          final _item = itemCount.loop(index);
           return builder(ctx, _item);
         }),
         controller = controller ?? _defaultController,
-        itemCount = list.length,
         super(key: key);
 
   /// Controls whether the widget's pages will respond to
@@ -155,10 +154,10 @@ class IsmailCarousel<T> extends StatefulWidget {
   final int itemCount;
 
   @override
-  _IsmailCarouselState<T> createState() => _IsmailCarouselState<T>();
+  _IsmailCarouselState createState() => _IsmailCarouselState();
 }
 
-class _IsmailCarouselState<T> extends State<IsmailCarousel<T>> {
+class _IsmailCarouselState extends State<IsmailCarousel> {
   late IsmaiLCarouselController controller;
   @override
   void initState() {
@@ -167,7 +166,7 @@ class _IsmailCarouselState<T> extends State<IsmailCarousel<T>> {
   }
 
   @override
-  void didUpdateWidget(IsmailCarousel<T> oldWidget) {
+  void didUpdateWidget(IsmailCarousel oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       controller = widget.controller;

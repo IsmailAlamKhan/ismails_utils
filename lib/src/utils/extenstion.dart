@@ -40,17 +40,33 @@ extension ExtendedBuildContext on BuildContext {
   Color get primaryColor => Theme.of(this).primaryColor;
   Color get accentColor => Theme.of(this).accentColor;
   ContextMenu get contextMenu => ContextMenu.of(this);
-  void customSnackbar({
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> ismailSnackbar({
     required String text,
     required Color color,
     Duration duration = const Duration(seconds: 3),
-    Duration animDuration = const Duration(milliseconds: 500),
+    Animation<double>? animation,
+    SnackBarAction? action,
+    SnackBarBehavior behavior = SnackBarBehavior.floating,
+    double elevation = 6,
+    EdgeInsetsGeometry? margin,
+    VoidCallback? onVisible,
+    EdgeInsetsGeometry? padding,
+    ShapeBorder? shape,
+    double? width,
   }) =>
       IsmailSnackbar(
+        margin: margin,
+        onVisible: onVisible,
+        padding: padding,
+        shape: shape,
+        width: width,
+        elevation: elevation,
         text: text,
         color: color,
-        animDuration: animDuration,
+        behavior: behavior,
         duration: duration,
+        animation: animation,
+        action: action,
       ).show(this);
 
   ThemeData get theme => Theme.of(this);
@@ -145,24 +161,6 @@ extension ExtendedMouseButton on MouseClick {
   bool get middleClick => this == MouseClick.middleButton;
 }
 
-extension ExtendedCustomSnackbar on IsmailSnackbar {
-  IsmailSnackbar copyWith({
-    Duration? duration,
-    Duration? animDuration,
-    String? text,
-    Color? color,
-    SnackBarAnimBuilder? animBuilder,
-  }) {
-    return IsmailSnackbar(
-      animDuration: animDuration ?? this.animDuration,
-      text: text ?? this.text,
-      color: color ?? this.color,
-      duration: duration ?? this.duration,
-      animBuilder: animBuilder ?? this.animBuilder,
-    );
-  }
-}
-
 extension ExtendedControlAffinity on ControlAffinity {
   bool get trailing => this == ControlAffinity.trailing;
   bool get leading => this == ControlAffinity.leading;
@@ -198,6 +196,6 @@ extension ExtendedWidget on Widget {
   Widget get keepAlive => KeepAlivePage(this);
 }
 
-extension ExtendedList on List {
-  T loop<T>(int index) => this[index % length];
+extension ExtendedInt on int {
+  int loop(int index) => index % this;
 }
