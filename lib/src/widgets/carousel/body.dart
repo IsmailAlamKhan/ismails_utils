@@ -1,6 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+
 import '../../src.dart';
+
+final _defaultController = IsmaiLCarouselController();
 
 /// {@template IsmailCarousel}
 /// A carousel widget which can be scrolled by swipping which is obvious, but
@@ -13,7 +16,7 @@ class IsmailCarousel<T> extends StatefulWidget {
     Key? key,
     this.scrollDirection = Axis.horizontal,
     this.reverse = false,
-    this.controller,
+    IsmaiLCarouselController? controller,
     this.physics,
     this.pageSnapping = true,
     this.onPageChanged,
@@ -24,16 +27,17 @@ class IsmailCarousel<T> extends StatefulWidget {
     this.clipBehavior = Clip.hardEdge,
     this.scrollBehavior,
     this.wantIndicator = true,
-    this.customizer,
+    this.indicatorCustomizer,
   })  : childrenDelegate = SliverChildListDelegate(children),
         itemCount = children.length,
+        controller = controller ?? _defaultController,
         super(key: key);
 
   IsmailCarousel.builder({
     Key? key,
     this.scrollDirection = Axis.horizontal,
     this.reverse = false,
-    this.controller,
+    IsmaiLCarouselController? controller,
     this.physics,
     this.pageSnapping = true,
     this.onPageChanged,
@@ -45,11 +49,12 @@ class IsmailCarousel<T> extends StatefulWidget {
     this.scrollBehavior,
     required CarouselWidgetBuilder<T> builder,
     this.wantIndicator = true,
-    this.customizer,
+    this.indicatorCustomizer,
   })  : childrenDelegate = SliverChildBuilderDelegate((ctx, index) {
           final _item = list.loop<T>(index);
           return builder(ctx, _item);
         }),
+        controller = controller ?? _defaultController,
         itemCount = list.length,
         super(key: key);
 
@@ -90,7 +95,7 @@ class IsmailCarousel<T> extends StatefulWidget {
 
   /// An object that can be used to control the position to which this page
   /// view is scrolled.
-  final IsmaiLCarouselController? controller;
+  final IsmaiLCarouselController controller;
 
   /// How the page view should respond to user input.
   ///
@@ -144,7 +149,7 @@ class IsmailCarousel<T> extends StatefulWidget {
   final bool wantIndicator;
 
   /// To customize the indicator
-  final IsmailCarouselIndicatorCustomizer? customizer;
+  final IsmailCarouselIndicatorCustomizer? indicatorCustomizer;
 
   /// Gets the item count for the indicator
   final int itemCount;
@@ -154,30 +159,45 @@ class IsmailCarousel<T> extends StatefulWidget {
 }
 
 class _IsmailCarouselState<T> extends State<IsmailCarousel<T>> {
-  late final IsmaiLCarouselController controller =
-      widget.controller ?? IsmaiLCarouselController(widget.itemCount);
+  late IsmaiLCarouselController controller;
+  @override
+  void initState() {
+    super.initState();
+    controller = widget.controller;
+  }
 
   @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
+  void didUpdateWidget(IsmailCarousel<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.controller != oldWidget.controller) {
+      controller = widget.controller;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     if (!widget.wantIndicator) {
-      return _pageView();
+      return _body();
     }
-    final IsmailCarouselIndicatorCustomizer customizer = widget.customizer ??
-        IsmailCarouselIndicatorCustomizer(
-          activeColor: context.theme.primaryColor,
-          inActiveColor: context.theme.disabledColor,
-          height: 10,
-        );
+    IsmailCarouselIndicatorCustomizer customizer;
+    final IsmailCarouselIndicatorCustomizer _customizer =
+        widget.indicatorCustomizer ??
+            IsmailCarouselIndicatorCustomizer(
+              activeColor: context.theme.primaryColor,
+              inActiveColor: context.theme.disabledColor,
+              height: 10,
+            );
+    if (widget.scrollDirection == Axis.vertical) {
+      customizer = _customizer.copyWith(
+        position: _customizer.position.copyWith(left: 10),
+      );
+    } else {
+      customizer = _customizer.copyWith();
+    }
     final position = customizer.position;
     return Stack(
       children: [
-        _pageView(),
+        _body(customizer),
         Positioned(
           bottom: position.bottom,
           left: position.left,
@@ -185,13 +205,13 @@ class _IsmailCarouselState<T> extends State<IsmailCarousel<T>> {
           top: position.top,
           child: Center(
             child: controller.builder((context) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  for (var i = 0; i < widget.itemCount - 1; i++)
-                    _indicator(i, customizer)
-                ],
-              );
+              if (widget.scrollDirection == Axis.vertical) {
+                return RotatedBox(
+                  quarterTurns: 1,
+                  child: _indicatorBody(customizer),
+                );
+              }
+              return _indicatorBody(customizer);
             }),
           ),
         ),
@@ -199,59 +219,42 @@ class _IsmailCarouselState<T> extends State<IsmailCarousel<T>> {
     );
   }
 
-  Widget _indicator(int index, IsmailCarouselIndicatorCustomizer customizer) {
-    final bool isActive = index == controller.activeIndex;
-    return IsmailCarouselIndicator(isActive: isActive, customizer: customizer);
+  Widget _indicatorBody(IsmailCarouselIndicatorCustomizer customizer) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        for (var i = 0; i < widget.itemCount; i++) _indicator(i, customizer)
+      ],
+    );
   }
 
-  bool pageIsScrolling = false;
-
-  Future<void> onScroll(bool isNext) async {
-    if (pageIsScrolling == false) {
-      pageIsScrolling = true;
-      if (isNext) {
-        await controller.pageController.nextPage(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
+  Widget _indicator(
+    int index,
+    IsmailCarouselIndicatorCustomizer customizer,
+  ) {
+    final bool isActive = controller.active(index);
+    return customizer.builder?.call(context, index, customizer, controller) ??
+        IsmailCarouselIndicator(
+          isActive: isActive,
+          customizer: customizer,
         );
-        pageIsScrolling = false;
-      } else {
-        await controller.pageController.previousPage(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-        );
-      }
-      pageIsScrolling = false;
-    }
   }
 
-  Widget _pageView() {
-    return Listener(
-      onPointerMove: (pointerMove) {
-        if (pointerMove is PointerScrollEvent) {
-          final offset = pointerMove.delta.dy * -1;
-          onScroll(offset > 0);
-        }
-      },
-      onPointerSignal: (pointerSignal) {
-        if (pointerSignal is PointerScrollEvent) {
-          final offset = pointerSignal.scrollDelta.dy;
-          onScroll(offset > 0);
-        }
-      },
-      child: PageView.custom(
-        childrenDelegate: widget.childrenDelegate,
-        allowImplicitScrolling: widget.allowImplicitScrolling,
-        clipBehavior: widget.clipBehavior,
-        controller: controller.pageController,
-        dragStartBehavior: widget.dragStartBehavior,
-        onPageChanged: widget.onPageChanged,
-        pageSnapping: widget.pageSnapping,
-        physics: widget.physics,
-        restorationId: widget.restorationId,
-        reverse: widget.reverse,
-        scrollDirection: widget.scrollDirection,
-      ),
+  Widget _body([IsmailCarouselIndicatorCustomizer? customizer]) {
+    return CarouselBody(
+      customizer: customizer,
+      itemCount: widget.itemCount,
+      childrenDelegate: widget.childrenDelegate,
+      allowImplicitScrolling: widget.allowImplicitScrolling,
+      clipBehavior: widget.clipBehavior,
+      controller: controller,
+      dragStartBehavior: widget.dragStartBehavior,
+      onPageChanged: widget.onPageChanged,
+      pageSnapping: widget.pageSnapping,
+      physics: widget.physics,
+      restorationId: widget.restorationId,
+      reverse: widget.reverse,
+      scrollDirection: widget.scrollDirection,
     );
   }
 }

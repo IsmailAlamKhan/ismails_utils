@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'model.dart';
+import '../../src.dart';
 
 class IsmailCarouselIndicator extends StatelessWidget {
   const IsmailCarouselIndicator({
@@ -9,6 +9,7 @@ class IsmailCarouselIndicator extends StatelessWidget {
   }) : super(key: key);
   final bool isActive;
   final IsmailCarouselIndicatorCustomizer customizer;
+
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
