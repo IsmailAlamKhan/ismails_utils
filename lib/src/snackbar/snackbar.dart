@@ -42,10 +42,10 @@ class IsmailSnackbar {
   /// from [ContextLessNavigation] or
   /// [ContextLessNavigation.ismailSnackbar]/[ContextLessNavigation.showErrorSnackbar]
   /// /[ContextLessNavigation.showSuccessSnackbar]
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> show(
+  ScaffoldController show(
     BuildContext context,
   ) {
-    return ScaffoldMessenger.of(context).showSnackBar(
+    return Messenger.of(context).showSnackBar(
       SnackBar(
         margin: margin,
         onVisible: onVisible,
@@ -70,6 +70,6 @@ class IsmailSnackbar {
     BuildContext context, [
     SnackBarClosedReason reason = SnackBarClosedReason.remove,
   ]) {
-    ScaffoldMessenger.of(context).removeCurrentSnackBar(reason: reason);
+    Messenger.of(context).removeCurrentSnackBar(reason: reason);
   }
 }

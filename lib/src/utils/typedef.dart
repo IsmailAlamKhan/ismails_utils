@@ -45,3 +45,12 @@ typedef CarouselWidgetBuilder<T> = Widget Function(
   BuildContext context,
   T item,
 );
+
+typedef IsmailFormKey = GlobalKey<IsmailFormState>;
+typedef FormKey = GlobalKey<FormState>;
+typedef NaviagatorKey = GlobalKey<NavigatorState>;
+typedef ScaffoldKey = GlobalKey<ScaffoldState>;
+
+typedef Messenger = ScaffoldMessenger;
+typedef ScaffoldController
+    = ScaffoldFeatureController<SnackBar, SnackBarClosedReason>;
