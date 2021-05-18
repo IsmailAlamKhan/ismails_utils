@@ -57,8 +57,6 @@ extension ExtendedAnimationController on AnimationStatus {
 
 extension ExtendedBuildContext on BuildContext {
   GRect? get getRenderObjectBounds => ContextUtils.getRenderObjectBounds(this);
-  Color get primaryColor => Theme.of(this).primaryColor;
-  Color get accentColor => Theme.of(this).accentColor;
   ContextMenu get contextMenu => ContextMenu.of(this);
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> ismailSnackbar({
     required String text,
@@ -89,8 +87,6 @@ extension ExtendedBuildContext on BuildContext {
         action: action,
       ).show(this);
 
-  ThemeData get theme => Theme.of(this);
-  TextTheme get textTheme => Theme.of(this).textTheme;
   ScreenUtil get screenUtil => ScreenUtil.of(this);
 
   ScreenSize get screenSize => screenUtil.screenSize;

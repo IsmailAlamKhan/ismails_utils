@@ -60,8 +60,8 @@ class _MyAppState extends State<MyApp> {
             itemCount: Colors.primaries.length,
             controller: controller,
             indicatorCustomizer: IsmailCarouselIndicatorCustomizer(
-              activeColor: context.theme.primaryColor,
-              inActiveColor: context.theme.disabledColor,
+              activeColor: Theme.of(context).primaryColor,
+              inActiveColor: Theme.of(context).disabledColor,
               width: 15,
               height: 10,
               builder: (context, index, customizer, _) => GestureDetector(
