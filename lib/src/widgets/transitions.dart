@@ -81,63 +81,6 @@ class FadeSlideTransition extends IsmailAnimatedWidget {
   }
 }
 
-class FadeScaleTransition extends AnimatedWidget {
-  /// Creates a transition with Fade with and Scale
-  const FadeScaleTransition({
-    required this.animation,
-    required this.child,
-    this.isReverse = false,
-  }) : super(listenable: animation);
-
-  /// This is the animaition that you will give its non-nullable
-  final Animation<double> animation;
-  final Widget child;
-
-  /// if this this is true the animation will be reversed.
-  /// So if the value is 1.0 the animation will be at stoppped state
-  /// and vice versa
-  final bool isReverse;
-
-  Animation<double> get _progress {
-    final _animation = listenable as Animation<double>;
-    if (isReverse) {
-      return ReverseAnimation(_animation);
-    }
-    return _animation;
-  }
-
-  /// this is the opacity transition that is used on the FadeTransition
-  Animation<double> get _opacity => CurvedAnimation(
-        parent: _progress,
-        curve: const Interval(
-          0.0,
-          0.5,
-          curve: Curves.easeInOut,
-        ),
-      );
-
-  /// this is the scale transition that is used on the ScaleTransition
-  Animation<double> get _scale => CurvedAnimation(
-        parent: _progress,
-        curve: const Interval(
-          0.0,
-          0.8,
-          curve: Curves.easeInOut,
-        ),
-      );
-
-  @override
-  Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _opacity,
-      child: ScaleTransition(
-        scale: _scale,
-        child: child,
-      ),
-    );
-  }
-}
-
 class FadeSizeTransition extends AnimatedWidget {
   /// Creates a transition which Fades in and out also Size the animates
   const FadeSizeTransition({
