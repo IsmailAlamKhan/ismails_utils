@@ -123,7 +123,7 @@ extension ExtendedType on Object {
 
   String get getString {
     if (isEnum) {
-      return toString().substring(toString().indexOf('.') + 1);
+      return describeEnum(this);
     } else {
       return toString();
     }
