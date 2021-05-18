@@ -33,6 +33,26 @@ extension ExtendedNum on num {
   EdgeInsetsGeometry get padHort => EdgeInsets.symmetric(horizontal: _double);
   EdgeInsetsGeometry get padVert => EdgeInsets.symmetric(vertical: _double);
   bool between(num begin, num end) => this >= begin && this < end;
+  double sp(BuildContext context) => context.screenUtil.sp(this);
+}
+
+extension ExtendedOrientation on Orientation {
+  bool get isLandscape => this == Orientation.landscape;
+  bool get isPortrait => this == Orientation.portrait;
+}
+
+extension ExtendedAnimationController on AnimationStatus {
+  /// The animation is stopped at the end.
+  bool get isCompleted => this == AnimationStatus.completed;
+
+  /// The animation is running backwards, from end to beginning.
+  bool get isDismissed => this == AnimationStatus.dismissed;
+
+  /// The animation is running from beginning to end.
+  bool get forwarding => this == AnimationStatus.forward;
+
+  /// The animation is stopped at the beginning.
+  bool get reversing => this == AnimationStatus.reverse;
 }
 
 extension ExtendedBuildContext on BuildContext {
@@ -71,25 +91,13 @@ extension ExtendedBuildContext on BuildContext {
 
   ThemeData get theme => Theme.of(this);
   TextTheme get textTheme => Theme.of(this).textTheme;
-}
+  ScreenUtil get screenUtil => ScreenUtil.of(this);
 
-extension ExtendedOrientation on Orientation {
-  bool get isLandscape => this == Orientation.landscape;
-  bool get isPortrait => this == Orientation.portrait;
-}
-
-extension ExtendedAnimationController on AnimationStatus {
-  /// The animation is stopped at the end.
-  bool get isCompleted => this == AnimationStatus.completed;
-
-  /// The animation is running backwards, from end to beginning.
-  bool get isDismissed => this == AnimationStatus.dismissed;
-
-  /// The animation is running from beginning to end.
-  bool get forwarding => this == AnimationStatus.forward;
-
-  /// The animation is stopped at the beginning.
-  bool get reversing => this == AnimationStatus.reverse;
+  ScreenSize get screenSize => screenUtil.screenSize;
+  bool get phone => screenUtil.phone;
+  bool get tab => screenUtil.tab;
+  bool get desktop => screenUtil.desktop;
+  double sp(num i) => screenUtil.sp(i);
 }
 
 extension ExtendedScreenSize on ScreenSize {
