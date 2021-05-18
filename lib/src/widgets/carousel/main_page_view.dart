@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 import '../../src.dart';
 
-enum ScrollDirection { increase, decrease }
+enum CarouselScrollDirection { increase, decrease }
 
 class CarouselBody extends StatefulWidget {
   const CarouselBody({
@@ -52,16 +52,16 @@ class _CarouselBodyState extends State<CarouselBody> {
     if (widget.scrollDirection == Axis.horizontal) {
       shortcuts = {
         LogicalKeySet(LogicalKeyboardKey.arrowLeft):
-            const ScrollIntent(ScrollDirection.decrease),
+            const ScrollIntent(CarouselScrollDirection.decrease),
         LogicalKeySet(LogicalKeyboardKey.arrowRight):
-            const ScrollIntent(ScrollDirection.increase),
+            const ScrollIntent(CarouselScrollDirection.increase),
       };
     } else {
       shortcuts = {
         LogicalKeySet(LogicalKeyboardKey.arrowDown):
-            const ScrollIntent(ScrollDirection.increase),
+            const ScrollIntent(CarouselScrollDirection.increase),
         LogicalKeySet(LogicalKeyboardKey.arrowUp):
-            const ScrollIntent(ScrollDirection.decrease),
+            const ScrollIntent(CarouselScrollDirection.decrease),
       };
     }
   }
@@ -92,11 +92,11 @@ class _CarouselBodyState extends State<CarouselBody> {
             onPointerMove: (pointerMove) {
               if (pointerMove is PointerScrollEvent) {
                 final offset = pointerMove.delta.dy * -1;
-                ScrollDirection direction;
+                CarouselScrollDirection direction;
                 if (offset > 0) {
-                  direction = ScrollDirection.increase;
+                  direction = CarouselScrollDirection.increase;
                 } else {
-                  direction = ScrollDirection.decrease;
+                  direction = CarouselScrollDirection.decrease;
                 }
                 widget.controller.scroll(
                   direction,
@@ -107,11 +107,11 @@ class _CarouselBodyState extends State<CarouselBody> {
             onPointerSignal: (pointerSignal) {
               if (pointerSignal is PointerScrollEvent) {
                 final offset = pointerSignal.scrollDelta.dy;
-                ScrollDirection direction;
+                CarouselScrollDirection direction;
                 if (offset > 0) {
-                  direction = ScrollDirection.increase;
+                  direction = CarouselScrollDirection.increase;
                 } else {
-                  direction = ScrollDirection.decrease;
+                  direction = CarouselScrollDirection.decrease;
                 }
                 widget.controller.scroll(
                   direction,
@@ -147,7 +147,7 @@ class _CarouselBodyState extends State<CarouselBody> {
 }
 
 class ScrollIntent extends Intent {
-  final ScrollDirection direction;
+  final CarouselScrollDirection direction;
   const ScrollIntent(this.direction);
 }
 

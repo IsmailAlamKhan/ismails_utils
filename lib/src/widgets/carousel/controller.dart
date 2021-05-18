@@ -48,7 +48,7 @@ class IsmaiLCarouselController extends ChangeNotifier {
   }
 
   Future<void> scroll(
-    ScrollDirection direction, {
+    CarouselScrollDirection direction, {
     Duration? duration,
     Curve curves = Curves.easeInOut,
   }) async {
@@ -62,7 +62,7 @@ class IsmaiLCarouselController extends ChangeNotifier {
     if (pageIsScrolling == false) {
       pageIsScrolling = true;
       switch (direction) {
-        case ScrollDirection.increase:
+        case CarouselScrollDirection.increase:
           await pageController.nextPage(
             duration: duration,
             curve: curves,
