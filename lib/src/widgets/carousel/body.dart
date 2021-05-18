@@ -50,7 +50,7 @@ class IsmailCarousel extends StatefulWidget {
     this.wantIndicator = true,
     this.indicatorCustomizer,
     required this.itemCount,
-  })   : childrenDelegate = SliverChildBuilderDelegate((ctx, index) {
+  })  : childrenDelegate = SliverChildBuilderDelegate((ctx, index) {
           final _item = itemCount.loop(index);
           return builder(ctx, _item);
         }),
@@ -182,8 +182,8 @@ class _IsmailCarouselState extends State<IsmailCarousel> {
     final IsmailCarouselIndicatorCustomizer _customizer =
         widget.indicatorCustomizer ??
             IsmailCarouselIndicatorCustomizer(
-              activeColor: context.theme.primaryColor,
-              inActiveColor: context.theme.disabledColor,
+              activeColor: Theme.of(context).primaryColor,
+              inActiveColor: Theme.of(context).disabledColor,
               height: 10,
             );
     if (widget.scrollDirection == Axis.vertical) {

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 import 'package:ismails_utils/ismails_utils.dart';
@@ -48,7 +46,7 @@ class _MyAppState extends State<MyApp> {
               onPressed: () {
                 ContextLessNavigation.navigateTo(
                   MaterialPageRoute(
-                    builder: (context) => One(),
+                    builder: (context) => const One(),
                   ),
                 );
               },
