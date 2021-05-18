@@ -48,7 +48,7 @@ typedef CarouselWidgetBuilder<T> = Widget Function(
 
 typedef IsmailFormKey = GlobalKey<IsmailFormState>;
 typedef FormKey = GlobalKey<FormState>;
-typedef NaviagatorKey = GlobalKey<NavigatorState>;
+typedef NavigatorKey = GlobalKey<NavigatorState>;
 typedef ScaffoldKey = GlobalKey<ScaffoldState>;
 
 typedef Messenger = ScaffoldMessenger;
