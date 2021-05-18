@@ -519,9 +519,6 @@ class IsmailTextFormField extends IsmailFormField<String> {
           focusNode: focusNode,
           builder: (FormFieldState<String?> field) {
             final state = field as _IsmailTextFormFieldState;
-            /*final effectiveDecoration = (decoration ?? const InputDecoration())
-                .applyDefaults(Theme.of(field.context).inputDecorationTheme);*/
-
             return TextField(
               controller: state._textEditingController,
               focusNode: state.focusNode,
