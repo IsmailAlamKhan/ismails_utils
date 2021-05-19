@@ -44,7 +44,7 @@ class IsmailSnackbar {
   /// from [ContextLessNavigation] or
   /// [ContextLessNavigation.ismailSnackbar]/[ContextLessNavigation.showErrorSnackbar]
   /// /[ContextLessNavigation.showSuccessSnackbar]
-  ScaffoldController show(
+  SnackbarController show(
     BuildContext context,
   ) {
     return Messenger.of(context).showSnackBar(

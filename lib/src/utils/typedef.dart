@@ -52,5 +52,5 @@ typedef NavigatorKey = GlobalKey<NavigatorState>;
 typedef ScaffoldKey = GlobalKey<ScaffoldState>;
 
 typedef Messenger = ScaffoldMessenger;
-typedef ScaffoldController
+typedef SnackbarController
     = ScaffoldFeatureController<SnackBar, SnackBarClosedReason>;

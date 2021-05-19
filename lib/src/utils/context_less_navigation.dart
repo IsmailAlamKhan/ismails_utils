@@ -13,37 +13,8 @@ class ContextLessNavigation {
   static final contextMenu = ContextLessNavigation.context.contextMenu;
 
   /// {@macro IsmailSnackbar}
-  static ScaffoldFeatureController<SnackBar, SnackBarClosedReason>
-      showSnackbar({
-    required String text,
-    Color? color,
-    Duration duration = const Duration(seconds: 3),
-    Animation<double>? animation,
-    SnackBarAction? action,
-    SnackBarBehavior behavior = SnackBarBehavior.floating,
-    double elevation = 6,
-    EdgeInsetsGeometry? margin,
-    VoidCallback? onVisible,
-    EdgeInsetsGeometry? padding,
-    ShapeBorder? shape,
-    double? width,
-    TextStyle? textStyle,
-  }) =>
-          IsmailSnackbar(
-            textStyle: textStyle,
-            margin: margin,
-            onVisible: onVisible,
-            padding: padding,
-            shape: shape,
-            width: width,
-            elevation: elevation,
-            text: text,
-            color: color,
-            behavior: behavior,
-            duration: duration,
-            animation: animation,
-            action: action,
-          ).show(context);
+  static SnackbarController showSnackbar(IsmailSnackbar snackbar) =>
+      snackbar.show(context);
 
   /// {@template IsmailSnackbar.hide}
   static void hideSnackBar([
