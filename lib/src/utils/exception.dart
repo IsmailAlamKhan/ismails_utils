@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:ismails_utils/ismails_utils.dart';
+import 'package:sqflite/sqflite.dart';
 
 class IsmailException implements Exception {
   /// return IsmailException from object
@@ -142,4 +144,38 @@ class IsmailException implements Exception {
   /// returns the messege
   @override
   String toString() => message ?? '';
+  IsmailException.fromDataBaseException(DatabaseException databaseException) {
+    message = 'Something went wrong';
+    final code = databaseException.getResultCode();
+    final _closed =
+        'isDatabaseClosedError ${databaseException.isDatabaseClosedError()}\n';
+    final _isDup =
+        'isDuplicateColumnError ${databaseException.isDuplicateColumnError()}\n';
+    final _isNoTable =
+        'isNoSuchTableError ${databaseException.isNoSuchTableError()}\n';
+    final _isNotNullConstraint =
+        'isNotNullConstraintError ${databaseException.isNotNullConstraintError()}\n';
+    final _isOpenFailedError =
+        'isOpenFailedError ${databaseException.isOpenFailedError()}\n';
+    final _isReadOnlyError =
+        'isReadOnlyError ${databaseException.isReadOnlyError()}\n';
+    final _isSyntaxError =
+        'isSyntaxError ${databaseException.isSyntaxError()}\n';
+    final _isUniqueConstraintError =
+        'isUniqueConstraintError ${databaseException.isUniqueConstraintError()}\n';
+    final String _messege = 'Code = $code\n'
+        '$_closed'
+        '$_isDup'
+        '$_isNoTable'
+        '$_isNotNullConstraint'
+        '$_isOpenFailedError'
+        '$_isReadOnlyError'
+        '$_isSyntaxError'
+        '$_isUniqueConstraintError';
+    logger.error(
+      'Sqllite Error',
+      _messege,
+      StackTrace.fromString(databaseException.toString()),
+    );
+  }
 }
