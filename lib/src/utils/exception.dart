@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:ismails_utils/ismails_utils.dart';
 import 'package:sqflite/sqflite.dart';
+import '../../ismails_utils.dart';
 
 class IsmailException implements Exception {
   /// return IsmailException from object

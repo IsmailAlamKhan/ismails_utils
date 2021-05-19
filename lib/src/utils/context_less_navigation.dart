@@ -27,8 +27,10 @@ class ContextLessNavigation {
     EdgeInsetsGeometry? padding,
     ShapeBorder? shape,
     double? width,
+    TextStyle? textStyle,
   }) =>
           IsmailSnackbar(
+            textStyle: textStyle,
             margin: margin,
             onVisible: onVisible,
             padding: padding,

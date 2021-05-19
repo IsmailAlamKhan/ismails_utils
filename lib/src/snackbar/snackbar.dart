@@ -19,6 +19,7 @@ class IsmailSnackbar {
   final EdgeInsetsGeometry? padding;
   final ShapeBorder? shape;
   final double? width;
+  final TextStyle? textStyle;
 
   /// {@macro IsmailSnackbar}
   const IsmailSnackbar({
@@ -34,6 +35,7 @@ class IsmailSnackbar {
     this.padding,
     this.shape,
     this.width,
+    this.textStyle,
   });
 
   /// Show the snacbar this method returns a [ScaffoldFeatureController].
@@ -53,7 +55,7 @@ class IsmailSnackbar {
         shape: shape,
         width: width,
         elevation: elevation,
-        content: Text(text),
+        content: Text(text, style: textStyle),
         backgroundColor: color,
         behavior: behavior,
         duration: duration,
