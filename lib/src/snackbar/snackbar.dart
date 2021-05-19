@@ -74,4 +74,36 @@ class IsmailSnackbar {
   ]) {
     Messenger.of(context).removeCurrentSnackBar(reason: reason);
   }
+
+  IsmailSnackbar copyWith({
+    String? text,
+    Color? color,
+    Duration? duration,
+    Animation<double>? animation,
+    SnackBarAction? action,
+    SnackBarBehavior? behavior,
+    double? elevation,
+    EdgeInsetsGeometry? margin,
+    VoidCallback? onVisible,
+    EdgeInsetsGeometry? padding,
+    ShapeBorder? shape,
+    double? width,
+    TextStyle? textStyle,
+  }) {
+    return IsmailSnackbar(
+      text: text ?? this.text,
+      color: color ?? this.color,
+      duration: duration ?? this.duration,
+      animation: animation ?? this.animation,
+      action: action ?? this.action,
+      behavior: behavior ?? this.behavior,
+      elevation: elevation ?? this.elevation,
+      margin: margin ?? this.margin,
+      onVisible: onVisible ?? this.onVisible,
+      padding: padding ?? this.padding,
+      shape: shape ?? this.shape,
+      width: width ?? this.width,
+      textStyle: textStyle ?? this.textStyle,
+    );
+  }
 }
