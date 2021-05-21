@@ -177,7 +177,7 @@ class IsmailDropdownButtonFormField<T> extends IsmailFormField<T> {
   /// instead.
   final Color? dropdownColor;
 
-  final bool allowClear;
+  final bool wantClear;
   @override
   final Widget clearIcon;
 
@@ -207,7 +207,7 @@ class IsmailDropdownButtonFormField<T> extends IsmailFormField<T> {
     this.icon,
     this.iconDisabledColor,
     this.iconEnabledColor,
-    this.allowClear = false,
+    this.wantClear = false,
     this.clearIcon = const Icon(Icons.close),
     this.onTap,
     this.autofocus = false,
@@ -245,50 +245,36 @@ class IsmailDropdownButtonFormField<T> extends IsmailFormField<T> {
                     : FloatingLabelBehavior.always,
               ),
               isEmpty: state.value == null,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<T>(
-                        isExpanded: isExpanded,
-                        hint: hint,
-                        items: items
-                            .map(
-                              (e) => DropdownMenuItem<T>(
-                                value: e.value,
-                                child: e,
-                              ),
-                            )
-                            .toList(),
-                        value: field.value,
-                        style: style,
-                        isDense: isDense,
-                        elevation: elevation,
-                        iconSize: iconSize,
-                        icon: icon,
-                        iconDisabledColor: iconDisabledColor,
-                        iconEnabledColor: iconEnabledColor,
-                        onChanged: state.enabled
-                            ? (value) => changeValue(value)
-                            : null,
-                        onTap: onTap,
-                        focusNode: state.focusNode,
-                        autofocus: autofocus,
-                        dropdownColor: dropdownColor,
-                        focusColor: focusColor,
-                        itemHeight: itemHeight,
-                        selectedItemBuilder: selectedItemBuilder,
-                      ),
-                    ),
-                  ),
-                  if (allowClear && state.enabled && field.value != null) ...[
-                    const VerticalDivider(),
-                    InkWell(
-                      onTap: () => changeValue(null),
-                      child: clearIcon,
-                    ),
-                  ]
-                ],
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<T>(
+                  isExpanded: isExpanded,
+                  hint: hint,
+                  items: items
+                      .map(
+                        (e) => DropdownMenuItem<T>(
+                          value: e.value,
+                          child: e,
+                        ),
+                      )
+                      .toList(),
+                  value: field.value,
+                  style: style,
+                  isDense: isDense,
+                  elevation: elevation,
+                  iconSize: iconSize,
+                  icon: icon,
+                  iconDisabledColor: iconDisabledColor,
+                  iconEnabledColor: iconEnabledColor,
+                  onChanged:
+                      state.enabled ? (value) => changeValue(value) : null,
+                  onTap: onTap,
+                  focusNode: state.focusNode,
+                  autofocus: autofocus,
+                  dropdownColor: dropdownColor,
+                  focusColor: focusColor,
+                  itemHeight: itemHeight,
+                  selectedItemBuilder: selectedItemBuilder,
+                ),
               ),
             );
           },
