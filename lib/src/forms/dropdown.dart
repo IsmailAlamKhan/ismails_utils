@@ -12,7 +12,7 @@ class IsmailDropdownButtonFormField<T> extends IsmailFormField<T> {
   /// will display the [disabledHint] widget if it is non-null. If
   /// [disabledHint] is also null but [hint] is non-null, [hint] will instead
   /// be displayed.
-  final List<DropdownMenuItem<T>> items;
+  final List<IsmailFormFieldOption<T>> items;
 
   /// A placeholder widget that is displayed by the dropdown button.
   ///
@@ -252,7 +252,14 @@ class IsmailDropdownButtonFormField<T> extends IsmailFormField<T> {
                       child: DropdownButton<T>(
                         isExpanded: isExpanded,
                         hint: hint,
-                        items: items,
+                        items: items
+                            .map(
+                              (e) => DropdownMenuItem<T>(
+                                value: e.value,
+                                child: e,
+                              ),
+                            )
+                            .toList(),
                         value: field.value,
                         style: style,
                         isDense: isDense,
