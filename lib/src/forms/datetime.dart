@@ -329,7 +329,7 @@ class _FormBuilderDateTimePickerState
       initialDatePickerMode: widget.initialDatePickerMode,
       initialDate: currentValue ?? widget.initialDate ?? DateTime.now(),
       firstDate: widget.firstDate ?? DateTime(1900),
-      lastDate: widget.lastDate ?? DateTime(2100),
+      lastDate: widget.lastDate ?? DateTime.now(),
       locale: widget.locale,
       textDirection: widget.textDirection,
       useRootNavigator: widget.useRootNavigator,
