@@ -9,7 +9,10 @@ import '../src.dart';
 /// This is the dioclient which returns a response or an
 /// [IsmailException.fromDioError]
 /// {@endtemplate}
-class DioClient {
+class DioClient with Logger {
+  @override
+  String name = 'DioClient';
+
   /// {@macro DioClient}
   DioClient(
     this.baseOptions, {

@@ -1,12 +1,14 @@
 import 'package:encrypt/encrypt.dart';
 import '../../ismails_utils.dart';
 
-class EncryptService {
+class EncryptService with Logger {
+  @override
+  String name = 'EncryptService';
   factory EncryptService() {
     _instance.encrypter = Encrypter(AES(_instance.key));
 
     // ignore: no_runtimetype_tostring
-    logger.info('${_instance.runtimeType} Started');
+    _instance.logger.info('${_instance.runtimeType} Started');
     return _instance;
   }
   EncryptService._();

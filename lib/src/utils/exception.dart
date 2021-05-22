@@ -2,7 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../ismails_utils.dart';
 
-class IsmailException implements Exception {
+class IsmailException with Logger implements Exception {
+  @override
+  String name = 'IsmailException';
+
   /// return IsmailException from object
   IsmailException.error(Object? e) {
     message = e.toString();

@@ -1,10 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:ismails_utils/ismails_utils.dart';
 
 final logger = LoggerService();
 final fileService = FileService.instance;
-void main() => runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  ThemeNotifier.init();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -14,81 +22,97 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late final IsmaiLCarouselController controller;
+  final _themeNotifier = ThemeNotifier();
   @override
-  void initState() {
-    super.initState();
-    controller = IsmaiLCarouselController();
+  void dispose() {
+    _themeNotifier.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      navigatorKey: ContextLessNavigation.key,
-      home: Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.sanitizer),
-              onPressed: () {
-                ContextLessNavigation.showSnackbar(
-                  text: 'Welcome',
-                  action: SnackBarAction(
-                    label: 'Undo',
-                    onPressed: () {},
-                  ),
-                );
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.ac_unit),
-              onPressed: () {
-                ContextLessNavigation.navigateTo(
-                  MaterialPageRoute(
-                    builder: (context) => const One(),
-                  ),
-                );
-              },
-            )
-          ],
-        ),
-        body: Center(
-          child: IsmailCarousel.builder(
-            itemCount: Colors.primaries.length,
-            controller: controller,
-            indicatorCustomizer: IsmailCarouselIndicatorCustomizer(
-              activeColor: Theme.of(context).primaryColor,
-              inActiveColor: Theme.of(context).disabledColor,
-              width: 15,
-              height: 10,
-              builder: (context, index, customizer, _) => GestureDetector(
-                onTap: () => controller.scrollTo(index),
-                child: Text(
-                  '${index + 1}',
-                  style: TextStyle(
-                    color: controller.color(index, customizer),
-                  ),
-                ),
-              ),
-            ),
-            // scrollDirection: Axis.vertical,
-            builder: (context, color) =>
-                Container(color: Colors.primaries[color]),
-          ),
-        ),
+    return _themeNotifier.builder(
+      (_) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        navigatorKey: ContextLessNavigation.key,
+        themeMode: _themeNotifier.themeMode,
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        home: const Home(),
       ),
     );
   }
 }
 
-class One extends StatelessWidget {
-  const One({Key? key}) : super(key: key);
+class Home extends StatelessWidget with Logger, ThemeNotifierMixin {
+  const Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      bottomNavigationBar: PerformanceOverlay.allEnabled(),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.ac_unit),
+            onPressed: () {
+              themeNotifier.toggleDarkMode();
+            },
+          ),
+          PopupMenuButton(
+            onSelected: themeNotifier.changeTheme,
+            itemBuilder: (context) => ThemeMode.values
+                .map(
+                  (e) => PopupMenuItem(
+                    value: e,
+                    enabled: themeNotifier.themeMode != e,
+                    child: Text(e.getString),
+                  ),
+                )
+                .toList(),
+          ),
+        ],
+      ),
     );
   }
+}
+
+class AppThemeData extends IsmailThemeData {
+  final Color scaffoldColor;
+  final Color iconColor;
+
+  AppThemeData({
+    required this.scaffoldColor,
+    required this.iconColor,
+  });
+  AppThemeData.light()
+      : scaffoldColor = Colors.green,
+        iconColor = Colors.red;
+  AppThemeData.dark()
+      : scaffoldColor = Colors.blue,
+        iconColor = Colors.green;
+  static AppThemeData lerp(AppThemeData a, AppThemeData b, double t) {
+    return AppThemeData(
+      scaffoldColor: Color.lerp(a.scaffoldColor, b.scaffoldColor, t)!,
+      iconColor: Color.lerp(a.iconColor, b.iconColor, t)!,
+    );
+  }
+
+  AppThemeData copyWith({
+    Color? scaffoldColor,
+    Color? iconColor,
+  }) {
+    return AppThemeData(
+      scaffoldColor: scaffoldColor ?? this.scaffoldColor,
+      iconColor: iconColor ?? this.iconColor,
+    );
+  }
+}
+
+class AppThemeDataTween extends IsmailThemeDataTween<AppThemeData> {
+  AppThemeDataTween({AppThemeData? begin, AppThemeData? end})
+      : super(begin: begin, end: end);
+
+  @override
+  AppThemeData lerp(double t) => AppThemeData.lerp(begin!, end!, t);
 }

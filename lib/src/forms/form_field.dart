@@ -178,9 +178,7 @@ class IsmailFormFieldState<F extends IsmailFormField<T?>, T>
       if (enabled || !_ismailFormState!.widget.skipDisabled) {
         _ismailFormState!.setInternalFieldValue(
           widget.name,
-          null != widget.valueTransformer
-              ? widget.valueTransformer!(value)
-              : value,
+          widget.valueTransformer?.call(value) ?? value,
         );
       } else {
         _ismailFormState!.removeInternalFieldValue(widget.name);

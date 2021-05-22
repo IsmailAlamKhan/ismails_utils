@@ -15,6 +15,9 @@ extension ExtendedString on String {
 
   DateTime toDate() => DateTime.parse(this);
   bool get isAlphabetic => isAlpha(this);
+  T toEnum<T>(List<T> list) {
+    return list.firstWhere((d) => d.toString() == this);
+  }
 }
 
 extension ExtendedNum on num {

@@ -1,7 +1,9 @@
 import 'dart:developer';
 
-/// Gives the instance of the LoggerService
-final logger = LoggerService();
+mixin Logger {
+  String get name => 'Ismail Util';
+  LoggerService get logger => LoggerService(name);
+}
 
 /// Simple logger service
 class LoggerService {

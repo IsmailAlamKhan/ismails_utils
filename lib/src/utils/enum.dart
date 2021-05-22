@@ -15,5 +15,3 @@ enum ScreenSize {
 
 enum MouseClick { rightButton, leftButton, middleButton, unk }
 enum ControlAffinity { trailing, leading }
-
-typedef ValueTransformer<T> = dynamic Function(T value);

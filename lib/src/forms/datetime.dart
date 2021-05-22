@@ -139,7 +139,7 @@ class IsmailDateTimePickerFormField extends IsmailFormField<DateTime> {
     AutovalidateMode autovalidateMode = AutovalidateMode.disabled,
     VoidCallback? onReset,
     FocusNode? focusNode,
-    this.inputType = InputType.both,
+    this.inputType = InputType.date,
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.cursorWidth = 2.0,
     this.enableInteractiveSelection = true,
@@ -265,7 +265,6 @@ class _FormBuilderDateTimePickerState
 
   @override
   void dispose() {
-    // Dispose the _textFieldController when initState created it
     if (null == widget.controller) {
       _textFieldController.dispose();
     }
@@ -296,7 +295,6 @@ class _FormBuilderDateTimePickerState
     BuildContext context,
     DateTime? currentValue,
   ) async {
-    // currentValue = value;
     DateTime? newValue;
     switch (widget.inputType) {
       case InputType.date:
@@ -322,7 +320,9 @@ class _FormBuilderDateTimePickerState
   }
 
   Future<DateTime?> _showDatePicker(
-      BuildContext context, DateTime? currentValue) {
+    BuildContext context,
+    DateTime? currentValue,
+  ) {
     return showDatePicker(
       context: context,
       selectableDayPredicate: widget.selectableDayPredicate,

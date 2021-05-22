@@ -54,3 +54,4 @@ typedef ScaffoldKey = GlobalKey<ScaffoldState>;
 typedef Messenger = ScaffoldMessenger;
 typedef SnackbarController
     = ScaffoldFeatureController<SnackBar, SnackBarClosedReason>;
+typedef ValueTransformer<T> = dynamic Function(T value);

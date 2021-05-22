@@ -12,7 +12,7 @@ class FormPage extends StatefulWidget {
   _FormPageState createState() => _FormPageState();
 }
 
-class _FormPageState extends State<FormPage> {
+class _FormPageState extends State<FormPage> with Logger {
   final List<IsmailFormFieldOption<String>> list = const [
     IsmailFormFieldOption(value: 'Ok'),
     IsmailFormFieldOption(value: 'No'),
