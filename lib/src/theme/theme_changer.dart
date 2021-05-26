@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../src.dart';
 
@@ -10,7 +9,7 @@ mixin ThemeNotifierMixin {
 }
 
 class ThemeNotifier extends ChangeNotifier with Logger {
-  late SharedPreferences _pref;
+  late final _pref = StorageService().pref;
   @override
   String name = 'ThemeNotifier';
   factory ThemeNotifier() => _instance;
@@ -60,7 +59,6 @@ class ThemeNotifier extends ChangeNotifier with Logger {
   }
 
   static Future<void> init() async {
-    _instance._pref = await SharedPreferences.getInstance();
     _instance.changeTheme(_instance._getThemeFromStorage());
   }
 }
