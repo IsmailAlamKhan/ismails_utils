@@ -12,10 +12,10 @@ class WebFilePicker extends IsmailFilePicker {
     FileType type = FileType.any,
     List<String>? allowedExtensions,
     Function(FilePickerStatus)? onFileLoading,
-    bool? allowCompression,
+    bool allowCompression = true,
     bool allowMultiple = false,
-    bool? withData,
-    bool? withReadStream,
+    bool withData = false,
+    bool withReadStream = false,
   }) async {
     final result = await FilePicker.platform.pickFiles(
       type: type,

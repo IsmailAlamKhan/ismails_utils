@@ -30,10 +30,10 @@ abstract class IsmailFilePicker {
     FileType type = FileType.any,
     List<String>? allowedExtensions,
     Function(FilePickerStatus)? onFileLoading,
-    bool? allowCompression,
+    bool allowCompression = true,
     bool allowMultiple = false,
-    bool? withData,
-    bool? withReadStream,
+    bool withData = false,
+    bool withReadStream = false,
   });
 
   /// File picker for web which uses https://pub.dev/packages/file_picker
@@ -43,9 +43,9 @@ abstract class IsmailFilePicker {
     FileType type = FileType.any,
     List<String>? allowedExtensions,
     Function(FilePickerStatus)? onFileLoading,
-    bool? allowCompression,
+    bool allowCompression = true,
     bool allowMultiple = false,
-    bool? withData,
-    bool? withReadStream,
+    bool withData = false,
+    bool withReadStream = false,
   });
 }

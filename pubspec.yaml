@@ -13,16 +13,16 @@ dependencies:
     sdk: flutter
   animations: ^2.0.0
   bitsdojo_window: ^0.1.0+1
-  cached_network_image: 3.0.0-nullsafety
+  cached_network_image: 3.1.0-alpha.1
   dio: ^4.0.0-beta7
   encrypt: ^5.0.0
-  file_picker: ^3.0.1
+  file_picker: ^3.0.2
   filepicker_windows: ^2.0.0
   graphx: ^1.0.0-nullsafety.0
   intl: ^0.17.0
   lint: ^1.5.3
   scrollable_positioned_list: ^0.2.0-nullsafety.0
-  shared_preferences: ^2.0.5
+  shared_preferences: ^2.0.6
   sticky_headers: ^0.2.0
   validators: ^3.0.0
 dev_dependencies:
@@ -33,7 +33,6 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.
 flutter: null
-
 # To add assets to your package, add an assets section, like this:
 # assets:
 #   - images/a_dot_burr.jpeg
