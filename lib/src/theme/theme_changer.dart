@@ -4,17 +4,14 @@ import 'package:flutter/material.dart';
 import '../src.dart';
 
 const _themeFromStorageKey = 'thememode';
-mixin ThemeNotifierMixin {
-  ThemeNotifier get themeNotifier => ThemeNotifier();
-}
 
-class ThemeNotifier extends ChangeNotifier with Logger {
+class ThemeChangeNotifier extends ChangeNotifier with Logger {
   late final _pref = StorageService().pref;
   @override
   String name = 'ThemeNotifier';
-  factory ThemeNotifier() => _instance;
-  ThemeNotifier._();
-  static final _instance = ThemeNotifier._();
+  factory ThemeChangeNotifier() => _instance;
+  ThemeChangeNotifier._();
+  static final _instance = ThemeChangeNotifier._();
   var _themeMode = ThemeMode.system;
   ThemeMode get themeMode => _themeMode;
   bool get isDark => _themeMode == ThemeMode.dark;
@@ -58,7 +55,9 @@ class ThemeNotifier extends ChangeNotifier with Logger {
     return _themeFromStorage.toEnum<ThemeMode>(ThemeMode.values);
   }
 
-  static Future<void> init() async {
-    _instance.changeTheme(_instance._getThemeFromStorage());
+  static void init() => _instance.changeTheme(_instance._getThemeFromStorage());
+
+  static ThemeChangeNotifier of(BuildContext context) {
+    return ChangeNotifierBuilder.of<ThemeChangeNotifier>(context);
   }
 }

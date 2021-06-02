@@ -12,7 +12,7 @@ final fileService = FileService.instance;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await StorageService.init();
-  ThemeNotifier.init();
+  ThemeChangeNotifier.init();
   CustomThemeSwitcher.init();
   runApp(const MyApp());
 }
@@ -25,7 +25,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final _themeNotifier = ThemeNotifier();
+  final _themeNotifier = ThemeChangeNotifier();
   final _customThemeSwitcher = CustomThemeSwitcher();
   @override
   void dispose() {
@@ -36,17 +36,18 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return _themeNotifier.builder(
-      (_) => _customThemeSwitcher.builder(
-        (_) => MaterialApp(
+    return _themeNotifier.builder<ThemeChangeNotifier>(
+      (_, themeNotifier, __) =>
+          _customThemeSwitcher.builder<CustomThemeSwitcher>(
+        (_, customThemeSwitcher, __) => MaterialApp(
           debugShowCheckedModeBanner: false,
           navigatorKey: ContextLessNavigation.key,
-          themeMode: _themeNotifier.themeMode,
+          themeMode: themeNotifier.themeMode,
           builder: (context, child) {
             final brightness = Theme.of(context).brightness;
             final _theme = brightness == Brightness.dark
-                ? _customThemeSwitcher.customDarkTheme ?? AppThemeData.dark()
-                : _customThemeSwitcher.customLightTheme ?? AppThemeData.light();
+                ? customThemeSwitcher.customDarkTheme ?? AppThemeData.dark()
+                : customThemeSwitcher.customLightTheme ?? AppThemeData.light();
             final _matTheme = brightness == Brightness.dark
                 ? ThemeData.dark()
                 : ThemeData.light();
@@ -76,11 +77,12 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class Home extends StatelessWidget with Logger, ThemeNotifierMixin {
+class Home extends StatelessWidget with Logger {
   const Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final themeNotifier = ThemeChangeNotifier.of(context);
     return Scaffold(
       bottomNavigationBar: const ThemeSettings(),
       body: Container(

@@ -1,57 +1,58 @@
 import 'package:flutter/widgets.dart';
+import '../src.dart';
+import '../utils/typedef.dart';
 
 /// {@template ismails_utils.widgets.ChangeNotifierBuilder}
 /// A builder which updates when the provided change notifier calls
 /// notifylistners
 /// {@endtemplate}
 
-class ChangeNotifierBuilder<T extends ChangeNotifier> extends StatefulWidget {
+class ChangeNotifierBuilder<T extends ChangeNotifier> extends StatelessWidget {
   /// {@macro ismails_utils.widgets.ChangeNotifierBuilder}
   const ChangeNotifierBuilder({
     Key? key,
     required this.notifier,
     required this.builder,
+    this.child,
   }) : super(key: key);
 
   final T notifier;
-  final WidgetBuilder builder;
-  @override
-  _ChangeNotifierBuilderState<T> createState() =>
-      _ChangeNotifierBuilderState<T>();
-}
-
-class _ChangeNotifierBuilderState<T extends ChangeNotifier>
-    extends State<ChangeNotifierBuilder<T>> {
-  T get notifier => widget.notifier;
-  void _listner() {
-    if (mounted) setState(() {});
-  }
-
-  @override
-  void initState() {
-    /// listens to the change notifier and calls setState to update
-    /// the widget
-    notifier.addListener(_listner);
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(covariant ChangeNotifierBuilder<T> oldWidget) {
-    if (oldWidget.notifier != widget.notifier) {
-      notifier.removeListener(_listner);
-      notifier.addListener(_listner);
+  final ChangeNotifierbuilder<T> builder;
+  final Widget? child;
+  static T of<T extends ChangeNotifier>(BuildContext context) {
+    try {
+      return context
+          .dependOnInheritedWidgetOfExactType<_ChangeNotifierBuilder<T>>()!
+          .notifier!;
+    } catch (e) {
+      LoggerService().error(e);
+      throw FlutterError(
+        'No ChangeNotifierBuilder of type $T found on the scope. '
+        'Make sure you have ChangeNotifierBuilder'
+        ' high up on the widget tree, if you do have it but still get this'
+        ' try wrapping the current widget with Builder'
+        ' and use the context from it or extract to a new Stateless '
+        'or Stateful Widget.',
+      );
     }
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void dispose() {
-    notifier.removeListener(_listner);
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(context);
+    return _ChangeNotifierBuilder<T>(
+      notifier: notifier,
+      child: Builder(
+        builder: (context) =>
+            builder(context, ChangeNotifierBuilder.of<T>(context), child),
+      ),
+    );
   }
+}
+
+class _ChangeNotifierBuilder<T extends ChangeNotifier>
+    extends InheritedNotifier<T> {
+  const _ChangeNotifierBuilder({
+    required Widget child,
+    required T notifier,
+  }) : super(child: child, notifier: notifier);
 }

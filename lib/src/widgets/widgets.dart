@@ -8,4 +8,5 @@ export 'keepalive.dart';
 export 'main_scaffold.dart';
 export 'responsive.dart';
 export 'scrollview/scrollview.dart';
+export 'slimy_indicator.dart';
 export 'transitions.dart';

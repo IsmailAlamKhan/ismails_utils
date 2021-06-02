@@ -28,8 +28,9 @@ class SideBar extends StatelessWidget {
                 for (var i = 0; i < controller.alphabets.length; i++)
                   GestureDetector(
                     onTap: () => controller.scrollTo(i),
-                    child: controller.builder(
-                      (_) {
+                    child: controller
+                        .builder<AlphabetController<AlphabetListViewModel>>(
+                      (_, controller, ___) {
                         final Color sideBarActiveColor =
                             sideBarTheme?.sideBarActiveItemColor ??
                                 Theme.of(context).primaryColor;

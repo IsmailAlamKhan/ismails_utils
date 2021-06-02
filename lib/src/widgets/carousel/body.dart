@@ -158,25 +158,25 @@ class IsmailCarousel extends StatefulWidget {
 }
 
 class _IsmailCarouselState extends State<IsmailCarousel> {
-  late IsmaiLCarouselController controller;
+  late IsmaiLCarouselController _controller;
   @override
   void initState() {
     super.initState();
-    controller = widget.controller;
+    _controller = widget.controller;
   }
 
   @override
   void didUpdateWidget(IsmailCarousel oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
-      controller = widget.controller;
+      _controller = widget.controller;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     if (!widget.wantIndicator) {
-      return _body();
+      return _body(_controller);
     }
     IsmailCarouselIndicatorCustomizer customizer;
     final IsmailCarouselIndicatorCustomizer _customizer =
@@ -194,42 +194,51 @@ class _IsmailCarouselState extends State<IsmailCarousel> {
       customizer = _customizer.copyWith();
     }
     final position = customizer.position;
-    return Stack(
-      children: [
-        _body(customizer),
-        Positioned(
-          bottom: position.bottom,
-          left: position.left,
-          right: position.right,
-          top: position.top,
-          child: Center(
-            child: controller.builder((context) {
-              if (widget.scrollDirection == Axis.vertical) {
-                return RotatedBox(
-                  quarterTurns: 1,
-                  child: _indicatorBody(customizer),
-                );
-              }
-              return _indicatorBody(customizer);
-            }),
+    return _controller.builder<IsmaiLCarouselController>(
+      (_, controller, __) => Stack(
+        children: [
+          _body(controller, customizer),
+          Positioned(
+            bottom: position.bottom,
+            left: position.left,
+            right: position.right,
+            top: position.top,
+            child: Center(
+              child: Builder(
+                builder: (_) {
+                  if (widget.scrollDirection == Axis.vertical) {
+                    return RotatedBox(
+                      quarterTurns: 1,
+                      child: _indicatorBody(customizer, controller),
+                    );
+                  }
+                  return _indicatorBody(customizer, controller);
+                },
+              ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  Widget _indicatorBody(IsmailCarouselIndicatorCustomizer customizer) {
+  Widget _indicatorBody(
+    IsmailCarouselIndicatorCustomizer customizer,
+    final IsmaiLCarouselController controller,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        for (var i = 0; i < widget.itemCount; i++) _indicator(i, customizer)
+        for (var i = 0; i < widget.itemCount; i++)
+          _indicator(i, customizer, controller)
       ],
     );
   }
 
   Widget _indicator(
-    int index,
-    IsmailCarouselIndicatorCustomizer customizer,
+    final int index,
+    final IsmailCarouselIndicatorCustomizer customizer,
+    final IsmaiLCarouselController controller,
   ) {
     final bool isActive = controller.active(index);
     return customizer.builder?.call(context, index, customizer, controller) ??
@@ -239,7 +248,10 @@ class _IsmailCarouselState extends State<IsmailCarousel> {
         );
   }
 
-  Widget _body([IsmailCarouselIndicatorCustomizer? customizer]) {
+  Widget _body(
+    final IsmaiLCarouselController controller, [
+    IsmailCarouselIndicatorCustomizer? customizer,
+  ]) {
     return CarouselBody(
       customizer: customizer,
       itemCount: widget.itemCount,

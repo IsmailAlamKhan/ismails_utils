@@ -49,16 +49,16 @@ class _FormPageState extends State<FormPage> with Logger {
               height: MediaQuery.of(context).size.height,
               child: Column(
                 children: [
-                  formController.builder(
-                    (_) => AnimatedContainer(
+                  formController.builder<IsmailFormController>(
+                    (_, notifier, ___) => AnimatedContainer(
                       duration: const Duration(milliseconds: 500),
-                      height: formController.inValidFields.isEmpty ? 0 : 50,
+                      height: notifier.inValidFields.isEmpty ? 0 : 50,
                       child: ListView.builder(
-                        itemCount: formController.inValidFields.length,
+                        itemCount: notifier.inValidFields.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) => Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(formController.inValidFields[index].name),
+                          child: Text(notifier.inValidFields[index].name),
                         ),
                       ),
                     ),
@@ -143,12 +143,10 @@ class SubmitButton extends StatelessWidget {
   final IsmailFormController formController;
   @override
   Widget build(BuildContext context) {
-    return formController.builder(
-      (_) => ElevatedButton(
-        style: ElevatedButton.styleFrom(shape: const RoundedRectangleBorder()),
-        onPressed: onTap,
-        child: const Text('Submit'),
-      ),
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(shape: const RoundedRectangleBorder()),
+      onPressed: onTap,
+      child: const Text('Submit'),
     );
   }
 }

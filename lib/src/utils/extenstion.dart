@@ -18,6 +18,14 @@ extension ExtendedString on String {
   T toEnum<T>(List<T> list) {
     return list.firstWhere((d) => d.toString() == this);
   }
+
+  TextPainter textPainter([TextStyle? style]) => TextPainter(
+        text: TextSpan(text: this, style: style),
+      )
+        ..textDirection = TextDirection.ltr
+        ..layout();
+  double get width => textPainter().width;
+  double get height => textPainter().height;
 }
 
 extension ExtendedNum on num {
@@ -189,11 +197,13 @@ extension ExtendedListMapString on List<Map<String, dynamic>> {
 extension ExtendedChangeNotifer on ChangeNotifier {
   /// {@macro ismails_utils.widgets.ChangeNotifierBuilder}
   Widget builder<T extends ChangeNotifier>(
-    WidgetBuilder builder,
-  ) {
+    ChangeNotifierbuilder<T> builder, {
+    Widget? child,
+  }) {
     return ChangeNotifierBuilder<T>(
       notifier: this as T,
       builder: builder,
+      child: child,
     );
   }
 }

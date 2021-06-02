@@ -55,3 +55,9 @@ typedef Messenger = ScaffoldMessenger;
 typedef SnackbarController
     = ScaffoldFeatureController<SnackBar, SnackBarClosedReason>;
 typedef ValueTransformer<T> = dynamic Function(T value);
+
+typedef ChangeNotifierbuilder<T> = Widget Function(
+  BuildContext context,
+  T notifier,
+  Widget? child,
+);
