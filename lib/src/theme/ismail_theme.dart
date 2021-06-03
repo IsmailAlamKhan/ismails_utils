@@ -23,12 +23,7 @@ class IsmailTheme extends StatelessWidget {
           as T;
     } catch (e) {
       throw FlutterError(
-        'No IsmailTheme or AnimatedIsmailTheme found on the scope. '
-        'Make sure you have IsmailTheme or AnimatedIsmailTheme'
-        ' high up on the widget tree, if you do have it but still get this'
-        ' try wrapping the current widget with Builder'
-        ' and use the context from it or extract to a new Stateless '
-        'or Stateful Widget.',
+        notFoundOnScopeError('IsmailTheme or AnimatedIsmailTheme'),
       );
     }
   }

@@ -17,7 +17,7 @@ class ChangeNotifierBuilder<T extends ChangeNotifier> extends StatelessWidget {
   }) : super(key: key);
 
   final T notifier;
-  final ChangeNotifierbuilder<T> builder;
+  final ChangeNotifierbuilderTypeDef<T> builder;
   final Widget? child;
   static T of<T extends ChangeNotifier>(BuildContext context) {
     try {
@@ -27,12 +27,7 @@ class ChangeNotifierBuilder<T extends ChangeNotifier> extends StatelessWidget {
     } catch (e) {
       LoggerService().error(e);
       throw FlutterError(
-        'No ChangeNotifierBuilder of type $T found on the scope. '
-        'Make sure you have ChangeNotifierBuilder'
-        ' high up on the widget tree, if you do have it but still get this'
-        ' try wrapping the current widget with Builder'
-        ' and use the context from it or extract to a new Stateless '
-        'or Stateful Widget.',
+        notFoundOnScopeError('ChangeNotifierBuilder of type $T'),
       );
     }
   }

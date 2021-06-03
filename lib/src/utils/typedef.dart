@@ -56,7 +56,7 @@ typedef SnackbarController
     = ScaffoldFeatureController<SnackBar, SnackBarClosedReason>;
 typedef ValueTransformer<T> = dynamic Function(T value);
 
-typedef ChangeNotifierbuilder<T> = Widget Function(
+typedef ChangeNotifierbuilderTypeDef<T> = Widget Function(
   BuildContext context,
   T notifier,
   Widget? child,

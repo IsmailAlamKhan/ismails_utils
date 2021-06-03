@@ -197,7 +197,7 @@ extension ExtendedListMapString on List<Map<String, dynamic>> {
 extension ExtendedChangeNotifer on ChangeNotifier {
   /// {@macro ismails_utils.widgets.ChangeNotifierBuilder}
   Widget builder<T extends ChangeNotifier>(
-    ChangeNotifierbuilder<T> builder, {
+    ChangeNotifierbuilderTypeDef<T> builder, {
     Widget? child,
   }) {
     return ChangeNotifierBuilder<T>(
@@ -215,4 +215,23 @@ extension ExtendedWidget on Widget {
 
 extension ExtendedInt on int {
   int loop(int index) => index % this;
+}
+
+extension MyTextStyle on TextStyle {
+  Map<String, dynamic> toMap() {
+    return {
+      'inherit': inherit,
+      'color': color?.value,
+      'backgroundColor': backgroundColor?.value,
+      'fontFamily': fontFamily,
+      'fontSize': fontSize,
+      'fontWeight': fontWeight.toString(),
+      'fontStyle': fontStyle?.index,
+      'letterSpacing': letterSpacing,
+      'wordSpacing': wordSpacing,
+      'height': height,
+      'decorationThickness': decorationThickness,
+      'debugLabel': debugLabel,
+    };
+  }
 }
