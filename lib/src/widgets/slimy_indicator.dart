@@ -30,7 +30,6 @@ class SlimySwitch extends StatefulWidget {
 
 class _SlimySwitchState extends State<SlimySwitch> with Logger {
   final duration = const Duration(milliseconds: 500);
-  late Color? activeColor = widget.activeColor;
   int get currentIndex => widget.currentIndex;
   double _postion(bool isLeft) {
     return currentIndex == (isLeft ? 0 : 1) ? 0 : widget.buttonWidth;
@@ -38,7 +37,7 @@ class _SlimySwitchState extends State<SlimySwitch> with Logger {
 
   @override
   Widget build(BuildContext context) {
-    activeColor ??= Theme.of(context).primaryColor;
+    final activeColor = widget.activeColor ?? Theme.of(context).primaryColor;
     return Center(
       child: SizedBox.fromSize(
         size: widget.size,
@@ -46,7 +45,7 @@ class _SlimySwitchState extends State<SlimySwitch> with Logger {
           duration: duration,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: activeColor!),
+            border: Border.all(color: activeColor),
           ),
           clipBehavior: Clip.antiAlias,
           child: Stack(
@@ -57,7 +56,8 @@ class _SlimySwitchState extends State<SlimySwitch> with Logger {
                 right: _postion(false),
                 child: Builder(builder: (context) {
                   logger.info(widget.buttonWidth);
-                  return Container(
+                  return AnimatedContainer(
+                    duration: duration,
                     width: widget.buttonWidth,
                     height: widget.size.height,
                     decoration: BoxDecoration(
