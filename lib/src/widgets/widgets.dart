@@ -1,4 +1,5 @@
 export 'alphabet_listview/alphabet_listview.dart';
+export 'animated_card.dart';
 export 'animation_controller_state.dart';
 export 'carousel/carousel.dart';
 export 'change_notifier_builder.dart';
