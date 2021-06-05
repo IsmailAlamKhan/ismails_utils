@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ismails_utils/ismails_utils.dart';
@@ -63,66 +60,6 @@ class _FormPageState extends State<FormPage> with Logger {
                       ),
                     ),
                   ),
-                  if (kIsWeb)
-                    IsmailFormField<Uint8List>(
-                      name: 'file_picker',
-                      validator: (value) {
-                        if (value == null) {
-                          return 'Please choose a file';
-                        }
-                      },
-                      builder: (field) {
-                        return ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: field.hasError ? Colors.red : null,
-                          ),
-                          onPressed: () async {
-                            try {
-                              final _file =
-                                  await IsmailFilePicker.instance.pickFileWeb();
-                              field.didChange(_file);
-                            } catch (e) {
-                              logger.error(e);
-                            }
-                          },
-                          child: const Text('Pick File'),
-                        );
-                      },
-                    )
-                  else
-                    IsmailFormField<File>(
-                      name: 'file_picker',
-                      validator: (value) {
-                        if (value == null) {
-                          return 'Please choose a file';
-                        }
-                      },
-                      builder: (field) {
-                        return ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: field.hasError ? Colors.red : null,
-                          ),
-                          onPressed: () async {
-                            try {
-                              if (Platform.isWindows) {
-                                final _file =
-                                    IsmailFilePicker.instance.pickFileWindows(
-                                  title: 'Please select an image',
-                                );
-                                field.didChange(_file);
-                              } else {
-                                final _file =
-                                    await IsmailFilePicker.instance.pickFile();
-                                field.didChange(_file);
-                              }
-                            } catch (e) {
-                              logger.error(e);
-                            }
-                          },
-                          child: const Text('Pick File'),
-                        );
-                      },
-                    ),
                 ],
               ),
             ),

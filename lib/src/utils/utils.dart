@@ -7,7 +7,6 @@ export 'enum.dart';
 export 'exception.dart';
 export 'extenstion.dart';
 export 'file/file.dart';
-export 'file_picker/file_picker.dart';
 export 'globals.dart';
 export 'logger.dart';
 export 'screen.dart';

@@ -16,8 +16,6 @@ dependencies:
   cached_network_image: 3.1.0-alpha.1
   dio: ^4.0.0-beta7
   encrypt: ^5.0.0
-  file_picker: ^3.0.2
-  filepicker_windows: ^2.0.0
   graphx: ^1.0.0-nullsafety.0
   intl: ^0.17.0
   lint: ^1.5.3
