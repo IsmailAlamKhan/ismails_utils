@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import '../src.dart';
 
 class IsmailNavigatorController extends ChangeNotifier {
+  IsmailNavigatorController() {
+    key = NavigatorKey();
+    navigatorState = key!.currentState;
+  }
   @internal
-  final key = GlobalKey<NavigatorState>();
-  NavigatorState get navigatorState {
-    try {
-      return key.currentState!;
-    } catch (e) {
-      throw FlutterError(
-        "Coulnd't find a IsmailNavigator using the IsmailNavigatorController",
-      );
-    }
+  late NavigatorKey? key;
+  late NavigatorState? navigatorState;
+
+  @override
+  void dispose() {
+    key = null;
+    navigatorState = null;
+    super.dispose();
   }
 }

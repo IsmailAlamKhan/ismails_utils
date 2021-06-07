@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ismails_utils/ismails_utils.dart';
 
 void main() => runApp(MyApp());
 
@@ -52,7 +51,6 @@ class _Home1State extends State<Home1> {
   final _key = GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
-    print('Home 1');
     return Scaffold(
       appBar: AppBar(title: const Text('Material App Bar')),
       body: Navigator(
