@@ -106,45 +106,19 @@ class AnimatedCard extends ImplicitlyAnimatedWidget {
 
 class _AnimatedCardState extends AnimatedWidgetBaseState<AnimatedCard> {
   late CardTheme cardTheme = const CardTheme();
-  @override
-  void initState() {
-    fillCardThemeAccordingToThemeOrFromWidget(true);
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    fillCardThemeAccordingToThemeOrFromWidget();
-  }
-
-  void fillCardThemeAccordingToThemeOrFromWidget([bool isInit = false]) {
-    if (isInit) {
-      cardTheme = CardTheme(
-        clipBehavior: widget.clipBehavior,
-        color: widget.color,
-        elevation: widget.elevation,
-        margin: widget.margin,
-        shadowColor: widget.shadowColor,
-        shape: widget.shape,
-      );
-    } else {
-      final _cardTheme = Theme.of(context).cardTheme;
-      cardTheme = CardTheme(
-        clipBehavior: widget.clipBehavior ?? _cardTheme.clipBehavior,
-        color: widget.color ?? _cardTheme.color,
-        elevation: widget.elevation ?? _cardTheme.elevation,
-        margin: widget.margin ?? _cardTheme.margin,
-        shadowColor: widget.shadowColor ?? _cardTheme.shadowColor,
-        shape: widget.shape ?? _cardTheme.shape,
-      );
-    }
-  }
 
   _CardThemeTween? _data;
   @override
   Widget build(BuildContext context) {
-    fillCardThemeAccordingToThemeOrFromWidget();
+    final _cardTheme = Theme.of(context).cardTheme;
+    cardTheme = CardTheme(
+      clipBehavior: widget.clipBehavior ?? _cardTheme.clipBehavior,
+      color: widget.color ?? _cardTheme.color,
+      elevation: widget.elevation ?? _cardTheme.elevation,
+      margin: widget.margin ?? _cardTheme.margin,
+      shadowColor: widget.shadowColor ?? _cardTheme.shadowColor,
+      shape: widget.shape ?? _cardTheme.shape,
+    );
     return Card(
       color: _data!.evaluate(animation).color,
       elevation: _data!.evaluate(animation).elevation,
