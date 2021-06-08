@@ -13,7 +13,9 @@ class IsmailForm extends StatefulWidget {
     this.onWillPop,
     this.skipDisabled = true,
     this.controller,
+    this.fields,
   }) : super(key: key);
+  final Set<String>? fields;
 
   final Widget child;
   final bool enabled;
@@ -38,32 +40,14 @@ class IsmailForm extends StatefulWidget {
 
 class IsmailFormState extends State<IsmailForm> {
   late final IsmailFormController controller =
-      widget.controller ?? IsmailFormController();
+      widget.controller ?? IsmailFormController(fields: widget.fields);
+
+  Set<String>? get fields => widget.fields;
 
   /// initial value of the form
   Map<String, dynamic> get initialValue {
     return widget.initialValue;
   }
-
-  //* values, methods taken from the controller
-  //* ----------------------------------------
-  Map<String, dynamic> get value => controller.value;
-  Map<String, IsmailFormFieldState> get fields => controller.fields;
-  List<IsmailFormFieldState> get inValidFields => controller.inValidFields;
-  bool get isValid => controller.isValid;
-  void setInternalFieldValue(String name, dynamic value) =>
-      controller.setInternalFieldValue(name, value);
-  void removeInternalFieldValue(String name) =>
-      controller.removeInternalFieldValue(name);
-  void registerField(String name, IsmailFormFieldState field) =>
-      controller.registerField(name, field);
-  void unregisterField(String name, IsmailFormFieldState field) =>
-      controller.unregisterField(name, field);
-  void save() => controller.save();
-  bool validate() => controller.validate();
-  bool saveAndValidate() => controller.saveAndValidate();
-  void patchValue(Map<String, dynamic> val) => controller.patchValue(val);
-  //* -----------------------------------------
 
   bool get enabled => widget.enabled;
 

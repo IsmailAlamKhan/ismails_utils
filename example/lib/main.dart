@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ismails_utils/ismails_utils.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,31 +13,34 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({
     Key? key,
   }) : super(key: key);
 
   @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  MaterialColor? color;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Material App Bar')),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            const SizedBox(
-              width: 200,
-              child: TextField(
-                decoration: InputDecoration(
-                  labelText: 'Select Data',
-                  suffixIcon: Icon(Icons.calendar_today),
-                ),
-              ),
-            ),
-            ElevatedButton(
-                onPressed: () {}, child: const Text('Primary Button')),
-          ],
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () async {
+            final pickedColor = await showDialog<MaterialColor>(
+              context: context,
+              builder: (_) => MaterialColorPicker(selectedColor: color),
+            );
+            if (pickedColor != null) {
+              setState(() => color = pickedColor);
+            }
+          },
+          style: ElevatedButton.styleFrom(primary: color),
+          child: const Text('Pick color'),
         ),
       ),
     );

@@ -5,6 +5,10 @@ import '../src.dart';
 
 /// The FormController which holds the state of [IsmailForm]
 class IsmailFormController extends ChangeNotifier {
+  final Set<String>? fields;
+
+  IsmailFormController({this.fields});
+
   void setInternalFieldValue(String name, dynamic value) {
     assert(formKey.currentState != null,
         'IsmailFormController- make sure you attached the form controller to a form');
@@ -134,7 +138,7 @@ class IsmailFormController extends ChangeNotifier {
       Map<String, dynamic>.unmodifiable(_fieldsWithoutDisposed);
 
   /// all the fields that the [IsmailForm] this won't show the disposed ones
-  Map<String, IsmailFormFieldState> get fields =>
+  Map<String, IsmailFormFieldState> get fieldsMap =>
       Map<String, IsmailFormFieldState>.unmodifiable(_fields);
 
   /// invalid fields of the form

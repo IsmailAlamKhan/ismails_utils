@@ -105,28 +105,22 @@ class AnimatedCard extends ImplicitlyAnimatedWidget {
 }
 
 class _AnimatedCardState extends AnimatedWidgetBaseState<AnimatedCard> {
-  late CardTheme widgetCardTheme = const CardTheme();
+  late CardTheme cardTheme = const CardTheme();
   @override
   void initState() {
-    fillCardThemeAccordingToThemeOrFromWidget();
+    fillCardThemeAccordingToThemeOrFromWidget(true);
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
-    fillCardThemeAccordingToThemeOrFromWidget(context);
     super.didChangeDependencies();
+    fillCardThemeAccordingToThemeOrFromWidget();
   }
 
-  @override
-  void didUpdateWidget(AnimatedCard oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    fillCardThemeAccordingToThemeOrFromWidget(context);
-  }
-
-  void fillCardThemeAccordingToThemeOrFromWidget([BuildContext? ctx]) {
-    if (ctx == null) {
-      widgetCardTheme = CardTheme(
+  void fillCardThemeAccordingToThemeOrFromWidget([bool isInit = false]) {
+    if (isInit) {
+      cardTheme = CardTheme(
         clipBehavior: widget.clipBehavior,
         color: widget.color,
         elevation: widget.elevation,
@@ -135,8 +129,8 @@ class _AnimatedCardState extends AnimatedWidgetBaseState<AnimatedCard> {
         shape: widget.shape,
       );
     } else {
-      final _cardTheme = Theme.of(ctx).cardTheme;
-      widgetCardTheme = CardTheme(
+      final _cardTheme = Theme.of(context).cardTheme;
+      cardTheme = CardTheme(
         clipBehavior: widget.clipBehavior ?? _cardTheme.clipBehavior,
         color: widget.color ?? _cardTheme.color,
         elevation: widget.elevation ?? _cardTheme.elevation,
@@ -150,6 +144,7 @@ class _AnimatedCardState extends AnimatedWidgetBaseState<AnimatedCard> {
   _CardThemeTween? _data;
   @override
   Widget build(BuildContext context) {
+    fillCardThemeAccordingToThemeOrFromWidget();
     return Card(
       color: _data!.evaluate(animation).color,
       elevation: _data!.evaluate(animation).elevation,
@@ -167,7 +162,7 @@ class _AnimatedCardState extends AnimatedWidgetBaseState<AnimatedCard> {
   void forEachTween(TweenVisitor<dynamic> visitor) {
     _data = visitor(
       _data,
-      widgetCardTheme,
+      cardTheme,
       (begin) => _CardThemeTween(begin: begin),
     ) as _CardThemeTween?;
   }

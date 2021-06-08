@@ -155,7 +155,7 @@ class ThemeSettings extends StatelessWidget {
                 );
               },
             ),
-            ColorPicker(
+            _ColorPicker(
               title: 'Scaffold',
               activeColor: _theme.scaffoldColor,
               onChanged: (color) {
@@ -166,7 +166,7 @@ class ThemeSettings extends StatelessWidget {
                 );
               },
             ),
-            ColorPicker(
+            _ColorPicker(
               title: 'TextColor',
               activeColor: _theme.textStyle.color ?? Colors.white,
               onChanged: (color) {
@@ -186,8 +186,8 @@ class ThemeSettings extends StatelessWidget {
   }
 }
 
-class ColorPicker extends StatelessWidget {
-  const ColorPicker({
+class _ColorPicker extends StatelessWidget {
+  const _ColorPicker({
     Key? key,
     required this.onChanged,
     required this.activeColor,

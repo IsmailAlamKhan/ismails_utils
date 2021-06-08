@@ -78,7 +78,7 @@ class IsmailChoiceChipFormField<T> extends IsmailFormField<T> {
   /// This only has an effect on widgets that respect the [DefaultTextStyle],
   /// such as [Text].
   ///
-  /// If [labelStyle.color] is a [MaterialStateProperty<Color>], [MaterialStateProperty.resolve]
+  /// If [labelStyle._selectedColor] is a [MaterialStateProperty<Color>], [MaterialStateProperty.resolve]
   /// is used for the following [MaterialState]s:
   ///
   ///  * [MaterialState.disabled].

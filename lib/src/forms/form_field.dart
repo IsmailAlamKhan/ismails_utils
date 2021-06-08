@@ -94,14 +94,14 @@ class IsmailFormFieldState<F extends IsmailFormField<T?>, T>
   }
 
   void unregisterField() {
-    _ismailFormState?.unregisterField(widget.name, this);
+    _ismailFormState?.controller.unregisterField(widget.name, this);
   }
 
   @override
   void initState() {
     super.initState();
     _ismailFormState = IsmailForm.of(context);
-    _ismailFormState?.registerField(widget.name, this);
+    _ismailFormState?.controller.registerField(widget.name, this);
     _focusNode.addListener(_touchedHandler);
     setValue(initialValue);
   }
@@ -110,7 +110,7 @@ class IsmailFormFieldState<F extends IsmailFormField<T?>, T>
   void dispose() {
     _focusNode.removeListener(_touchedHandler);
 
-    _ismailFormState?.unregisterField(widget.name, this);
+    _ismailFormState?.controller.unregisterField(widget.name, this);
     super.dispose();
   }
 
@@ -176,12 +176,12 @@ class IsmailFormFieldState<F extends IsmailFormField<T?>, T>
     super.save();
     if (_ismailFormState != null) {
       if (enabled || !_ismailFormState!.widget.skipDisabled) {
-        _ismailFormState!.setInternalFieldValue(
+        _ismailFormState!.controller.setInternalFieldValue(
           widget.name,
           widget.valueTransformer?.call(value) ?? value,
         );
       } else {
-        _ismailFormState!.removeInternalFieldValue(widget.name);
+        _ismailFormState!.controller.removeInternalFieldValue(widget.name);
       }
     }
   }
