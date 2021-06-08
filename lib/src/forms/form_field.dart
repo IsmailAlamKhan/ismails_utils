@@ -162,6 +162,7 @@ class IsmailFormFieldState<F extends IsmailFormField<T?>, T>
   void didChange(T? val) {
     super.didChange(val);
     widget.onChanged?.call(value);
+    _setValue();
   }
 
   @override
@@ -171,18 +172,20 @@ class IsmailFormFieldState<F extends IsmailFormField<T?>, T>
     widget.onReset?.call();
   }
 
+  void _setValue() {
+    if (enabled || !(_ismailFormState?.widget.skipDisabled ?? false)) {
+      _ismailFormState?.controller.setInternalFieldValue(
+        widget.name,
+        widget.valueTransformer?.call(value) ?? value,
+      );
+    } else {
+      _ismailFormState?.controller.removeInternalFieldValue(widget.name);
+    }
+  }
+
   @override
   void save() {
     super.save();
-    if (_ismailFormState != null) {
-      if (enabled || !_ismailFormState!.widget.skipDisabled) {
-        _ismailFormState!.controller.setInternalFieldValue(
-          widget.name,
-          widget.valueTransformer?.call(value) ?? value,
-        );
-      } else {
-        _ismailFormState!.controller.removeInternalFieldValue(widget.name);
-      }
-    }
+    _setValue();
   }
 }
