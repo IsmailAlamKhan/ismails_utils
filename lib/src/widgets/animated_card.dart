@@ -110,15 +110,6 @@ class _AnimatedCardState extends AnimatedWidgetBaseState<AnimatedCard> {
   _CardThemeTween? _data;
   @override
   Widget build(BuildContext context) {
-    final _cardTheme = Theme.of(context).cardTheme;
-    cardTheme = CardTheme(
-      clipBehavior: widget.clipBehavior ?? _cardTheme.clipBehavior,
-      color: widget.color ?? _cardTheme.color,
-      elevation: widget.elevation ?? _cardTheme.elevation,
-      margin: widget.margin ?? _cardTheme.margin,
-      shadowColor: widget.shadowColor ?? _cardTheme.shadowColor,
-      shape: widget.shape ?? _cardTheme.shape,
-    );
     return Card(
       color: _data!.evaluate(animation).color,
       elevation: _data!.evaluate(animation).elevation,
@@ -134,6 +125,14 @@ class _AnimatedCardState extends AnimatedWidgetBaseState<AnimatedCard> {
 
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
+    cardTheme = CardTheme(
+      clipBehavior: widget.clipBehavior,
+      color: widget.color,
+      elevation: widget.elevation,
+      margin: widget.margin,
+      shadowColor: widget.shadowColor,
+      shape: widget.shape,
+    );
     _data = visitor(
       _data,
       cardTheme,
