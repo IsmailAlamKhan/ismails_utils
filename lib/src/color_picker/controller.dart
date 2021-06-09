@@ -50,17 +50,14 @@ class ColorPickerControllerController {
   ColorPickerModel get selectedColor => selectedColorNotifier.value;
   late final sizeNotifier = ValueNotifier<Size>(Size.zero);
   late final positionNotifier = ValueNotifier<double>(0);
-  Future<void> setPostion([bool init = false]) async {
+  Future<void> setPostion() async {
     final index = colors.indexOf(selectedColorNotifier.value.materialColor);
     final position = calculatePosition(index).dx;
-    if (init) {
-      positionNotifier.value = position;
-    } else {
-      animationController.animateTo(
-        position,
-        duration: const Duration(milliseconds: 500),
-      );
-    }
+
+    animationController.animateTo(
+      position,
+      duration: const Duration(milliseconds: 500),
+    );
   }
 
   void init() {
@@ -69,7 +66,7 @@ class ColorPickerControllerController {
       selectedColorNotifier.value = selectedColorFromParent!;
     }
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      setPostion(true);
+      setPostion();
     });
     animationController.addListener(() {
       positionNotifier.value = animationController.value;
