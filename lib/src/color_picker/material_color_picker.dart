@@ -2,6 +2,29 @@ import 'package:flutter/material.dart';
 
 import '../src.dart';
 
+class _CustomBoxShadow extends BoxShadow {
+  final BlurStyle blurStyle;
+
+  const _CustomBoxShadow({
+    Color color = const Color(0xFF000000),
+    Offset offset = Offset.zero,
+    double blurRadius = 0.0,
+    this.blurStyle = BlurStyle.normal,
+  }) : super(color: color, offset: offset, blurRadius: blurRadius);
+
+  @override
+  Paint toPaint() {
+    final Paint result = Paint()
+      ..color = color
+      ..maskFilter = MaskFilter.blur(blurStyle, blurSigma);
+    assert(() {
+      if (debugDisableShadows) result.maskFilter = null;
+      return true;
+    }());
+    return result;
+  }
+}
+
 class MaterialColorPicker extends StatelessWidget {
   const MaterialColorPicker({
     Key? key,
@@ -37,6 +60,7 @@ class MaterialColorPicker extends StatelessWidget {
             ColorPickerSlider(
               onDragEnd: controller.onDragEnd,
               onDragUpdate: controller.onDragUpdate,
+              onDragStart: controller.onDragStart,
               positionNotifier: controller.positionNotifier,
               sizeNotifier: controller.sizeNotifier,
             ),
@@ -47,29 +71,6 @@ class MaterialColorPicker extends StatelessWidget {
   }
 }
 
-class _CustomBoxShadow extends BoxShadow {
-  final BlurStyle blurStyle;
-
-  const _CustomBoxShadow({
-    Color color = const Color(0xFF000000),
-    Offset offset = Offset.zero,
-    double blurRadius = 0.0,
-    this.blurStyle = BlurStyle.normal,
-  }) : super(color: color, offset: offset, blurRadius: blurRadius);
-
-  @override
-  Paint toPaint() {
-    final Paint result = Paint()
-      ..color = color
-      ..maskFilter = MaskFilter.blur(blurStyle, blurSigma);
-    assert(() {
-      if (debugDisableShadows) result.maskFilter = null;
-      return true;
-    }());
-    return result;
-  }
-}
-
 class ColorPickerSlider extends StatelessWidget {
   const ColorPickerSlider({
     Key? key,
@@ -77,30 +78,36 @@ class ColorPickerSlider extends StatelessWidget {
     required this.sizeNotifier,
     required this.onDragEnd,
     required this.onDragUpdate,
+    required this.onDragStart,
   }) : super(key: key);
-  final ValueNotifier<Offset> positionNotifier;
+  final ValueNotifier<double> positionNotifier;
   final ValueNotifier<Size> sizeNotifier;
   final GestureDragEndCallback onDragEnd;
   final GestureDragUpdateCallback onDragUpdate;
+  final GestureDragStartCallback onDragStart;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return ValueListenableBuilder<Offset>(
+    return ValueListenableBuilder<double>(
       valueListenable: positionNotifier,
-      builder: (_, postion, child) {
-        return AnimatedPositioned(
-          duration: const Duration(milliseconds: 500),
-          left: postion.dx,
-          top: -2,
-          child: child!,
-        );
-      },
+      builder: (_, postion, child) => Positioned(
+        // duration: const Duration(milliseconds: 500),
+        left: postion.clamp(
+              5,
+              (MediaQuery.of(context).size.width - 5) -
+                  sizeNotifier.value.width,
+            ) *
+            1.0,
+        top: -2,
+        child: child!,
+      ),
       child: ValueListenableBuilder<Size>(
         valueListenable: sizeNotifier,
         builder: (_, size, __) {
           return GestureDetector(
             onHorizontalDragEnd: onDragEnd,
             onHorizontalDragUpdate: onDragUpdate,
+            onHorizontalDragStart: onDragStart,
             child: Container(
               height: size.height + 10,
               width: size.width,

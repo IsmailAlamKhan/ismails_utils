@@ -28,11 +28,21 @@ class ColorPicker extends StatefulWidget {
   _ColorPickerState createState() => _ColorPickerState();
 }
 
-class _ColorPickerState extends State<ColorPicker> {
-  late final controller = ColorPickerControllerController(widget.selectedColor);
+class _ColorPickerState extends State<ColorPicker>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController animationController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 500),
+    upperBound: double.infinity,
+  );
+  late final controller = ColorPickerControllerController(
+    widget.selectedColor,
+    animationController,
+  );
   @override
   void dispose() {
     controller.dispose();
+    animationController.dispose();
     super.dispose();
   }
 

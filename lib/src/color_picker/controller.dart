@@ -30,8 +30,12 @@ const _colorList = [
 ];
 
 class ColorPickerControllerController {
+  final AnimationController animationController;
   final ColorPickerModel? selectedColorFromParent;
-  ColorPickerControllerController(this.selectedColorFromParent) {
+  ColorPickerControllerController(
+    this.selectedColorFromParent,
+    this.animationController,
+  ) {
     init();
   }
 
@@ -45,46 +49,63 @@ class ColorPickerControllerController {
 
   ColorPickerModel get selectedColor => selectedColorNotifier.value;
   late final sizeNotifier = ValueNotifier<Size>(Size.zero);
-  late final positionNotifier = ValueNotifier<Offset>(Offset.zero);
-  void setPostion() {
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      final index = colors.indexOf(selectedColorNotifier.value.materialColor);
-      positionNotifier.value = calculatePosition(index);
-    });
-  }
-
-  void init() {
-    keys = List.generate(colors.length, (index) => GlobalKey());
-    selectedColorNotifier.addListener(setPostion);
-    sizeNotifier.addListener(setPostion);
-    if (selectedColorFromParent != null) {
-      selectedColorNotifier.value = selectedColorFromParent!;
-    }
-    setPostion();
-  }
-
-  void onDragEnd(DragEndDetails details) {
-    final lowestPostion = calculatePosition(0);
-    final higestPostion = calculatePosition(colors.length - 1);
-    if (positionNotifier.value.dx < lowestPostion.dx) {
-      positionNotifier.value = lowestPostion;
-    } else if (positionNotifier.value.dx > higestPostion.dx) {
-      positionNotifier.value = higestPostion;
-    }
-    final currentPostion = positionNotifier.value;
-    final tileSize = sizeNotifier.value.width;
-    final _index = currentPostion.dx / tileSize;
-    if (_index.isFinite) {
-      final index = _index.round();
-      LoggerService().info(index);
-      selectedColorNotifier.value = selectedColorNotifier.value.copyWith(
-        materialColor: colors.elementAt(index),
+  late final positionNotifier = ValueNotifier<double>(0);
+  Future<void> setPostion([bool init = false]) async {
+    final index = colors.indexOf(selectedColorNotifier.value.materialColor);
+    final position = calculatePosition(index).dx;
+    if (init) {
+      positionNotifier.value = position;
+    } else {
+      animationController.animateTo(
+        position,
+        duration: const Duration(milliseconds: 500),
       );
     }
   }
 
-  void onDragUpdate(DragUpdateDetails details) =>
-      positionNotifier.value = details.globalPosition;
+  void init() {
+    keys = List.generate(colors.length, (_) => GlobalKey());
+    if (selectedColorFromParent != null) {
+      selectedColorNotifier.value = selectedColorFromParent!;
+    }
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      setPostion(true);
+    });
+    animationController.addListener(() {
+      positionNotifier.value = animationController.value;
+    });
+    selectedColorNotifier.addListener(setPostion);
+    sizeNotifier.addListener(setPostion);
+  }
+
+  void onDragEnd(DragEndDetails details) {
+    try {
+      final currentPostion = positionNotifier.value;
+      final tileSize = sizeNotifier.value.width;
+      final _index = currentPostion ~/ tileSize;
+      final index = _index.round();
+      selectedColorNotifier.value = selectedColorNotifier.value.copyWith(
+        materialColor: colors.elementAt(index),
+      );
+      setPostion();
+    } catch (e, s) {
+      LoggerService().error('S', e, s);
+    }
+  }
+
+  double globalX = 0, oldGlobalX = 0;
+  double minX = 5, maxX = 400;
+  double tileW = 50;
+  void onDragUpdate(DragUpdateDetails details) {
+    globalX = details.globalPosition.dx;
+    positionNotifier.value += globalX - oldGlobalX;
+    animationController.value = positionNotifier.value;
+    oldGlobalX = globalX;
+  }
+
+  void onDragStart(DragStartDetails details) {
+    globalX = oldGlobalX = details.globalPosition.dx;
+  }
 
   void dispose() {
     sizeNotifier.dispose();
