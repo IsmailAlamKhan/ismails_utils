@@ -13,9 +13,7 @@ class IsmailForm extends StatefulWidget {
     this.onWillPop,
     this.skipDisabled = true,
     this.controller,
-    this.fields,
   }) : super(key: key);
-  final Set<String>? fields;
 
   final Widget child;
   final bool enabled;
@@ -40,9 +38,7 @@ class IsmailForm extends StatefulWidget {
 
 class IsmailFormState extends State<IsmailForm> {
   late final IsmailFormController controller =
-      widget.controller ?? IsmailFormController(fields: widget.fields);
-
-  Set<String>? get fields => widget.fields;
+      widget.controller ?? IsmailFormController();
 
   /// initial value of the form
   Map<String, dynamic> get initialValue {
