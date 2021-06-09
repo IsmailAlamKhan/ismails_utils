@@ -54,3 +54,6 @@ String notFoundOnScopeError(String type) {
       ' and use the context from it or extract to a new Stateless '
       'or Stateful Widget.';
 }
+
+const materialcolorShades = {50, 100, 200, 300, 400, 500, 600, 700, 800, 900};
+const defaultColorShade = 400;

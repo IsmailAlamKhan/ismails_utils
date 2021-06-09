@@ -1,9 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../src.dart';
 
-class MaterialColorPicker extends StatefulWidget {
-  const MaterialColorPicker({
+class ColorPicker extends StatefulWidget {
+  const ColorPicker({
     Key? key,
     this.selectedColor,
     String? cancelText,
@@ -13,127 +14,59 @@ class MaterialColorPicker extends StatefulWidget {
         confirmText = confirmText ?? 'Confirm',
         title = title ?? 'Pick your color',
         super(key: key);
-  final Color? selectedColor;
+  final ColorPickerModel? selectedColor;
   final String cancelText;
   final String confirmText;
   final String title;
+  Future<ColorPickerModel?> show(BuildContext context) =>
+      showModalBottomSheet<ColorPickerModel?>(
+        context: context,
+        builder: (_) => this,
+      );
+
   @override
-  _MaterialColorPickerState createState() => _MaterialColorPickerState();
+  _ColorPickerState createState() => _ColorPickerState();
 }
 
-class _MaterialColorPickerState extends State<MaterialColorPicker> {
-  late final ValueNotifier<Color> _selectedColor =
-      ValueNotifier(Colors.primaries[0]);
+class _ColorPickerState extends State<ColorPicker> {
+  late final controller = ColorPickerControllerController(widget.selectedColor);
   @override
-  void initState() {
-    super.initState();
-    if (widget.selectedColor != null) {
-      _selectedColor.value = widget.selectedColor!;
-    }
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
-
-  late final colors = Colors.primaries;
-  late final colorShades = const {
-    50,
-    100,
-    200,
-    300,
-    400,
-    500,
-    600,
-    700,
-    800,
-    900,
-  };
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Wrap(
+    final theme = Theme.of(context);
+    return SingleChildScrollView(
+      child: Column(
         children: [
-          for (var color in colors)
-            _Color(color: color, selectedColor: _selectedColor)
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(_selectedColor.value),
-          child: Text(widget.confirmText),
-        ),
-        TextButton(
-          onPressed: Navigator.of(context).pop,
-          child: Text(widget.cancelText),
-        ),
-      ],
-      content: Wrap(
-        runSpacing: 5,
-        spacing: 5,
-        children: [
-          for (var color in colorShades)
-            ValueListenableBuilder<Color>(
-              valueListenable: _selectedColor,
-              builder: (context, val, child) {
-                final value = val as MaterialColor;
-                LoggerService().info(value);
-                LoggerService().info(value[100]);
-
-                return SizedBox(
-                  height: 50,
-                  width: 100,
-                  child: AnimatedCard(
-                    color: value[color],
-                    child: InkWell(
-                      onTap: () {},
-                      child: Stack(
-                        children: const [
-                          Positioned(
-                            bottom: 5,
-                            right: 5,
-                            child: Icon(Icons.check_circle),
-                          ),
-                        ],
-                      ),
-                    ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Row(
+                children: [
+                  Text(widget.title, style: theme.textTheme.headline6),
+                  const Spacer(),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(controller.selectedColor);
+                    },
+                    child: Text(widget.confirmText),
                   ),
-                );
-              },
+                ],
+              ),
             ),
+          ),
+          const Divider(),
+          MaterialColorPicker(controller: controller),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: ColorShadePicker(controller: controller),
+          ),
         ],
-      ),
-    );
-  }
-}
-
-class _Color extends StatelessWidget {
-  const _Color({
-    Key? key,
-    required this.color,
-    required this.selectedColor,
-  }) : super(key: key);
-
-  final Color color;
-  final ValueNotifier<Color> selectedColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 30,
-      width: 30,
-      child: Material(
-        color: color,
-        elevation: 6,
-        clipBehavior: Clip.antiAlias,
-        child: ValueListenableBuilder<Color>(
-          valueListenable: selectedColor,
-          builder: (context, value, child) {
-            if (value == color) {
-              return const Icon(Icons.check);
-            }
-            return InkWell(
-              onTap: () => selectedColor.value = color,
-            );
-          },
-        ),
       ),
     );
   }

@@ -23,7 +23,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  MaterialColor? color;
+  ColorPickerModel? pickedColor;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,15 +31,14 @@ class _HomeState extends State<Home> {
       body: Center(
         child: ElevatedButton(
           onPressed: () async {
-            final pickedColor = await showDialog<MaterialColor>(
-              context: context,
-              builder: (_) => MaterialColorPicker(selectedColor: color),
-            );
-            if (pickedColor != null) {
-              setState(() => color = pickedColor);
+            final _pickedColor =
+                await ColorPicker(selectedColor: pickedColor).show(context);
+
+            if (_pickedColor != null) {
+              setState(() => pickedColor = _pickedColor);
             }
           },
-          style: ElevatedButton.styleFrom(primary: color),
+          style: ElevatedButton.styleFrom(primary: pickedColor?.color),
           child: const Text('Pick color'),
         ),
       ),
