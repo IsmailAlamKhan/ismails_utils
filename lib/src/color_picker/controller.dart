@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../src.dart';
@@ -32,10 +34,16 @@ const _colorList = [
 class ColorPickerControllerController {
   final AnimationController animationController;
   final ColorPickerModel? selectedColorFromParent;
-  ColorPickerControllerController(
-    this.selectedColorFromParent,
-    this.animationController,
-  ) {
+
+  final Duration transitionDuration;
+  final Curve transitionCurve;
+
+  ColorPickerControllerController({
+    required this.animationController,
+    required this.selectedColorFromParent,
+    required this.transitionDuration,
+    required this.transitionCurve,
+  }) {
     init();
   }
 
@@ -50,14 +58,18 @@ class ColorPickerControllerController {
   ColorPickerModel get selectedColor => selectedColorNotifier.value;
   late final sizeNotifier = ValueNotifier<Size>(Size.zero);
   late final positionNotifier = ValueNotifier<double>(0);
+
+  Timer? timer;
   Future<void> setPostion() async {
     final index = colors.indexOf(selectedColorNotifier.value.materialColor);
-    final position = calculatePosition(index).dx;
+    final target = calculatePosition(index).dx;
 
     animationController.animateTo(
-      position,
-      duration: const Duration(milliseconds: 500),
+      target,
+      duration: transitionDuration,
+      curve: Curves.easeInOut,
     );
+    
   }
 
   void init() {
@@ -69,6 +81,7 @@ class ColorPickerControllerController {
       setPostion();
     });
     animationController.addListener(() {
+      LoggerService().info(animationController.value);
       positionNotifier.value = animationController.value;
     });
     selectedColorNotifier.addListener(setPostion);
@@ -108,6 +121,7 @@ class ColorPickerControllerController {
     sizeNotifier.dispose();
     selectedColorNotifier.dispose();
     positionNotifier.dispose();
+    timer?.cancel();
   }
 
   Offset calculatePosition(int index) {

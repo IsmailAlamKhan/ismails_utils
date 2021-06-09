@@ -91,7 +91,6 @@ class ColorPickerSlider extends StatelessWidget {
     return ValueListenableBuilder<double>(
       valueListenable: positionNotifier,
       builder: (_, postion, child) => Positioned(
-        // duration: const Duration(milliseconds: 500),
         left: postion.clamp(
               5,
               (MediaQuery.of(context).size.width - 5) -

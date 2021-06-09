@@ -6,10 +6,13 @@ import '../src.dart';
 class ColorPicker extends StatefulWidget {
   const ColorPicker({
     Key? key,
-    this.selectedColor,
     String? cancelText,
     String? confirmText,
     String? title,
+    this.selectedColor,
+    this.onConfirm,
+    this.transitionDuration = const Duration(milliseconds: 500),
+    this.transitionCurve = Curves.easeInExpo,
   })  : cancelText = cancelText ?? 'Cancel',
         confirmText = confirmText ?? 'Confirm',
         title = title ?? 'Pick your color',
@@ -18,10 +21,22 @@ class ColorPicker extends StatefulWidget {
   final String cancelText;
   final String confirmText;
   final String title;
+  final Duration transitionDuration;
+  final Curve transitionCurve;
+  final ValueChanged<ColorPickerModel?>? onConfirm;
   Future<ColorPickerModel?> show(BuildContext context) =>
       showModalBottomSheet<ColorPickerModel?>(
         context: context,
-        builder: (_) => this,
+        builder: (_) => ColorPicker(
+          onConfirm: Navigator.of(context).pop,
+          cancelText: cancelText,
+          confirmText: cancelText,
+          key: key,
+          selectedColor: selectedColor,
+          title: title,
+          transitionCurve: transitionCurve,
+          transitionDuration: transitionDuration,
+        ),
       );
 
   @override
@@ -30,15 +45,24 @@ class ColorPicker extends StatefulWidget {
 
 class _ColorPickerState extends State<ColorPicker>
     with SingleTickerProviderStateMixin {
-  late final AnimationController animationController = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 500),
-    upperBound: double.infinity,
-  );
-  late final controller = ColorPickerControllerController(
-    widget.selectedColor,
-    animationController,
-  );
+  late final AnimationController animationController;
+  late final ColorPickerControllerController controller;
+  @override
+  void initState() {
+    animationController = AnimationController(
+      vsync: this,
+      duration: widget.transitionDuration,
+      upperBound: double.infinity,
+    );
+    controller = ColorPickerControllerController(
+      animationController: animationController,
+      selectedColorFromParent: widget.selectedColor,
+      transitionCurve: widget.transitionCurve,
+      transitionDuration: widget.transitionDuration,
+    );
+    super.initState();
+  }
+
   @override
   void dispose() {
     controller.dispose();
@@ -62,7 +86,8 @@ class _ColorPickerState extends State<ColorPicker>
                   const Spacer(),
                   TextButton(
                     onPressed: () {
-                      Navigator.of(context).pop(controller.selectedColor);
+                      widget.onConfirm?.call(controller.selectedColor);
+                      // Navigator.of(context).pop(controller.selectedColor);
                     },
                     child: Text(widget.confirmText),
                   ),
@@ -74,7 +99,11 @@ class _ColorPickerState extends State<ColorPicker>
           MaterialColorPicker(controller: controller),
           Align(
             alignment: Alignment.centerLeft,
-            child: ColorShadePicker(controller: controller),
+            child: ColorShadePicker(
+              controller: controller,
+              transitionCurve: widget.transitionCurve,
+              transitionDuration: widget.transitionDuration,
+            ),
           ),
         ],
       ),

@@ -6,8 +6,13 @@ class ColorShadePicker extends StatelessWidget {
   const ColorShadePicker({
     Key? key,
     required this.controller,
+    required this.transitionDuration,
+    required this.transitionCurve,
   }) : super(key: key);
   final ColorPickerControllerController controller;
+
+  final Duration transitionDuration;
+  final Curve transitionCurve;
   @override
   Widget build(BuildContext context) {
     return Wrap(
@@ -31,6 +36,8 @@ class ColorShadePicker extends StatelessWidget {
         builder: (_, color, __) {
           final active = color.shade == shade;
           return AnimatedCard(
+            curve: transitionCurve,
+            duration: transitionDuration,
             color: color.materialColor[shade],
             margin: const EdgeInsets.all(5),
             clipBehavior: Clip.antiAlias,
