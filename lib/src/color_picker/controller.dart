@@ -69,7 +69,6 @@ class ColorPickerControllerController {
       duration: transitionDuration,
       curve: Curves.easeInOut,
     );
-    
   }
 
   void init() {
@@ -81,7 +80,6 @@ class ColorPickerControllerController {
       setPostion();
     });
     animationController.addListener(() {
-      LoggerService().info(animationController.value);
       positionNotifier.value = animationController.value;
     });
     selectedColorNotifier.addListener(setPostion);

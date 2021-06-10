@@ -24,8 +24,8 @@ class ChangeNotifierBuilder<T extends ChangeNotifier> extends StatelessWidget {
       return context
           .dependOnInheritedWidgetOfExactType<_ChangeNotifierBuilder<T>>()!
           .notifier!;
-    } catch (e) {
-      LoggerService().error(e);
+    } catch (e, s) {
+      LoggerService().error('ChangeNotifierBuilder of type $T not found', e, s);
       throw FlutterError(
         notFoundOnScopeError('ChangeNotifierBuilder of type $T'),
       );
