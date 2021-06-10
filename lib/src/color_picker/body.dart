@@ -6,19 +6,16 @@ import '../src.dart';
 class ColorPicker extends StatefulWidget {
   const ColorPicker({
     Key? key,
-    String? cancelText,
     String? confirmText,
     String? title,
     this.selectedColor,
     this.onConfirm,
     this.transitionDuration = const Duration(milliseconds: 500),
     this.transitionCurve = Curves.easeInExpo,
-  })  : cancelText = cancelText ?? 'Cancel',
-        confirmText = confirmText ?? 'Confirm',
+  })  : confirmText = confirmText ?? 'Confirm',
         title = title ?? 'Pick your color',
         super(key: key);
   final ColorPickerModel? selectedColor;
-  final String cancelText;
   final String confirmText;
   final String title;
   final Duration transitionDuration;
@@ -29,8 +26,7 @@ class ColorPicker extends StatefulWidget {
         context: context,
         builder: (_) => ColorPicker(
           onConfirm: Navigator.of(context).pop,
-          cancelText: cancelText,
-          confirmText: cancelText,
+          confirmText: confirmText,
           key: key,
           selectedColor: selectedColor,
           title: title,
