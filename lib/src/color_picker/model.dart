@@ -14,6 +14,14 @@ class ColorPickerModel {
           materialcolorShades.contains(shade),
           'The shade must contain in either of the color shades',
         );
+  factory ColorPickerModel.black() => ColorPickerModel(
+        materialColor: ColorPickerModel.blackMaterialColor,
+        shade: 900,
+      );
+  factory ColorPickerModel.white() => ColorPickerModel(
+        materialColor: ColorPickerModel.blackMaterialColor,
+        shade: 50,
+      );
 
   ColorPickerModel copyWith({
     MaterialColor? materialColor,
