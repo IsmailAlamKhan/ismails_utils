@@ -4,33 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../src.dart';
 
-const _defaultBlackValue = 0xFF000000;
-const _blackColor = MaterialColor(_defaultBlackValue, {
-  50: Color(0xFFFFFFFF),
-  100: Color(0xFFF3F3F3),
-  200: Color(0xFFEFEFEF),
-  300: Color(0xFFD9D9D9),
-  400: Color(0xFFCCCCCC),
-  500: Color(0xFFB7B7B7),
-  600: Color(0xFF999999),
-  700: Color(0xFF666666),
-  800: Color(0xFF434343),
-  900: Color(_defaultBlackValue),
-});
-
-const _colorList = [
-  _blackColor,
-  Colors.brown,
-  Colors.red,
-  Colors.orange,
-  Colors.yellow,
-  Colors.lime,
-  Colors.lightBlue,
-  Colors.blue,
-  Colors.purple,
-  Colors.pink,
-];
-
 class ColorPickerControllerController {
   final AnimationController animationController;
   final ColorPickerModel? selectedColorFromParent;
@@ -47,7 +20,7 @@ class ColorPickerControllerController {
     init();
   }
 
-  final colors = _colorList;
+  final colors = ColorPickerModel.colorList;
   late final List<GlobalKey> keys;
   late final ValueNotifier<ColorPickerModel> selectedColorNotifier =
       ValueNotifier<ColorPickerModel>(

@@ -40,4 +40,32 @@ class ColorPickerModel {
 
   @override
   int get hashCode => materialColor.hashCode ^ shade.hashCode;
+
+  static const defaultblackMaterialColorValue = 0xFF000000;
+  static const blackMaterialColor =
+      MaterialColor(defaultblackMaterialColorValue, {
+    50: Color(0xFFFFFFFF),
+    100: Color(0xFFF3F3F3),
+    200: Color(0xFFEFEFEF),
+    300: Color(0xFFD9D9D9),
+    400: Color(0xFFCCCCCC),
+    500: Color(0xFFB7B7B7),
+    600: Color(0xFF999999),
+    700: Color(0xFF666666),
+    800: Color(0xFF434343),
+    900: Color(defaultblackMaterialColorValue),
+  });
+
+  static const colorList = [
+    blackMaterialColor,
+    Colors.brown,
+    Colors.red,
+    Colors.orange,
+    Colors.yellow,
+    Colors.lime,
+    Colors.lightBlue,
+    Colors.blue,
+    Colors.purple,
+    Colors.pink,
+  ];
 }
