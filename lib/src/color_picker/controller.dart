@@ -31,7 +31,7 @@ class ColorPickerControllerController {
   ColorPickerModel get selectedColor => selectedColorNotifier.value;
   late final sizeNotifier = ValueNotifier<Size>(Size.zero);
   // late final positionNotifier = ValueNotifier<double>(0);
-  final positionNotifier = 0.0.euler(ease: 1, minDistance: 5);
+  final positionNotifier = 0.0.euler();
   Timer? timer;
   Future<void> setPostion() async {
     final index = colors.indexOf(selectedColorNotifier.value.materialColor);
