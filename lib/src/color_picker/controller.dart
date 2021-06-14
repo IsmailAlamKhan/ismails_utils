@@ -30,11 +30,11 @@ class ColorPickerControllerController {
 
   ColorPickerModel get selectedColor => selectedColorNotifier.value;
   late final sizeNotifier = ValueNotifier<Size>(Size.zero);
-  final positionNotifier = 0.0.euler(ease: _ease);
+  final positionMotion = 0.0.euler(ease: _ease);
   Future<void> setPostion() async {
     final index = colors.indexOf(selectedColorNotifier.value.materialColor);
     final target = calculatePosition(index).dx;
-    positionNotifier(target);
+    positionMotion(target);
   }
 
   void init() {
@@ -54,7 +54,7 @@ class ColorPickerControllerController {
 
   void onDragEnd(DragEndDetails details) {
     try {
-      final currentPostion = positionNotifier.value;
+      final currentPostion = positionMotion();
       final tileSize = sizeNotifier.value.width;
       final _index = currentPostion ~/ tileSize;
       final index = _index.floor();
@@ -72,9 +72,8 @@ class ColorPickerControllerController {
   double tileW = 50;
   void onDragUpdate(DragUpdateDetails details) {
     globalX = details.globalPosition.dx;
-    positionNotifier.ease = 1;
-    positionNotifier.value += globalX - oldGlobalX;
-    positionNotifier.ease = _ease;
+    positionMotion.target += globalX - oldGlobalX;
+
     oldGlobalX = globalX;
   }
 
@@ -85,7 +84,7 @@ class ColorPickerControllerController {
   void dispose() {
     sizeNotifier.dispose();
     selectedColorNotifier.dispose();
-    positionNotifier.dispose();
+    positionMotion.dispose();
   }
 
   Offset calculatePosition(int index) {

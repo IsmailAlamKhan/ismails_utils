@@ -62,7 +62,7 @@ class MaterialColorPicker extends StatelessWidget {
               onDragEnd: controller.onDragEnd,
               onDragUpdate: controller.onDragUpdate,
               onDragStart: controller.onDragStart,
-              positionNotifier: controller.positionNotifier,
+              positionMotion: controller.positionMotion,
               sizeNotifier: controller.sizeNotifier,
             ),
           ],
@@ -75,13 +75,13 @@ class MaterialColorPicker extends StatelessWidget {
 class ColorPickerSlider extends StatelessWidget {
   const ColorPickerSlider({
     Key? key,
-    required this.positionNotifier,
+    required this.positionMotion,
     required this.sizeNotifier,
     required this.onDragEnd,
     required this.onDragUpdate,
     required this.onDragStart,
   }) : super(key: key);
-  final EulerVal positionNotifier;
+  final EulerVal positionMotion;
   final ValueNotifier<Size> sizeNotifier;
   final GestureDragEndCallback onDragEnd;
   final GestureDragUpdateCallback onDragUpdate;
@@ -90,9 +90,9 @@ class ColorPickerSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return AnimatedBuilder(
-      animation: positionNotifier,
+      animation: positionMotion,
       builder: (_, child) => Positioned(
-        left: positionNotifier.value.clamp(
+        left: positionMotion.value.clamp(
               5,
               (MediaQuery.of(context).size.width - 5) -
                   sizeNotifier.value.width,
