@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../motion/motion.dart';
 
 import '../src.dart';
 
@@ -80,7 +81,7 @@ class ColorPickerSlider extends StatelessWidget {
     required this.onDragUpdate,
     required this.onDragStart,
   }) : super(key: key);
-  final ValueNotifier<double> positionNotifier;
+  final EulerVal positionNotifier;
   final ValueNotifier<Size> sizeNotifier;
   final GestureDragEndCallback onDragEnd;
   final GestureDragUpdateCallback onDragUpdate;
@@ -88,10 +89,10 @@ class ColorPickerSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return ValueListenableBuilder<double>(
-      valueListenable: positionNotifier,
-      builder: (_, postion, child) => Positioned(
-        left: postion.clamp(
+    return AnimatedBuilder(
+      animation: positionNotifier,
+      builder: (_, child) => Positioned(
+        left: positionNotifier.value.clamp(
               5,
               (MediaQuery.of(context).size.width - 5) -
                   sizeNotifier.value.width,

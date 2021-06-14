@@ -1,6 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import '../motion/motion.dart';
 
 import '../src.dart';
 
@@ -30,18 +30,19 @@ class ColorPickerControllerController {
 
   ColorPickerModel get selectedColor => selectedColorNotifier.value;
   late final sizeNotifier = ValueNotifier<Size>(Size.zero);
-  late final positionNotifier = ValueNotifier<double>(0);
-
+  // late final positionNotifier = ValueNotifier<double>(0);
+  final positionNotifier = 0.0.euler(ease: 1, minDistance: 5);
   Timer? timer;
   Future<void> setPostion() async {
     final index = colors.indexOf(selectedColorNotifier.value.materialColor);
     final target = calculatePosition(index).dx;
+    positionNotifier(target);
 
-    animationController.animateTo(
-      target,
-      duration: transitionDuration,
-      curve: Curves.easeInOut,
-    );
+    // animationController.animateTo(
+    //   target,
+    //   duration: transitionDuration,
+    //   curve: Curves.easeInOut,
+    // );
   }
 
   void init() {
@@ -52,9 +53,9 @@ class ColorPickerControllerController {
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       setPostion();
     });
-    animationController.addListener(() {
-      positionNotifier.value = animationController.value;
-    });
+    // animationController.addListener(() {
+    //   positionNotifier.value = animationController.value;
+    // });
     selectedColorNotifier.addListener(setPostion);
     sizeNotifier.addListener(setPostion);
   }
@@ -64,7 +65,7 @@ class ColorPickerControllerController {
       final currentPostion = positionNotifier.value;
       final tileSize = sizeNotifier.value.width;
       final _index = currentPostion ~/ tileSize;
-      final index = _index.round();
+      final index = _index.floor();
       selectedColorNotifier.value = selectedColorNotifier.value.copyWith(
         materialColor: colors.elementAt(index),
       );
