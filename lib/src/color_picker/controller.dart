@@ -72,7 +72,7 @@ class ColorPickerControllerController {
   double tileW = 50;
   void onDragUpdate(DragUpdateDetails details) {
     globalX = details.globalPosition.dx;
-    positionMotion.target += globalX - oldGlobalX;
+    positionMotion.set(positionMotion.value + globalX - oldGlobalX);
 
     oldGlobalX = globalX;
   }
