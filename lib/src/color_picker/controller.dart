@@ -4,15 +4,15 @@ import '../motion/motion.dart';
 
 import '../src.dart';
 
+const _ease = 10.0;
+
 class ColorPickerControllerController {
-  final AnimationController animationController;
   final ColorPickerModel? selectedColorFromParent;
 
   final Duration transitionDuration;
   final Curve transitionCurve;
 
   ColorPickerControllerController({
-    required this.animationController,
     required this.selectedColorFromParent,
     required this.transitionDuration,
     required this.transitionCurve,
@@ -30,19 +30,11 @@ class ColorPickerControllerController {
 
   ColorPickerModel get selectedColor => selectedColorNotifier.value;
   late final sizeNotifier = ValueNotifier<Size>(Size.zero);
-  // late final positionNotifier = ValueNotifier<double>(0);
-  final positionNotifier = 0.0.euler();
-  Timer? timer;
+  final positionNotifier = 0.0.euler(ease: _ease);
   Future<void> setPostion() async {
     final index = colors.indexOf(selectedColorNotifier.value.materialColor);
     final target = calculatePosition(index).dx;
     positionNotifier(target);
-
-    // animationController.animateTo(
-    //   target,
-    //   duration: transitionDuration,
-    //   curve: Curves.easeInOut,
-    // );
   }
 
   void init() {
@@ -80,8 +72,9 @@ class ColorPickerControllerController {
   double tileW = 50;
   void onDragUpdate(DragUpdateDetails details) {
     globalX = details.globalPosition.dx;
+    positionNotifier.ease = 1;
     positionNotifier.value += globalX - oldGlobalX;
-    animationController.value = positionNotifier.value;
+    positionNotifier.ease = _ease;
     oldGlobalX = globalX;
   }
 
@@ -93,7 +86,6 @@ class ColorPickerControllerController {
     sizeNotifier.dispose();
     selectedColorNotifier.dispose();
     positionNotifier.dispose();
-    timer?.cancel();
   }
 
   Offset calculatePosition(int index) {

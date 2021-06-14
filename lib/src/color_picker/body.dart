@@ -39,30 +39,17 @@ class ColorPicker extends StatefulWidget {
   _ColorPickerState createState() => _ColorPickerState();
 }
 
-class _ColorPickerState extends State<ColorPicker>
-    with TickerProviderStateMixin {
-  late final AnimationController animationController;
-  late final ColorPickerControllerController controller;
-  @override
-  void initState() {
-    animationController = AnimationController(
-      vsync: this,
-      duration: widget.transitionDuration,
-      upperBound: double.infinity,
-    );
-    controller = ColorPickerControllerController(
-      animationController: animationController,
-      selectedColorFromParent: widget.selectedColor,
-      transitionCurve: widget.transitionCurve,
-      transitionDuration: widget.transitionDuration,
-    );
-    super.initState();
-  }
+class _ColorPickerState extends State<ColorPicker> {
+  late final ColorPickerControllerController controller =
+      ColorPickerControllerController(
+    selectedColorFromParent: widget.selectedColor,
+    transitionCurve: widget.transitionCurve,
+    transitionDuration: widget.transitionDuration,
+  );
 
   @override
   void dispose() {
     controller.dispose();
-    animationController.dispose();
     super.dispose();
   }
 
