@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../motion/motion.dart';
+import 'package:just_motion/just_motion.dart';
 
 import '../src.dart';
 
@@ -81,7 +81,7 @@ class ColorPickerSlider extends StatelessWidget {
     required this.onDragUpdate,
     required this.onDragStart,
   }) : super(key: key);
-  final EulerVal positionMotion;
+  final EaseValue positionMotion;
   final ValueNotifier<Size> sizeNotifier;
   final GestureDragEndCallback onDragEnd;
   final GestureDragUpdateCallback onDragUpdate;

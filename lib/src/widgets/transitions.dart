@@ -133,16 +133,23 @@ class FadeRotateTransition extends IsmailAnimatedWidget {
   /// Creates a transition which Fades in and out also animates the rotation
   const FadeRotateTransition({
     required final Animation<double> animation,
+    final bool isReverse = false,
+    required this.start,
+    required this.end,
     required this.child,
     this.alignment = Alignment.center,
-    final bool isReverse = false,
   }) : super(animation: animation, isReverse: isReverse);
 
   const FadeRotateTransition.reverse({
     required final Animation<double> animation,
     required this.child,
     this.alignment = Alignment.center,
+    required this.start,
+    required this.end,
   }) : super(animation: animation, isReverse: true);
+
+  final double start;
+  final double end;
 
   final Widget child;
 

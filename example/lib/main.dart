@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ismails_utils/ismails_utils.dart';
+import 'package:just_motion/just_motion.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,25 +24,48 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  ColorPickerModel? pickedColor;
   @override
   Widget build(BuildContext context) {
+    final pickedColor = Colors.green.ease();
     return Scaffold(
       appBar: AppBar(title: const Text('Material App Bar')),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            final _pickedColor =
-                await ColorPicker(selectedColor: pickedColor).show(context);
+      body: pickedColor.builder<EaseColor>(
+        (_, pickedColor, ___) => Column(
+          children: [
+            const Hello(),
+            Center(
+              child: ElevatedButton(
+                onPressed: () async {
+                  final _pickedColor = await const ColorPicker().show(context);
 
-            if (_pickedColor != null) {
-              setState(() => pickedColor = _pickedColor);
-            }
-          },
-          style: ElevatedButton.styleFrom(primary: pickedColor?.color),
-          child: const Text('Pick color'),
+                  if (_pickedColor != null) {
+                    pickedColor(_pickedColor.color);
+                  }
+                },
+                child: const Text('Pick color'),
+              ),
+            )
+          ],
         ),
       ),
+    );
+  }
+}
+
+class Hello extends StatefulWidget {
+  const Hello({Key? key}) : super(key: key);
+
+  @override
+  _HelloState createState() => _HelloState();
+}
+
+class _HelloState extends State<Hello> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 400,
+      width: 400,
+      color: ChangeNotifierBuilder.of<EaseColor>(context)(),
     );
   }
 }

@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../motion/motion.dart';
+import 'package:just_motion/just_motion.dart';
 
 import '../src.dart';
-
-const _ease = 10.0;
 
 class ColorPickerControllerController {
   final ColorPickerModel? selectedColorFromParent;
@@ -30,7 +28,7 @@ class ColorPickerControllerController {
 
   ColorPickerModel get selectedColor => selectedColorNotifier.value;
   late final sizeNotifier = ValueNotifier<Size>(Size.zero);
-  final positionMotion = 0.0.euler(ease: _ease);
+  final positionMotion = 0.0.ease();
   Future<void> setPostion() async {
     final index = colors.indexOf(selectedColorNotifier.value.materialColor);
     final target = calculatePosition(index).dx;

@@ -247,6 +247,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.3"
+  just_motion:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "2159097c21585ef3748b902483a99e2d8a24d6cb"
+      url: "https://github.com/roipeker/just_motion.git"
+    source: git
+    version: "0.0.5+15"
   lint:
     dependency: "direct main"
     description:

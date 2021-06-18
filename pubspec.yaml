@@ -3,6 +3,7 @@ description: Some utils for any flutter project.
 version: 0.0.6
 author: Md Ismail Alam Khan
 homepage: "null"
+publish_to: "none"
 
 environment:
   sdk: ">=2.13.0 <3.0.0"
@@ -23,6 +24,8 @@ dependencies:
   shared_preferences: ^2.0.6
   sticky_headers: ^0.2.0
   validators: ^3.0.0
+  just_motion:
+    git: https://github.com/roipeker/just_motion.git
 
 dev_dependencies:
   flutter_test:
