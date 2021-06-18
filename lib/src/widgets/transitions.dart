@@ -20,6 +20,15 @@ abstract class IsmailAnimatedWidget extends AnimatedWidget {
     return _animation;
   }
 
+  Animation<double> get opacity => CurvedAnimation(
+        parent: progress,
+        curve: const Interval(
+          0.0,
+          0.5,
+          curve: Curves.easeInOut,
+        ),
+      );
+
   @override
   Widget build(BuildContext context);
 }
@@ -51,15 +60,6 @@ class FadeSlideTransition extends IsmailAnimatedWidget {
 
   final Widget child;
 
-  Animation<double> get _opacity => CurvedAnimation(
-        parent: progress,
-        curve: const Interval(
-          0.0,
-          0.5,
-          curve: Curves.easeInOut,
-        ),
-      );
-
   Animation<Offset> get _position => slide.animate(
         CurvedAnimation(
           parent: progress,
@@ -74,7 +74,7 @@ class FadeSlideTransition extends IsmailAnimatedWidget {
   @override
   Widget build(BuildContext context) {
     return FadeTransition(
-      opacity: _opacity,
+      opacity: opacity,
       child: SlideTransition(
         position: _position,
         child: child,
@@ -83,66 +83,86 @@ class FadeSlideTransition extends IsmailAnimatedWidget {
   }
 }
 
-class FadeSizeTransition extends AnimatedWidget {
-  /// Creates a transition which Fades in and out also Size the animates
+class FadeSizeTransition extends IsmailAnimatedWidget {
+  /// Creates a transition which Fades in and out also animates the size
   const FadeSizeTransition({
-    required this.animation,
+    required final Animation<double> animation,
     required this.child,
     this.axisAlignment = 0.0,
-    this.isReverse = false,
+    final bool isReverse = false,
     this.axis = Axis.vertical,
-  }) : super(listenable: animation);
+  }) : super(animation: animation, isReverse: isReverse);
+  const FadeSizeTransition.reverse({
+    required final Animation<double> animation,
+    required this.child,
+    this.axisAlignment = 0.0,
+    this.axis = Axis.vertical,
+  }) : super(animation: animation, isReverse: true);
 
-  /// This is the animaition that you will give its non-nullable
-  final Animation<double> animation;
   final Widget child;
 
   /// defaults to 0.0, which centers the child along the main axis during the
   /// transition.
   final double axisAlignment;
 
-  /// if this this is true the animation will be reversed.
-  /// So if the value is 1.0 the animation will be at stoppped state
-  /// and vice versa
-  final bool isReverse;
-
   /// [Axis.horizontal] if [sizeFactor] modifies the width, otherwise
   /// [Axis.vertical].
   final Axis axis;
 
-  Animation<double> get _progress {
-    if (isReverse) {
-      return ReverseAnimation(listenable as Animation<double>);
-    }
-    return listenable as Animation<double>;
-  }
-
-  /// This the opacity that is used on the FadeTransition
-  Animation<double> get _opacity {
-    return CurvedAnimation(
-      parent: _progress,
-      curve: const Interval(
-        0.0,
-        0.5,
-        curve: Curves.easeInOut,
-      ),
-    );
-  }
-
   /// This the sizeFactor that is used on the SizeTransition
   Animation<double> get _sizeFactor => CurvedAnimation(
-        parent: _progress,
+        parent: progress,
         curve: Curves.easeInOut,
       );
 
   @override
   Widget build(BuildContext context) {
     return FadeTransition(
-      opacity: _opacity,
+      opacity: opacity,
       child: SizeTransition(
         axis: axis,
         axisAlignment: axisAlignment,
         sizeFactor: _sizeFactor,
+        child: child,
+      ),
+    );
+  }
+}
+
+class FadeRotateTransition extends IsmailAnimatedWidget {
+  /// Creates a transition which Fades in and out also animates the rotation
+  const FadeRotateTransition({
+    required final Animation<double> animation,
+    required this.child,
+    this.alignment = Alignment.center,
+    final bool isReverse = false,
+  }) : super(animation: animation, isReverse: isReverse);
+
+  const FadeRotateTransition.reverse({
+    required final Animation<double> animation,
+    required this.child,
+    this.alignment = Alignment.center,
+  }) : super(animation: animation, isReverse: true);
+
+  final Widget child;
+
+  /// defaults to 0.0, which centers the child along the main axis during the
+  /// transition.
+  final Alignment alignment;
+
+  /// This the sizeFactor that is used on the SizeTransition
+  Animation<double> get _turns => CurvedAnimation(
+        parent: progress,
+        curve: Curves.easeInOut,
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: opacity,
+      child: RotationTransition(
+        alignment: alignment,
+        turns: _turns,
         child: child,
       ),
     );
