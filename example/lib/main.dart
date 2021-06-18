@@ -26,46 +26,35 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    final pickedColor = Colors.green.ease();
     return Scaffold(
       appBar: AppBar(title: const Text('Material App Bar')),
-      body: pickedColor.builder<EaseColor>(
-        (_, pickedColor, ___) => Column(
-          children: [
-            const Hello(),
-            Center(
-              child: ElevatedButton(
-                onPressed: () async {
-                  final _pickedColor = await const ColorPicker().show(context);
-
-                  if (_pickedColor != null) {
-                    pickedColor(_pickedColor.color);
-                  }
-                },
-                child: const Text('Pick color'),
-              ),
-            )
-          ],
-        ),
+      body: Column(
+        children: [
+          Hello(),
+          Center(
+            child: ElevatedButton(
+              onPressed: () async {
+                setState(() {});
+              },
+              child: const Text('Pick color'),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class Hello extends StatefulWidget {
+class Hello extends StatelessWidget {
   const Hello({Key? key}) : super(key: key);
 
   @override
-  _HelloState createState() => _HelloState();
-}
-
-class _HelloState extends State<Hello> {
-  @override
   Widget build(BuildContext context) {
+    print('HELLo');
+    final color = 5.ease();
     return Container(
       height: 400,
       width: 400,
-      color: ChangeNotifierBuilder.of<EaseColor>(context)(),
     );
   }
 }

@@ -134,8 +134,9 @@ class FadeRotateTransition extends IsmailAnimatedWidget {
   const FadeRotateTransition({
     required final Animation<double> animation,
     final bool isReverse = false,
-    required this.start,
-    required this.end,
+    this.start = 0,
+    this.end = 1,
+
     required this.child,
     this.alignment = Alignment.center,
   }) : super(animation: animation, isReverse: isReverse);
@@ -144,8 +145,8 @@ class FadeRotateTransition extends IsmailAnimatedWidget {
     required final Animation<double> animation,
     required this.child,
     this.alignment = Alignment.center,
-    required this.start,
-    required this.end,
+    this.start=0,
+    this.end=1,
   }) : super(animation: animation, isReverse: true);
 
   final double start;
@@ -158,10 +159,13 @@ class FadeRotateTransition extends IsmailAnimatedWidget {
   final Alignment alignment;
 
   /// This the sizeFactor that is used on the SizeTransition
-  Animation<double> get _turns => CurvedAnimation(
+  Animation<double> get _turns => Tween(
+        begin: start,
+        end: end,
+      ).animate(CurvedAnimation(
         parent: progress,
         curve: Curves.easeInOut,
-      );
+      ));
 
   @override
   Widget build(BuildContext context) {
