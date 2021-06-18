@@ -31,17 +31,17 @@ class ControlAnimationWithConditionState
   @override
   Widget build(BuildContext context) {
     if (widget.condition) {
-      animationController.forward();
+      animation.forward();
     } else {
-      animationController.reverse();
+      animation.reverse();
     }
     return AnimatedBuilder(
       builder: (context, child) => widget.builder(
         context,
         child,
-        animationController,
+        animation,
       ),
-      animation: animationController,
+      animation: animation,
       child: widget.child,
     );
   }
