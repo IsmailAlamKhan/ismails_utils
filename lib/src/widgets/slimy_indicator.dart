@@ -37,7 +37,12 @@ class _SlimySwitchState extends State<SlimySwitch> with Logger {
 
   @override
   Widget build(BuildContext context) {
-    final activeColor = widget.activeColor ?? Theme.of(context).primaryColor;
+    Color activeColor;
+    if (currentIndex == 0) {
+      activeColor = widget.activeColor ?? Theme.of(context).primaryColor;
+    } else {
+      activeColor = widget.activeColor ?? Theme.of(context).accentColor;
+    }
     return Center(
       child: SizedBox.fromSize(
         size: widget.size,

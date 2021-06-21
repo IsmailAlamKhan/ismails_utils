@@ -110,10 +110,12 @@ packages:
   just_motion:
     dependency: "direct main"
     description:
-      path: "../just_motion"
-      relative: true
-    source: path
-    version: "0.0.5+15"
+      path: "."
+      ref: HEAD
+      resolved-ref: c6ee99cbffce216e0c4587c1005f4104057d44a3
+      url: "https://github.com/roipeker/just_motion.git"
+    source: git
+    version: "0.0.6+23"
   matcher:
     dependency: transitive
     description:
