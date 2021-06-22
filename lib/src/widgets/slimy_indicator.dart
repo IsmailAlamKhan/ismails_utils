@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../src.dart';
 
+typedef SlimyIndicatorBuilder = Widget Function(
+  BuildContext context,
+  int index,
+  GestureTapCallback? onChange,
+);
+
 class SlimySwitch extends StatefulWidget {
   SlimySwitch({
     Key? key,
@@ -11,6 +17,8 @@ class SlimySwitch extends StatefulWidget {
     this.onChanged,
     this.activeColor,
     this.padding = 10,
+    this.builder,
+    this.duration = const Duration(milliseconds: 500),
     final double? buttonWidth,
   })  : itemCount = items.length,
         super(key: key) {
@@ -24,12 +32,13 @@ class SlimySwitch extends StatefulWidget {
   final int itemCount;
   final Color? activeColor;
   final double padding;
+  final Duration duration;
+  final SlimyIndicatorBuilder? builder;
   @override
   _SlimySwitchState createState() => _SlimySwitchState();
 }
 
 class _SlimySwitchState extends State<SlimySwitch> with Logger {
-  final duration = const Duration(milliseconds: 500);
   int get currentIndex => widget.currentIndex;
   double _postion(bool isLeft) {
     return currentIndex == (isLeft ? 0 : 1) ? 0 : widget.buttonWidth;
@@ -47,7 +56,7 @@ class _SlimySwitchState extends State<SlimySwitch> with Logger {
       child: SizedBox.fromSize(
         size: widget.size,
         child: AnimatedContainer(
-          duration: duration,
+          duration: widget.duration,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: activeColor),
@@ -56,13 +65,12 @@ class _SlimySwitchState extends State<SlimySwitch> with Logger {
           child: Stack(
             children: [
               AnimatedPositioned(
-                duration: duration,
+                duration: widget.duration,
                 left: _postion(true),
                 right: _postion(false),
                 child: Builder(builder: (context) {
-                  logger.info(widget.buttonWidth);
                   return AnimatedContainer(
-                    duration: duration,
+                    duration: widget.duration,
                     width: widget.buttonWidth,
                     height: widget.size.height,
                     decoration: BoxDecoration(
@@ -76,18 +84,22 @@ class _SlimySwitchState extends State<SlimySwitch> with Logger {
                 children: widget.items.map(
                   (e) {
                     final index = widget.items.indexOf(e);
+                    final disabled = index == widget.currentIndex;
+                    void onChange() => widget.onChanged?.call(index);
+
                     return Expanded(
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: index == widget.currentIndex
-                              ? null
-                              : () {
-                                  widget.onChanged?.call(index);
-                                },
-                          child: Center(child: Text(e)),
-                        ),
-                      ),
+                      child: widget.builder?.call(
+                            context,
+                            index,
+                            disabled ? null : onChange,
+                          ) ??
+                          Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: disabled ? null : onChange,
+                              child: Center(child: Text(e)),
+                            ),
+                          ),
                     );
                   },
                 ).toList(),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:just_motion/just_motion.dart';
+import 'package:ismails_utils/ismails_utils.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,72 +8,40 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Material App',
-      home: DemoMemory(),
+      home: Home(),
+      theme: ThemeData.dark(),
     );
   }
 }
 
-class DemoMemory extends StatefulWidget {
-  const DemoMemory({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  const Home({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  _DemoMemoryState createState() => _DemoMemoryState();
+  _HomeState createState() => _HomeState();
 }
 
-class _DemoMemoryState extends State<DemoMemory> {
+const _list = ['Hello!!', 'Bye!'];
+
+class _HomeState extends State<Home> {
+  int index = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: MoveBox(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {});
-        },
-      ),
-    );
-  }
-}
-
-class MoveBox extends StatelessWidget {
-  const MoveBox({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    const p1 = Offset(0, 0);
-    const p2 = Offset(90, 0);
-    final mover = p1.ease(minDistance: .01, ease: 1 / 10);
-    final scale = .25.ease(minDistance: .01, ease: 1 / 20);
-    mover.to(p2, delay: 0);
-    scale.to(2, delay: 0);
-
-    scale.addStatusListener(() {
-      // print('Scale status ${scale}');
-      if (scale.completed) {
-        mover(mover() == p1 ? p2 : p1);
-        scale(scale() < 1 ? 2 : .25);
-      }
-    });
-    // TickerMan.instance.motions.forEach((mo) {
-    //   print(mo);
-    //   print(mo.hasListeners);
-    // });
-    // print(TickerMan.instance.motions);
-    return Motion(
-      () => Transform.translate(
-        offset: mover(),
-        child: Transform.scale(
-          scale: scale(),
-          child: Container(
-            color: Colors.blue,
-            width: 40,
-            height: 40,
+      appBar: AppBar(title: const Text('Material App Bar')),
+      body: Column(
+        children: [
+          SlimySwitch(
+            items: _list,
+            currentIndex: index,
+            size: const Size(180, 50),
+            onChanged: (value) => setState(() => index = value),
           ),
-        ),
+          Center(child: Text(_list[index])),
+        ],
       ),
-      key: ValueKey('scaler'),
     );
   }
 }
