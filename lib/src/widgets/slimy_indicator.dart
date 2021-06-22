@@ -84,19 +84,24 @@ class _SlimySwitchState extends State<SlimySwitch> with Logger {
                 children: widget.items.map(
                   (e) {
                     final index = widget.items.indexOf(e);
-                    final disabled = index == widget.currentIndex;
-                    void onChange() => widget.onChanged?.call(index);
+                    void onChange() {
+                      widget.onChanged?.call(index);
+                    }
+
+                    GestureTapCallback? onTap() {
+                      if (index != widget.currentIndex) return onChange;
+                    }
 
                     return Expanded(
                       child: widget.builder?.call(
                             context,
                             index,
-                            disabled ? null : onChange,
+                            onTap(),
                           ) ??
                           Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              onTap: disabled ? null : onChange,
+                              onTap: onTap(),
                               child: Center(child: Text(e)),
                             ),
                           ),

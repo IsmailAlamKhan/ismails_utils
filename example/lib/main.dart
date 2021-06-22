@@ -38,6 +38,10 @@ class _HomeState extends State<Home> {
             currentIndex: index,
             size: const Size(180, 50),
             onChanged: (value) => setState(() => index = value),
+            builder: (context, index, onChange) => InkWell(
+              onTap: onChange,
+              child: Center(child: Text(_list[index])),
+            ),
           ),
           Center(child: Text(_list[index])),
         ],
