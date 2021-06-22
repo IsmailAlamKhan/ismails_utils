@@ -11,7 +11,7 @@ typedef SlimyIndicatorBuilder = Widget Function(
 class SlimySwitch extends StatefulWidget {
   SlimySwitch({
     Key? key,
-    required this.size,
+    this.size = const Size(180, 30),
     required this.currentIndex,
     required this.items,
     this.onChanged,
