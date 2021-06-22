@@ -26,8 +26,8 @@ class SlimySwitch extends StatefulWidget {
   }
   final Size size;
   late final double buttonWidth;
-  final int currentIndex;
-  final ValueChanged<int>? onChanged;
+  final double currentIndex;
+  final ValueChanged<double>? onChanged;
   final List<String> items;
   final int itemCount;
   final Color? activeColor;
@@ -39,19 +39,14 @@ class SlimySwitch extends StatefulWidget {
 }
 
 class _SlimySwitchState extends State<SlimySwitch> with Logger {
-  int get currentIndex => widget.currentIndex;
+  double get currentIndex => widget.currentIndex;
   double _postion(bool isLeft) {
-    return currentIndex == (isLeft ? 0 : 1) ? 0 : widget.buttonWidth;
+    return widget.buttonWidth * currentIndex;
   }
 
   @override
   Widget build(BuildContext context) {
-    Color activeColor;
-    if (currentIndex == 0) {
-      activeColor = widget.activeColor ?? Theme.of(context).primaryColor;
-    } else {
-      activeColor = widget.activeColor ?? Theme.of(context).accentColor;
-    }
+    final activeColor = widget.activeColor ?? Theme.of(context).primaryColor;
     return Center(
       child: SizedBox.fromSize(
         size: widget.size,
@@ -64,19 +59,15 @@ class _SlimySwitchState extends State<SlimySwitch> with Logger {
           clipBehavior: Clip.antiAlias,
           child: Stack(
             children: [
-              AnimatedPositioned(
-                duration: widget.duration,
+              Positioned(
                 left: _postion(true),
-                right: _postion(false),
+                // right: _postion(false),
                 child: Builder(builder: (context) {
                   return AnimatedContainer(
                     duration: widget.duration,
                     width: widget.buttonWidth,
                     height: widget.size.height,
-                    decoration: BoxDecoration(
-                      color: activeColor,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                    color: activeColor,
                   );
                 }),
               ),
@@ -85,7 +76,7 @@ class _SlimySwitchState extends State<SlimySwitch> with Logger {
                   (e) {
                     final index = widget.items.indexOf(e);
                     void onChange() {
-                      widget.onChanged?.call(index);
+                      widget.onChanged?.call(index.roundToDouble());
                     }
 
                     GestureTapCallback? onTap() {

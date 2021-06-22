@@ -23,10 +23,22 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-const _list = ['Hello!!', 'Bye!'];
+const _list = ['Hello!!', 'Bye!', 'GOOD BYE!'];
 
 class _HomeState extends State<Home> {
-  int index = 0;
+  double index = 0;
+  late final PageController pageController;
+  @override
+  void initState() {
+    pageController = PageController()
+      ..addListener(() {
+        setState(() {
+          index = pageController.page ?? 0;
+        });
+      });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,14 +48,38 @@ class _HomeState extends State<Home> {
           SlimySwitch(
             items: _list,
             currentIndex: index,
-            size: const Size(180, 50),
-            onChanged: (value) => setState(() => index = value),
+            onChanged: (value) {
+              print(value);
+              pageController.animateTo(
+                value,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeIn,
+              );
+            },
             builder: (context, index, onChange) => InkWell(
               onTap: onChange,
               child: Center(child: Text(_list[index])),
             ),
           ),
-          Center(child: Text(_list[index])),
+          Expanded(
+            child: PageView.builder(
+              controller: pageController,
+              // itemCount: _list.length,
+              itemBuilder: (context, index) => Center(
+                child: Text(_list[index]),
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              pageController.nextPage(
+                // 2.0,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeIn,
+              );
+            },
+            child: Text('hello'),
+          ),
         ],
       ),
     );
