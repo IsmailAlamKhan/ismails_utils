@@ -38,9 +38,7 @@ class SlimySwitch extends StatefulWidget {
 
 class _SlimySwitchState extends State<SlimySwitch> with Logger {
   double get currentIndex => widget.currentIndex;
-  double _postion(bool isLeft) {
-    return widget.buttonWidth * currentIndex;
-  }
+  double get _postion => widget.buttonWidth * currentIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +55,7 @@ class _SlimySwitchState extends State<SlimySwitch> with Logger {
           child: Stack(
             children: [
               Positioned(
-                left: _postion(true),
+                left: _postion,
                 child: Container(
                   width: widget.buttonWidth,
                   height: widget.size.height,

@@ -14,23 +14,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-const list = [
-  'https://images.pexels.com/photos/4240093/pexels-photo-4240093.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-  'https://images.pexels.com/photos/6832295/pexels-photo-6832295.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-  'https://images.pexels.com/photos/6751203/pexels-photo-6751203.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-  'https://images.pexels.com/photos/6751203/pexels-photo-6751203.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-  'https://images.pexels.com/photos/6751203/pexels-photo-6751203.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-  'https://images.pexels.com/photos/6751203/pexels-photo-6751203.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-  'https://images.pexels.com/photos/6751203/pexels-photo-6751203.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-  'https://images.pexels.com/photos/6751203/pexels-photo-6751203.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-  'https://images.pexels.com/photos/6751203/pexels-photo-6751203.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-  'https://images.pexels.com/photos/6751203/pexels-photo-6751203.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-  'https://images.pexels.com/photos/6751203/pexels-photo-6751203.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-  'https://images.pexels.com/photos/6751203/pexels-photo-6751203.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-  'https://images.pexels.com/photos/6751203/pexels-photo-6751203.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-  'https://images.pexels.com/photos/6751203/pexels-photo-6751203.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-];
-
 class Home extends StatefulWidget {
   const Home({
     Key? key,
@@ -40,36 +23,34 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
-  final ease = 0.0.ease();
+const colors = [Colors.green, Colors.red];
+
+class _HomeState extends AnimationControllerState<Home> {
   @override
   Widget build(BuildContext context) {
     return Motion(
       () => Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Motion(() => SlimySwitch(
-                // size: ,
-                currentIndex: ease(),
+          title: AnimatedBuilder(
+            animation: animation,
+            builder: (_, __) {
+              final anim = animation.value;
+              final color = Color.lerp(colors[0], colors[1], anim);
+              return SlimySwitch(
+                activeColor: color,
+                currentIndex: anim,
                 items: const ['Hello', 'Bello'],
-                onChanged: ease,
-              )),
-        ),
-        body: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 500),
-          child: ease().between(0.0, 0.5)
-              ? GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                  ),
-                  itemCount: list.length,
-                  itemBuilder: (_, index) => Card(
-                    color: Colors.green,
-                    clipBehavior: Clip.antiAlias,
-                    child: Image.network(list[index]),
-                  ),
-                )
-              : const SizedBox.shrink(),
+                onChanged: (value) {
+                  animation.animateTo(
+                    value,
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                },
+              );
+            },
+          ),
         ),
       ),
     );
