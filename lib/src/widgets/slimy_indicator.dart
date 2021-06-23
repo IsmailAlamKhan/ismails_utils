@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../src.dart';
 
-typedef SlimyIndicatorBuilder = Widget Function(
+typedef SlimySwitchBuilder = Widget Function(
   BuildContext context,
   int index,
   GestureTapCallback? onChange,
@@ -18,7 +18,6 @@ class SlimySwitch extends StatefulWidget {
     this.activeColor,
     this.padding = 10,
     this.builder,
-    this.duration = const Duration(milliseconds: 500),
     final double? buttonWidth,
   })  : itemCount = items.length,
         super(key: key) {
@@ -32,8 +31,7 @@ class SlimySwitch extends StatefulWidget {
   final int itemCount;
   final Color? activeColor;
   final double padding;
-  final Duration duration;
-  final SlimyIndicatorBuilder? builder;
+  final SlimySwitchBuilder? builder;
   @override
   _SlimySwitchState createState() => _SlimySwitchState();
 }
@@ -50,8 +48,7 @@ class _SlimySwitchState extends State<SlimySwitch> with Logger {
     return Center(
       child: SizedBox.fromSize(
         size: widget.size,
-        child: AnimatedContainer(
-          duration: widget.duration,
+        child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(color: activeColor),
@@ -61,15 +58,11 @@ class _SlimySwitchState extends State<SlimySwitch> with Logger {
             children: [
               Positioned(
                 left: _postion(true),
-                // right: _postion(false),
-                child: Builder(builder: (context) {
-                  return AnimatedContainer(
-                    duration: widget.duration,
-                    width: widget.buttonWidth,
-                    height: widget.size.height,
-                    color: activeColor,
-                  );
-                }),
+                child: Container(
+                  width: widget.buttonWidth,
+                  height: widget.size.height,
+                  color: activeColor,
+                ),
               ),
               Row(
                 children: widget.items.map(
