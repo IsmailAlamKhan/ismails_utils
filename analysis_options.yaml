@@ -19,6 +19,8 @@ analyzer:
     prefer_asserts_with_message: info
     missing_return: error
     sort_pub_dependencies: ignore
+    todo: info
+
 
 linter:
   rules:
