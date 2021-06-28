@@ -2,10 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../ismails_utils.dart';
 
-class IsmailException with Logger implements Exception {
-  @override
-  String name = 'IsmailException';
-
+class IsmailException with IsmailLoggerMixin implements Exception {
   /// return IsmailException from object
   IsmailException.error(Object? e) {
     message = e.toString();
@@ -175,10 +172,10 @@ class IsmailException with Logger implements Exception {
         '$_isReadOnlyError'
         '$_isSyntaxError'
         '$_isUniqueConstraintError';
-    logger.error(
+    logError(
       'Sqllite Error',
-      _messege,
-      StackTrace.fromString(databaseException.toString()),
+      error: _messege,
+      stackTrace: StackTrace.fromString(databaseException.toString()),
     );
   }
 }

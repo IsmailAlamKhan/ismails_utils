@@ -5,7 +5,7 @@ import '../src.dart';
 
 const _themeFromStorageKey = 'thememode';
 
-class ThemeChangeNotifier extends ChangeNotifier with Logger {
+class ThemeChangeNotifier extends ChangeNotifier with IsmailLoggerMixin {
   late final _pref = StorageService().pref;
   @override
   String name = 'ThemeNotifier';
@@ -31,7 +31,7 @@ class ThemeChangeNotifier extends ChangeNotifier with Logger {
 
   void changeTheme(ThemeMode themeMode) {
     if (themeMode == _themeMode) return;
-    _instance.logger.info('Changing theme from $_themeMode to $themeMode');
+    _instance.logInfo('Changing theme from $_themeMode to $themeMode');
     _themeMode = themeMode;
     _storeThemeToStorage();
     notifyListeners();
@@ -43,11 +43,11 @@ class ThemeChangeNotifier extends ChangeNotifier with Logger {
   ThemeMode _getThemeFromStorage() {
     String? _themeFromStorage = _pref.getString(_themeFromStorageKey);
     if (_themeFromStorage == null) {
-      _instance.logger.info(
+      _instance.logInfo(
         'No theme found from storage using the default one',
       );
     } else {
-      _instance.logger.info('$_themeFromStorage got from storage');
+      _instance.logInfo('$_themeFromStorage got from storage');
     }
 
     _themeFromStorage ??= themeMode.toString();

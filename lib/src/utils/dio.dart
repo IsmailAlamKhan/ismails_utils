@@ -2,14 +2,14 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import '../src.dart';
 
 /// {@template DioClient}
 /// This is the dioclient which returns a response or an
 /// [IsmailException.fromDioError]
 /// {@endtemplate}
-class DioClient with Logger {
+class DioClient with IsmailLoggerMixin {
   @override
   String name = 'DioClient';
 
@@ -22,7 +22,7 @@ class DioClient with Logger {
     this.responseBody = true,
   }) : assert(!wantConnectivityCheck || host != null || port != null,
             'DioClient- If you want connectivity check please provide host and port') {
-    logger.info('DioClient started, Base Url is ${baseOptions.baseUrl}');
+    logInfo('DioClient started, Base Url is ${baseOptions.baseUrl}');
     instance = this;
   }
 
@@ -50,16 +50,12 @@ class DioClient with Logger {
   Dio get _dio => Dio(baseOptions)
     ..httpClientAdapter
     ..interceptors.add(
-      LogInterceptor(
-        logPrint: (object) async {
-          if (kDebugMode) {
-            logger.info(object.toString());
-          }
-        },
-        requestHeader: false,
-        responseHeader: false,
-        responseBody: responseBody,
+      PrettyDioLogger(
+        requestHeader: true,
         requestBody: true,
+        responseBody: responseBody,
+        responseHeader: true,
+        logPrint: logInfo,
       ),
     );
 

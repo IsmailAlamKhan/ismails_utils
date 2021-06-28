@@ -46,11 +46,11 @@ class FileServiceForIo extends FileService {
     final localPath = await getLocalPath;
     final _file = File('${localPath.path}${extraPath ?? ''}$slash$name');
     if (_file.existsSync()) {
-      logger.info('File exists');
+      logInfo('File exists');
       return _file;
     } else {
       _file.createSync(recursive: true);
-      logger.info('File created at ${_file.path}');
+      logInfo('File created at ${_file.path}');
       return _file;
     }
   }

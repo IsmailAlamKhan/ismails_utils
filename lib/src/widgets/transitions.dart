@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../src.dart';
-
 /// Base Class of the animated widgets I provided
 /// This takes Animation<double> to do the animation
 /// provides a progress variable which will give the correct animation
