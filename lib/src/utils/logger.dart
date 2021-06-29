@@ -21,22 +21,42 @@ mixin IsmailLoggerMixin {
 
 class IsmailLogger {
   final String name;
-  late Logger logger = Logger(name);
 
-  IsmailLogger([String? name]) : name = name ?? 'IsmailLogger' {
-    init();
+  IsmailLogger([String? name]) : name = name ?? 'IsmailLogger';
+
+  void error(Object? message, {Object? error, StackTrace? stackTrace}) {
+    // logger.shout(messege, error, stackTrace);
+    logRecord(LogRecord(
+      Level.SHOUT,
+      message.toString(),
+      name,
+      error,
+      stackTrace,
+      Zone.current,
+    ));
   }
-  void init() => logger.onRecord.listen(logRecord);
 
-  void error(Object? messege, {Object? error, StackTrace? stackTrace}) {
-    logger.shout(messege, error, stackTrace);
+  void warning(Object? message, {Object? warning, StackTrace? stackTrace}) {
+    logRecord(LogRecord(
+      Level.WARNING,
+      message.toString(),
+      name,
+      error,
+      stackTrace,
+      Zone.current,
+    ));
   }
 
-  void warning(Object? messege, {Object? warning, StackTrace? stackTrace}) {
-    logger.warning(messege, warning, stackTrace);
-  }
-
-  void info(Object? messege) => logger.info(messege);
+  void info(Object? message) => logRecord(
+        LogRecord(
+          Level.INFO,
+          message.toString(),
+          name,
+          error,
+          StackTrace.current,
+          Zone.current,
+        ),
+      );
 
   void logRecord(LogRecord record) {
     final level = record.level;
@@ -66,8 +86,8 @@ class IsmailLogger {
       log(
         _messege,
         time: time,
-        error: error,
-        stackTrace: stack,
+        error: isNormal ? null : error,
+        stackTrace: isNormal ? null : stack,
         name: name,
         level: level.value,
         sequenceNumber: sequenceNumber,
