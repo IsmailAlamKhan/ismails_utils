@@ -41,7 +41,7 @@ class IsmailLogger {
       Level.WARNING,
       message.toString(),
       name,
-      error,
+      warning,
       stackTrace,
       Zone.current,
     ));
@@ -52,7 +52,7 @@ class IsmailLogger {
           Level.INFO,
           message.toString(),
           name,
-          error,
+          null,
           StackTrace.current,
           Zone.current,
         ),
