@@ -25,7 +25,7 @@ class IsmailLogger {
   IsmailLogger([String? name]) : name = name ?? 'IsmailLogger' {
     init();
   }
-  void init() => logger.onRecord.listen(_log);
+  void init() => logger.onRecord.listen(logRecord);
 
   void error(Object? messege, {Object? error, StackTrace? stackTrace}) {
     logger.shout(messege, error, stackTrace);
@@ -37,7 +37,7 @@ class IsmailLogger {
 
   void info(Object? messege) => logger.info(messege);
 
-  static void _log(LogRecord record) {
+  void logRecord(LogRecord record) {
     final level = record.level;
     final messege = record.message;
     final time = record.time;
