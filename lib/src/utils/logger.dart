@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:logging/logging.dart';
@@ -19,13 +20,19 @@ mixin IsmailLoggerMixin {
 }
 
 class IsmailLogger {
+  StreamSubscription<LogRecord>? _streamSubscription;
   final String name;
   Logger get logger => Logger(name);
 
   IsmailLogger([String? name]) : name = name ?? 'IsmailLogger' {
     init();
   }
-  void init() => logger.onRecord.listen(logRecord);
+  void init() {
+    _streamSubscription?.cancel();
+    _streamSubscription = logger.onRecord.listen(logRecord);
+  }
+
+  void dispose() => _streamSubscription?.cancel();
 
   void error(Object? messege, {Object? error, StackTrace? stackTrace}) {
     logger.shout(messege, error, stackTrace);
