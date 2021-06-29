@@ -22,8 +22,10 @@ class IsmailLogger {
   final String name;
   Logger get logger => Logger(name);
 
-  IsmailLogger(String? name) : name = name ?? 'IsmailLogger';
-  static void init() => Logger.root.onRecord.listen(_log);
+  IsmailLogger([String? name]) : name = name ?? 'IsmailLogger' {
+    _init();
+  }
+  void _init() => logger.onRecord.listen(_log);
 
   void error(Object? messege, {Object? error, StackTrace? stackTrace}) {
     logger.shout(messege, error, stackTrace);
