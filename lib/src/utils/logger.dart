@@ -81,19 +81,16 @@ class IsmailLogger {
     if (isNormal) {
       _messege = 'ℹ \x1B[34m$messege\x1B[0m';
     }
-
-    if (level == Level.SHOUT) {
-      log(
-        _messege,
-        time: time,
-        error: isNormal ? null : error,
-        stackTrace: isNormal ? null : stack,
-        name: name,
-        level: level.value,
-        sequenceNumber: sequenceNumber,
-        zone: zone,
-      );
-    }
+    log(
+      _messege,
+      time: time,
+      error: isNormal ? null : error,
+      stackTrace: isNormal ? null : stack,
+      name: name,
+      level: level.value,
+      sequenceNumber: sequenceNumber,
+      zone: zone,
+    );
   }
 
   IsmailLogger copyWith({String? name}) => IsmailLogger(name ?? this.name);
