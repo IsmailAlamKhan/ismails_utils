@@ -73,13 +73,13 @@ class IsmailLogger {
     final isNormal = level.value.between(0, 900);
     String _messege = '';
     if (isError) {
-      _messege = '😭 \x1B[31m$messege\x1B[0m';
+      _messege = '😭 $messege';
     }
     if (isWarning) {
-      _messege = '⚠ \x1B[33m$messege\x1B[0m';
+      _messege = '⚠ $messege';
     }
     if (isNormal) {
-      _messege = 'ℹ \x1B[34m$messege\x1B[0m';
+      _messege = 'ℹ $messege';
     }
     log(
       _messege,
