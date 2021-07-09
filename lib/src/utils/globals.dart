@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -57,3 +58,13 @@ String notFoundOnScopeError(String type) {
 
 const materialcolorShades = {50, 100, 200, 300, 400, 500, 600, 700, 800, 900};
 const defaultColorShade = 400;
+
+const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+final _rnd = Random();
+
+String getRandomString(int length) => String.fromCharCodes(
+      Iterable.generate(
+        length,
+        (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length)),
+      ),
+    );

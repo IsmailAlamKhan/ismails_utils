@@ -6,13 +6,13 @@ import '../../src.dart';
 import 'stub.dart' if (dart.library.io) 'io.dart';
 
 /// a SimpleFileService which gives abbility to read/ write/ make and upload file
-abstract class FileService with IsmailLoggerMixin {
+abstract class FileManager with IsmailLoggerMixin {
   @override
   String get name => 'File Service';
-  static FileService? _instance;
+  static FileManager? _instance;
 
-  /// get the instance of [FileService]
-  static FileService get instance {
+  /// get the instance of [FileManager]
+  static FileManager get instance {
     return _instance ??= getFileService;
   }
 

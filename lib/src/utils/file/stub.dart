@@ -1,4 +1,4 @@
 import 'abstract.dart';
 
-FileService get getFileService =>
+FileManager get getFileService =>
     throw UnsupportedError('Cannot create FileService');

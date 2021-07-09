@@ -4,9 +4,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import '../../src.dart';
 
-FileService get getFileService => FileServiceForIo();
+FileManager get getFileService => FileServiceForIo();
 
-class FileServiceForIo extends FileService {
+class FileServiceForIo extends FileManager {
   factory FileServiceForIo() {
     return _singleton;
   }

@@ -146,9 +146,9 @@ extension ExtendedType on Object {
 }
 
 extension FileExtension on File {
-  String get read => FileService.instance.readFile(this);
+  String get read => FileManager.instance.readFile(this);
   void write(String val, [FileMode mode = FileMode.append]) =>
-      FileService.instance.writeFile(
+      FileManager.instance.writeFile(
         val,
         this,
         mode,
@@ -234,4 +234,38 @@ extension MyTextStyle on TextStyle {
       'debugLabel': debugLabel,
     };
   }
+}
+
+extension ExtendedSliverOverlapInjector on SliverOverlapInjector {
+  static SliverOverlapInjector of(BuildContext context) =>
+      SliverOverlapInjector(
+        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+          context,
+        ),
+      );
+}
+
+extension ExtendedSliverOverlapAbsorber on SliverOverlapAbsorber {
+  static SliverOverlapAbsorber of(BuildContext context, {Widget? sliver}) =>
+      SliverOverlapAbsorber(
+        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+          context,
+        ),
+        sliver: sliver,
+      );
+}
+
+extension NestedScrollViewExt on NestedScrollView {
+  static NestedScrollViewState? of(BuildContext context) =>
+      context.findAncestorStateOfType<NestedScrollViewState>();
+}
+
+extension CapExtension on String {
+  String toUpperCaseFirst() =>
+      length > 0 ? '${this[0].toUpperCase()}${substring(1)}' : '';
+
+  String toUpperCaseFirstForEachWord() => replaceAll(RegExp(' +'), ' ')
+      .split(" ")
+      .map((str) => str.toUpperCaseFirst())
+      .join(" ");
 }
