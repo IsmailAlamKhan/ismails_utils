@@ -2,23 +2,25 @@ part of screenshot;
 
 class ScreenshotController with IsmailLoggerMixin {
   late final _globalKey = GlobalKey();
-
   Future<T> _capture<T>(
     RenderRepaintBoundary boundary, {
     required double pixelRatio,
   }) async {
     final image = await boundary.toImage(pixelRatio: pixelRatio);
     final byteData = await image.toByteData(format: ImageByteFormat.png);
-    final _bytes = byteData!.buffer.asUint8List();
+    final _bytes = byteData!.buffer;
+    if (<T>[] is List<ByteData>) {
+      return byteData as T;
+    }
     if (<T>[] is List<Uint8List>) {
-      return _bytes as T;
+      return _bytes.asUint8List() as T;
     }
     if (<T>[] is List<File>) {
       final dir = Directory.systemTemp.createTempSync();
       final file = File('${dir.path}/${getRandomString(10)}.png');
       logInfo(file.path);
       file.createSync(recursive: true);
-      file.writeAsBytesSync(_bytes);
+      file.writeAsBytesSync(_bytes.asUint8List());
       logInfo(
         '****************'
         ' Make sure to delete this file if you upload it somewhere otherwise this will be kept on the storage '
@@ -31,6 +33,7 @@ class ScreenshotController with IsmailLoggerMixin {
     );
   }
 
+  /// Get the image in Uint8List/ ByteData/ File format
   Future<T> capture<T>([double? pixelRatio]) {
     final context = _globalKey.currentContext;
     if (context == null) {
