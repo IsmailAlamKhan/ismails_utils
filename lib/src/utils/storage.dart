@@ -1,10 +1,12 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageService {
+  factory StorageService() => _instance;
+  StorageService._();
+  static final _instance = StorageService._();
   late final SharedPreferences pref;
-  Future<StorageService> init() async {
-    pref = await SharedPreferences.getInstance();
-    return this;
+  static Future<void> init() async {
+    _instance.pref = await SharedPreferences.getInstance();
   }
 
   String? getNullableString(String key) => pref.getString(key);

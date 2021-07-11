@@ -5,16 +5,14 @@ import '../src.dart';
 
 const _themeFromStorageKey = 'thememode';
 
-class ThemeChangeNotifier extends ChangeNotifier with IsmailLoggerMixin {
-  late final StorageService _storage;
-  Future<ThemeChangeNotifier> init() async {
-    _storage = await StorageService().init();
+class ThemeChanger extends ChangeNotifier with IsmailLoggerMixin {
+  late final StorageService _storage = StorageService();
+  ThemeChanger() {
     _init();
-    return this;
   }
 
   @override
-  String name = 'ThemeNotifier';
+  String name = 'ThemeChanger';
   var _themeMode = ThemeMode.system;
   ThemeMode get themeMode => _themeMode;
   bool get isDark => _themeMode == ThemeMode.dark;
@@ -60,7 +58,7 @@ class ThemeChangeNotifier extends ChangeNotifier with IsmailLoggerMixin {
 
   void _init() => changeTheme(_getThemeFromStorage());
 
-  static ThemeChangeNotifier of(BuildContext context) {
-    return ChangeNotifierBuilder.of<ThemeChangeNotifier>(context);
+  static ThemeChanger of(BuildContext context) {
+    return ChangeNotifierBuilder.of<ThemeChanger>(context);
   }
 }
