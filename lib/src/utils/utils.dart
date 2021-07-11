@@ -10,5 +10,4 @@ export 'file/file.dart';
 export 'globals.dart';
 export 'logger.dart';
 export 'screen.dart';
-export 'storage.dart';
 export 'typedef.dart';

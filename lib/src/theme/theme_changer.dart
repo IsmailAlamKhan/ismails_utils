@@ -1,13 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../src.dart';
 
 const _themeFromStorageKey = 'thememode';
 
 class ThemeChanger extends ChangeNotifier with IsmailLoggerMixin {
-  late final StorageService _storage = StorageService();
-  ThemeChanger() {
+  final SharedPreferences _sharedPreferences;
+  ThemeChanger(SharedPreferences sharedPreferences)
+      : _sharedPreferences = sharedPreferences {
     _init();
   }
 
@@ -39,11 +41,11 @@ class ThemeChanger extends ChangeNotifier with IsmailLoggerMixin {
   }
 
   void _storeThemeToStorage() =>
-      _storage.pref.setString(_themeFromStorageKey, _themeMode.toString());
+      _sharedPreferences.setString(_themeFromStorageKey, _themeMode.toString());
 
   ThemeMode _getThemeFromStorage() {
     String? _themeFromStorage =
-        _storage.getNullableString(_themeFromStorageKey);
+        _sharedPreferences.getString(_themeFromStorageKey);
     if (_themeFromStorage == null) {
       logInfo(
         'No theme found from storage using the default one',
