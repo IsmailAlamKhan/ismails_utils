@@ -47,26 +47,25 @@ class _BottomNavigationState extends State<BottomNavigation> {
       notifier: notifier,
       builder: (context) {
         final controller = BottomNavigationController.of(context);
-        final body =  PageTransitionSwitcher(
-              duration: controller.activeItem.transitionDuration,
-              reverse: controller.isGoingBack,
-              transitionBuilder: controller.activeItem.transitionsBuilder ??
-                  (child, animation, secondaryAnimation) =>
-                      FadeThroughTransition(
-                        animation: animation,
-                        secondaryAnimation: secondaryAnimation,
-                        fillColor: Colors.transparent,
-                        child: child,
-                      ),
-              child: SizedBox(
-                key: ValueKey(controller.activeIndex),
-                child: controller.activeItem.widget(context),
-              ),
-            );
+        final body = PageTransitionSwitcher(
+          duration: controller.activeItem.transitionDuration,
+          reverse: controller.isGoingBack,
+          transitionBuilder: controller.activeItem.transitionsBuilder ??
+              (child, animation, secondaryAnimation) => FadeThroughTransition(
+                    animation: animation,
+                    secondaryAnimation: secondaryAnimation,
+                    fillColor: Colors.transparent,
+                    child: child,
+                  ),
+          child: SizedBox(
+            key: ValueKey(controller.activeIndex),
+            child: controller.activeItem.widget(context),
+          ),
+        );
         return WillPopScope(
           onWillPop: controller.onWillPop,
           child: Scaffold(
-            
+            body: body,
             bottomNavigationBar: widget.bottomNavBuilder?.call(
                   context,
                   controller,
