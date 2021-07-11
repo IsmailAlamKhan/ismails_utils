@@ -7,12 +7,6 @@ import '../../src.dart';
 FileManager get getFileService => FileServiceForIo();
 
 class FileServiceForIo extends FileManager {
-  factory FileServiceForIo() {
-    return _singleton;
-  }
-  FileServiceForIo._();
-  static final FileServiceForIo _singleton = FileServiceForIo._();
-
   @override
   Future<Directory> get getLocalPath async {
     final directory = await getApplicationDocumentsDirectory();
@@ -72,6 +66,4 @@ class FileServiceForIo extends FileManager {
       throw IsmailException.error('File was not found');
     }
   }
-
-  Future<Directory> init() => getLocalPath;
 }
