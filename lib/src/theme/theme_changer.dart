@@ -63,4 +63,7 @@ class ThemeChanger extends ChangeNotifier with IsmailLoggerMixin {
   static ThemeChanger of(BuildContext context) {
     return ChangeNotifierBuilder.of<ThemeChanger>(context);
   }
+
+  @override
+  String toString() => 'ThemeChanger: CurrentThemeMode = $themeMode';
 }
