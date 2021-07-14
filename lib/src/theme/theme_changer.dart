@@ -6,9 +6,9 @@ import '../src.dart';
 
 const _themeFromStorageKey = 'thememode';
 
-class ThemeChanger extends ChangeNotifier with IsmailLoggerMixin {
+class _ThemeChangeNotifier extends ChangeNotifier with IsmailLoggerMixin {
   final SharedPreferences _sharedPreferences;
-  ThemeChanger(SharedPreferences sharedPreferences)
+  _ThemeChangeNotifier(SharedPreferences sharedPreferences)
       : _sharedPreferences = sharedPreferences {
     _init();
   }
@@ -60,10 +60,33 @@ class ThemeChanger extends ChangeNotifier with IsmailLoggerMixin {
 
   void _init() => changeTheme(_getThemeFromStorage());
 
-  static ThemeChanger of(BuildContext context) {
-    return ChangeNotifierBuilder.of<ThemeChanger>(context);
-  }
-
   @override
   String toString() => 'ThemeChanger: CurrentThemeMode = $themeMode';
+}
+
+class ThemeChanger extends StatefulWidget {
+  const ThemeChanger({
+    Key? key,
+    required this.builder,
+    required this.preferences,
+  }) : super(key: key);
+  final ChangeNotifierbuilderTypeDef builder;
+  final SharedPreferences preferences;
+  static _ThemeChangeNotifier of(BuildContext context) =>
+      ChangeNotifierBuilder.of<_ThemeChangeNotifier>(context);
+  @override
+  _ThemeChangerState createState() => _ThemeChangerState();
+}
+
+class _ThemeChangerState extends State<ThemeChanger> {
+  late final _ThemeChangeNotifier themeChanger =
+      _ThemeChangeNotifier(widget.preferences);
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierBuilder<_ThemeChangeNotifier>(
+      notifier: themeChanger,
+      builder: widget.builder,
+    );
+  }
 }
