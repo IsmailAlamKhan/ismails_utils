@@ -70,7 +70,7 @@ class ThemeChanger extends StatefulWidget {
     required this.builder,
     required this.preferences,
   }) : super(key: key);
-  final ChangeNotifierbuilderTypeDef builder;
+  final ChangeNotifierbuilderTypeDef<_ThemeChangeNotifier> builder;
   final SharedPreferences preferences;
   static _ThemeChangeNotifier of(BuildContext context) =>
       ChangeNotifierBuilder.of<_ThemeChangeNotifier>(context);
