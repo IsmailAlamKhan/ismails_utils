@@ -21,9 +21,9 @@ class ResponsiveBuilder extends StatelessWidget {
   final Widget? child;
   @override
   Widget build(BuildContext context) {
+    final controller = ScreenUtil.of(context);
     return LayoutBuilder(
       builder: (context, constraints) {
-        final controller = ScreenUtil.of(context);
         return builder(context, controller, child, constraints);
       },
     );
