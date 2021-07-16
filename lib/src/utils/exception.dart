@@ -63,7 +63,7 @@ class IsmailException with IsmailLoggerMixin implements Exception {
   String toString() => message ?? '';
 }
 
-class IsmailFirebaseException {
+abstract class IsmailFirebaseException implements Exception {
   String? message;
   @override
   String toString() => message ?? '';
