@@ -2,7 +2,7 @@ part of screenshot;
 
 class ScreenshotController with IsmailLoggerMixin {
   late final _globalKey = GlobalKey();
-  Future<T> _capture<T>(
+  static Future<T> _capture<T>(
     RenderRepaintBoundary boundary, {
     required double pixelRatio,
   }) async {
@@ -18,13 +18,14 @@ class ScreenshotController with IsmailLoggerMixin {
     if (<T>[] is List<File>) {
       final dir = Directory.systemTemp.createTempSync();
       final file = File('${dir.path}/${getRandomString(10)}.png');
-      logInfo(file.path);
+
+      IsmailLogger().info(file.path);
       file.createSync(recursive: true);
       file.writeAsBytesSync(_bytes.asUint8List());
-      logInfo(
-        '****************'
+      IsmailLogger().warning(
+        '**************************************'
         ' Make sure to delete this file if you upload it somewhere otherwise this will be kept on the storage '
-        '****************',
+        '*************************************',
       );
       return file as T;
     }
@@ -48,7 +49,7 @@ class ScreenshotController with IsmailLoggerMixin {
     );
   }
 
-  Future<T> captureFromWidget<T>({
+  static Future<T> captureFromWidget<T>({
     double? pixelRatio,
     required Widget child,
   }) {
