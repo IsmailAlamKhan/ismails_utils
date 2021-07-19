@@ -33,7 +33,7 @@ class FileServiceForIo extends FileManager {
 
   @override
   Future<File> makeFile(String name, [String? extraPath]) async {
-    String slash = '/';
+    var slash = '/';
     if (Platform.isWindows) {
       slash = '\\';
     }

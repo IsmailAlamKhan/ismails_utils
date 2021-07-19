@@ -163,7 +163,7 @@ class IsmailException with IsmailLoggerMixin implements Exception {
         'isSyntaxError ${databaseException.isSyntaxError()}\n';
     final _isUniqueConstraintError =
         'isUniqueConstraintError ${databaseException.isUniqueConstraintError()}\n';
-    final String _messege = 'Code = $code\n'
+    final _messege = 'Code = $code\n'
         '$_closed'
         '$_isDup'
         '$_isNoTable'

@@ -31,7 +31,7 @@ class SideBar extends StatelessWidget {
                     child: controller
                         .builder<AlphabetController<AlphabetListViewModel>>(
                       (_, controller, ___) {
-                        final Color sideBarActiveColor =
+                        final sideBarActiveColor =
                             sideBarTheme?.sideBarActiveItemColor ??
                                 Theme.of(context).primaryColor;
                         final isActive = i == controller.currentIndex;

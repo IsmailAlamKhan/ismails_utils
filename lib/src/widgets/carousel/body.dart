@@ -179,13 +179,12 @@ class _IsmailCarouselState extends State<IsmailCarousel> {
       return _body(_controller);
     }
     IsmailCarouselIndicatorCustomizer customizer;
-    final IsmailCarouselIndicatorCustomizer _customizer =
-        widget.indicatorCustomizer ??
-            IsmailCarouselIndicatorCustomizer(
-              activeColor: Theme.of(context).primaryColor,
-              inActiveColor: Theme.of(context).disabledColor,
-              height: 10,
-            );
+    final _customizer = widget.indicatorCustomizer ??
+        IsmailCarouselIndicatorCustomizer(
+          activeColor: Theme.of(context).primaryColor,
+          inActiveColor: Theme.of(context).disabledColor,
+          height: 10,
+        );
     if (widget.scrollDirection == Axis.vertical) {
       customizer = _customizer.copyWith(
         position: _customizer.position.copyWith(left: 10),
@@ -240,7 +239,7 @@ class _IsmailCarouselState extends State<IsmailCarousel> {
     final IsmailCarouselIndicatorCustomizer customizer,
     final IsmaiLCarouselController controller,
   ) {
-    final bool isActive = controller.active(index);
+    final isActive = controller.active(index);
     return customizer.builder?.call(context, index, customizer, controller) ??
         IsmailCarouselIndicator(
           isActive: isActive,

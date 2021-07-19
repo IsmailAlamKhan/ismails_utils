@@ -54,7 +54,7 @@ class ScreenshotController with IsmailLoggerMixin {
     required Widget child,
   }) {
     final _pixelRatio = pixelRatio ?? window.devicePixelRatio;
-    final RenderRepaintBoundary repaintBoundary = RenderRepaintBoundary();
+    final repaintBoundary = RenderRepaintBoundary();
 
     final logicalSize = window.physicalSize / window.devicePixelRatio;
     final imageSize = window.physicalSize;

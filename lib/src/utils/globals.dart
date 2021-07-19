@@ -20,7 +20,7 @@ void focusChange({
   FocusScope.of(context).requestFocus(focusNode);
 }
 
-CrossFadeState crossFadeState(bool cond) {
+CrossFadeState crossFadeState({bool cond = true}) {
   if (cond) {
     return CrossFadeState.showFirst;
   } else {
@@ -47,13 +47,15 @@ TextStyle textStyleFromMap(Map<String, dynamic> map) {
   );
 }
 
-String notFoundOnScopeError(String type) {
-  return 'No $type found on the scope. '
-      'Make sure you have $type'
-      ' high up on the widget tree, if you do have it but still get this'
-      ' try wrapping the current widget with Builder'
-      ' and use the context from it or extract to a new Stateless '
-      'or Stateful Widget.';
+FlutterError notFoundOnScopeError(String type) {
+  return FlutterError(
+    'No $type found on the scope. '
+    'Make sure you have $type'
+    ' high up on the widget tree, if you do have it but still get this'
+    ' try wrapping the current widget with Builder'
+    ' and use the context from it or extract to a new Stateless '
+    'or Stateful Widget.',
+  );
 }
 
 const materialcolorShades = {50, 100, 200, 300, 400, 500, 600, 700, 800, 900};

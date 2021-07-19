@@ -38,7 +38,7 @@ class IsmailFormController extends ChangeNotifier {
       _inValidFields.add(field);
     }
     _isValid = _inValidFields.isEmpty;
-    Future.microtask(() => notifyListeners());
+    Future.microtask(notifyListeners);
   }
 
   void unregisterField(String name, IsmailFormFieldState field) {
@@ -51,7 +51,7 @@ class IsmailFormController extends ChangeNotifier {
       _inValidFields.remove(field);
       _isValid = _inValidFields.isEmpty;
 
-      Future.microtask(() => notifyListeners());
+      Future.microtask(notifyListeners);
     } else {
       assert(() {
         ismailFormLog.warning(

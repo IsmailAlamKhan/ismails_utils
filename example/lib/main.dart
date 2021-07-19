@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'dart:typed_data';
-
+import 'package:pedantic/pedantic.dart';
 import 'package:flutter/material.dart';
 import 'package:ismails_utils/ismails_utils.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(title: 'Material App', home: Home());
@@ -14,9 +15,7 @@ class MyApp extends StatelessWidget {
 }
 
 class Home extends StatefulWidget {
-  const Home({
-    Key? key,
-  }) : super(key: key);
+  const Home({Key? key}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -38,11 +37,13 @@ class _HomeState extends State<Home> {
               if (value == ImageType.file) {
                 try {
                   final image = await screenShotController.capture<File>();
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      scrollable: true,
-                      content: Image.file(image),
+                  unawaited(
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        scrollable: true,
+                        content: Image.file(image),
+                      ),
                     ),
                   );
                 } catch (e) {
@@ -54,11 +55,13 @@ class _HomeState extends State<Home> {
               } else {
                 try {
                   final image = await screenShotController.capture<Uint8List>();
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      scrollable: true,
-                      content: Image.memory(image),
+                  unawaited(
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        scrollable: true,
+                        content: Image.memory(image),
+                      ),
                     ),
                   );
                 } catch (e) {

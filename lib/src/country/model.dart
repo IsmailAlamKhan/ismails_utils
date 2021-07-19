@@ -109,33 +109,33 @@ class Country extends AlphabetListViewModel {
       );
 
   factory Country.fromJson(Map<String, dynamic> json) => Country(
-        name: json["name"],
-        topLevelDomain: List<String>.from(json["topLevelDomain"].map((x) => x)),
-        alpha2Code: json["alpha2Code"],
-        alpha3Code: json["alpha3Code"],
-        callingCodes: List<String>.from(json["callingCodes"].map((x) => x)),
-        capital: json["capital"],
-        altSpellings: List<String>.from(json["altSpellings"].map((x) => x)),
-        region: json["region"],
-        subregion: json["subregion"],
-        population: json["population"],
-        latlng: List<num>.from(json["latlng"].map((x) => x)),
-        demonym: json["demonym"],
-        area: json["area"],
-        gini: json["gini"]?.toDouble(),
-        timezones: List<String>.from(json["timezones"].map((x) => x)),
-        borders: List<String>.from(json["borders"].map((x) => x)),
-        nativeName: json["nativeName"],
-        numericCode: json["numericCode"],
+        name: json['name'],
+        topLevelDomain: List<String>.from(json['topLevelDomain'].map((x) => x)),
+        alpha2Code: json['alpha2Code'],
+        alpha3Code: json['alpha3Code'],
+        callingCodes: List<String>.from(json['callingCodes'].map((x) => x)),
+        capital: json['capital'],
+        altSpellings: List<String>.from(json['altSpellings'].map((x) => x)),
+        region: json['region'],
+        subregion: json['subregion'],
+        population: json['population'],
+        latlng: List<num>.from(json['latlng'].map((x) => x)),
+        demonym: json['demonym'],
+        area: json['area'],
+        gini: json['gini']?.toDouble(),
+        timezones: List<String>.from(json['timezones'].map((x) => x)),
+        borders: List<String>.from(json['borders'].map((x) => x)),
+        nativeName: json['nativeName'],
+        numericCode: json['numericCode'],
         currencies: List<Currency>.from(
-            json["currencies"].map((x) => Currency.fromJson(x))),
+            json['currencies'].map((x) => Currency.fromJson(x))),
         languages: List<Language>.from(
-            json["languages"].map((x) => Language.fromJson(x))),
-        translations: Translations.fromJson(json["translations"]),
-        flag: json["flag"],
+            json['languages'].map((x) => Language.fromJson(x))),
+        translations: Translations.fromJson(json['translations']),
+        flag: json['flag'],
         regionalBlocs: List<RegionalBloc>.from(
-            json["regionalBlocs"].map((x) => RegionalBloc.fromJson(x))),
-        cioc: json["cioc"],
+            json['regionalBlocs'].map((x) => RegionalBloc.fromJson(x))),
+        cioc: json['cioc'],
       );
 }
 
@@ -162,15 +162,15 @@ class Currency {
       );
 
   factory Currency.fromJson(Map<String, dynamic> json) => Currency(
-        code: json["code"],
-        name: json["name"],
-        symbol: json["symbol"],
+        code: json['code'],
+        name: json['name'],
+        symbol: json['symbol'],
       );
 
   Map<String, dynamic> toJson() => {
-        "code": code,
-        "name": name,
-        "symbol": symbol,
+        'code': code,
+        'name': name,
+        'symbol': symbol,
       };
 }
 
@@ -201,17 +201,17 @@ class Language {
       );
 
   factory Language.fromJson(Map<String, dynamic> json) => Language(
-        iso6391: json["iso639_1"],
-        iso6392: json["iso639_2"],
-        name: json["name"],
-        nativeName: json["nativeName"],
+        iso6391: json['iso639_1'],
+        iso6392: json['iso639_2'],
+        name: json['name'],
+        nativeName: json['nativeName'],
       );
 
   Map<String, dynamic> toJson() => {
-        "iso639_1": iso6391,
-        "iso639_2": iso6392,
-        "name": name,
-        "nativeName": nativeName,
+        'iso639_1': iso6391,
+        'iso639_2': iso6392,
+        'name': name,
+        'nativeName': nativeName,
       };
 }
 
@@ -242,17 +242,17 @@ class RegionalBloc {
       );
 
   factory RegionalBloc.fromJson(Map<String, dynamic> json) => RegionalBloc(
-        acronym: json["acronym"],
-        name: json["name"],
-        otherAcronyms: json["otherAcronyms"]?.map((x) => x).toList(),
-        otherNames: json["otherNames"]?.map((x) => x)?.toList(),
+        acronym: json['acronym'],
+        name: json['name'],
+        otherAcronyms: json['otherAcronyms']?.map((x) => x).toList(),
+        otherNames: json['otherNames']?.map((x) => x)?.toList(),
       );
 
   Map<String, dynamic> toJson() => {
-        "acronym": acronym,
-        "name": name,
-        "otherAcronyms": otherAcronyms?.map((x) => x).toList(),
-        "otherNames": otherNames?.map((x) => x).toList(),
+        'acronym': acronym,
+        'name': name,
+        'otherAcronyms': otherAcronyms?.map((x) => x).toList(),
+        'otherNames': otherNames?.map((x) => x).toList(),
       };
 }
 
@@ -307,28 +307,28 @@ class Translations {
       );
 
   factory Translations.fromJson(Map<String, dynamic> json) => Translations(
-        de: json["de"],
-        es: json["es"],
-        fr: json["fr"],
-        ja: json["ja"],
-        it: json["it"],
-        br: json["br"],
-        pt: json["pt"],
-        nl: json["nl"],
-        hr: json["hr"],
-        fa: json["fa"],
+        de: json['de'],
+        es: json['es'],
+        fr: json['fr'],
+        ja: json['ja'],
+        it: json['it'],
+        br: json['br'],
+        pt: json['pt'],
+        nl: json['nl'],
+        hr: json['hr'],
+        fa: json['fa'],
       );
 
   Map<String, dynamic> toJson() => {
-        "de": de,
-        "es": es,
-        "fr": fr,
-        "ja": ja,
-        "it": it,
-        "br": br,
-        "pt": pt,
-        "nl": nl,
-        "hr": hr,
-        "fa": fa,
+        'de': de,
+        'es': es,
+        'fr': fr,
+        'ja': ja,
+        'it': it,
+        'br': br,
+        'pt': pt,
+        'nl': nl,
+        'hr': hr,
+        'fa': fa,
       };
 }

@@ -44,8 +44,7 @@ class _ThemeChangeNotifier extends ChangeNotifier with IsmailLoggerMixin {
       _sharedPreferences.setString(_themeFromStorageKey, _themeMode.toString());
 
   ThemeMode _getThemeFromStorage() {
-    String? _themeFromStorage =
-        _sharedPreferences.getString(_themeFromStorageKey);
+    var _themeFromStorage = _sharedPreferences.getString(_themeFromStorageKey);
     if (_themeFromStorage == null) {
       logInfo(
         'No theme found from storage using the default one',

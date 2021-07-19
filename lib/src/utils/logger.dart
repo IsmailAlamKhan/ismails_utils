@@ -71,7 +71,7 @@ class IsmailLogger {
     final isError = level.value.between(1000, 1300);
     final isWarning = level.value == 900;
     final isNormal = level.value.between(0, 900);
-    String _messege = '';
+    var _messege = '';
     if (isError) {
       _messege = '😭 $messege';
     }

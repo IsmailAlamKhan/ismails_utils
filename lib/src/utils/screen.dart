@@ -41,23 +41,23 @@ class ScreenUtil {
 
   ScreenSize get screenSize {
     if (smallPhone) {
-      return ScreenSize.SmallPhone;
+      return ScreenSize.smallPhone;
     } else if (medPhone) {
-      return ScreenSize.MediumPhone;
+      return ScreenSize.mediumPhone;
     } else if (largePhone) {
-      return ScreenSize.LargePhone;
+      return ScreenSize.largePhone;
     } else if (xlargePhone) {
-      return ScreenSize.XLargePhone;
+      return ScreenSize.xLargePhone;
     } else if (smallTab) {
-      return ScreenSize.SmallTab;
+      return ScreenSize.smallTab;
     } else if (medTab) {
-      return ScreenSize.MediumTab;
+      return ScreenSize.mediumTab;
     } else if (largeTab) {
-      return ScreenSize.LargeTab;
+      return ScreenSize.largeTab;
     } else if (xlargeTab) {
-      return ScreenSize.XLargeTab;
+      return ScreenSize.xLargeTab;
     } else {
-      return ScreenSize.NONE;
+      return ScreenSize.none;
     }
   }
 

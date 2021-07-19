@@ -217,11 +217,7 @@ class IsmailGroupedRadio<T> extends StatelessWidget {
       hoverColor: hoverColor,
       materialTapTargetSize: materialTapTargetSize,
       value: optionValue,
-      onChanged: isOptionDisabled
-          ? null
-          : (T? selected) {
-              onChanged(selected);
-            },
+      onChanged: isOptionDisabled ? null : onChanged,
     );
 
     final label = GestureDetector(

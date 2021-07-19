@@ -127,7 +127,7 @@ class IsmailDateTimePickerFormField extends IsmailFormField<DateTime> {
   /// Creates field for `Date`, `Time` and `DateTime` input
   IsmailDateTimePickerFormField({
     Key? key,
-    //From Super
+    //From Supe
     required String name,
     FormFieldValidator<DateTime>? validator,
     DateTime? initialValue,
@@ -312,7 +312,7 @@ class _FormBuilderDateTimePickerState
         }
         break;
       default:
-        throw 'Unexpected input type ${widget.inputType}';
+        throw Exception('Unexpected input type ${widget.inputType}');
     }
     final finalValue = newValue ?? currentValue;
     didChange(finalValue);

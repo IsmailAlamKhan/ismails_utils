@@ -178,8 +178,6 @@ class IsmailDropdownButtonFormField<T> extends IsmailFormField<T> {
   final Color? dropdownColor;
 
   final bool wantClear;
-  @override
-  final Widget clearIcon;
 
   /// Creates field for Dropdown button
   IsmailDropdownButtonFormField({
@@ -208,7 +206,7 @@ class IsmailDropdownButtonFormField<T> extends IsmailFormField<T> {
     this.iconDisabledColor,
     this.iconEnabledColor,
     this.wantClear = false,
-    this.clearIcon = const Icon(Icons.close),
+    Widget clearIcon = const Icon(Icons.close),
     this.onTap,
     this.autofocus = false,
     this.dropdownColor,
@@ -216,6 +214,7 @@ class IsmailDropdownButtonFormField<T> extends IsmailFormField<T> {
     this.itemHeight = kMinInteractiveDimension,
     this.selectedItemBuilder,
   }) : /*: assert(allowClear == true || clearIcon != null)*/ super(
+          clearIcon: clearIcon,
           key: key,
           initialValue: initialValue,
           name: name,
@@ -265,8 +264,7 @@ class IsmailDropdownButtonFormField<T> extends IsmailFormField<T> {
                   icon: icon,
                   iconDisabledColor: iconDisabledColor,
                   iconEnabledColor: iconEnabledColor,
-                  onChanged:
-                      state.enabled ? (value) => changeValue(value) : null,
+                  onChanged: state.enabled ? changeValue : null,
                   onTap: onTap,
                   focusNode: state.focusNode,
                   autofocus: autofocus,

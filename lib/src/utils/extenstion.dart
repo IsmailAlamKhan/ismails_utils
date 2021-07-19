@@ -265,7 +265,7 @@ extension CapExtension on String {
       length > 0 ? '${this[0].toUpperCase()}${substring(1)}' : '';
 
   String toUpperCaseFirstForEachWord() => replaceAll(RegExp(' +'), ' ')
-      .split(" ")
+      .split(' ')
       .map((str) => str.toUpperCaseFirst())
-      .join(" ");
+      .join(' ');
 }

@@ -221,13 +221,6 @@ packages:
       url: "https://github.com/roipeker/just_motion.git"
     source: git
     version: "0.0.6+19"
-  lint:
-    dependency: "direct main"
-    description:
-      name: lint
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.5.3"
   logging:
     dependency: "direct main"
     description:

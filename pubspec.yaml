@@ -20,7 +20,6 @@ dependencies:
   dio: ^4.0.0-beta7
   graphx: ^1.0.0-nullsafety.0
   intl: ^0.17.0
-  lint: ^1.5.3
   logging: ^1.0.1
   pretty_dio_logger: ^1.1.1
   scrollable_positioned_list: ^0.2.0-nullsafety.0

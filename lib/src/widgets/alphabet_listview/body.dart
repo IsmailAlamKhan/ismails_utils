@@ -83,8 +83,10 @@ class AlphabetListView<T extends AlphabetListViewModel> extends StatefulWidget {
       return context.dependOnInheritedWidgetOfExactType<
           AlphabetListViewInheritedWidget>()!;
     } catch (e) {
-      throw 'To use AlphabetListView.of(context) the BuildContext '
-          'must be a decendant of AlphabetListView';
+      throw FlutterError(
+        'To use AlphabetListView.of(context) the BuildContext '
+        'must be a decendant of AlphabetListView',
+      );
     }
   }
 }

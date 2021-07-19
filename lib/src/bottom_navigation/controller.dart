@@ -1,8 +1,8 @@
 part of bottom_navigation;
 
 class BottomNavigationController extends ChangeNotifier with IsmailLoggerMixin {
-  final List<BottomNavigationItem> pageList;
   BottomNavigationController(this.pageList);
+  final List<BottomNavigationItem> pageList;
 
   bool _isGoingBack = false;
   bool get isGoingBack => _isGoingBack;
@@ -43,7 +43,7 @@ class BottomNavigationController extends ChangeNotifier with IsmailLoggerMixin {
       activeIndex--;
       return false;
     } else {
-      activeItem.navKey!.currentState!.maybePop();
+      unawaited(activeItem.navKey!.currentState!.maybePop());
       return false;
     }
   }

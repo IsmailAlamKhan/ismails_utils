@@ -37,9 +37,9 @@ class IsmaiLCarouselController extends ChangeNotifier {
   void pageListner(int itemCount) {
     assert(
       pageController.hasClients,
-      "Make sure you assigned the controller to a Carousel."
+      'Make sure you assigned the controller to a Carousel.'
       " If you didn't use a custom controller then its a"
-      " problem on the source code",
+      ' problem on the source code',
     );
     final _value = pageController.page?.round() ?? 0;
     if (_value != activeIndex) {
@@ -54,9 +54,9 @@ class IsmaiLCarouselController extends ChangeNotifier {
   }) async {
     assert(
       pageController.hasClients,
-      "Make sure you assigned the controller to a Carousel."
+      'Make sure you assigned the controller to a Carousel.'
       " If you didn't use a custom controller then its a"
-      " problem on the source code",
+      ' problem on the source code',
     );
     duration ??= const Duration(milliseconds: 500);
     if (pageIsScrolling == false) {
@@ -87,9 +87,9 @@ class IsmaiLCarouselController extends ChangeNotifier {
   }) {
     assert(
       pageController.hasClients,
-      "Make sure you assigned the controller to a Carousel."
+      'Make sure you assigned the controller to a Carousel.'
       " If you didn't use a custom controller then its a"
-      " problem on the source code",
+      ' problem on the source code',
     );
     duration ??= const Duration(milliseconds: 500);
     return pageController.animateToPage(page, duration: duration, curve: curve);

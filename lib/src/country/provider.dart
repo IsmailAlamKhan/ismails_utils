@@ -13,8 +13,7 @@ class CountryProvider {
   /// this will throw [IsmailException.fromDioError] on error
   static Future<List<Country>> get getCountries async {
     final res = await _dio.get<List<dynamic>>('/all');
-    final List<Country> _list =
-        res.data!.map<Country>((e) => Country.fromJson(e)).toList();
+    final _list = res.data!.map<Country>((e) => Country.fromJson(e)).toList();
     _list.sort((a, b) => a.firstChar.compareTo(b.firstChar));
     return _list;
   }

@@ -34,7 +34,7 @@ abstract class IsmailFormValidators {
   static FormFieldValidator<String> email([String? errorText]) {
     return (String? valueCandidate) {
       if (valueCandidate != null) {
-        if (isEmail(valueCandidate)) {
+        if (!isEmail(valueCandidate)) {
           return errorText ?? 'This field requires a valid email';
         }
       }
@@ -44,7 +44,7 @@ abstract class IsmailFormValidators {
   static FormFieldValidator<String> url([String? errorText]) {
     return (String? valueCandidate) {
       if (valueCandidate != null) {
-        if (isURL(valueCandidate)) {
+        if (!isURL(valueCandidate)) {
           return errorText ?? 'This field requires a valid url';
         }
       }
@@ -54,7 +54,7 @@ abstract class IsmailFormValidators {
   static FormFieldValidator<String> ip([String? errorText]) {
     return (String? valueCandidate) {
       if (valueCandidate != null) {
-        if (isIP(valueCandidate)) {
+        if (!isIP(valueCandidate)) {
           return errorText ?? 'This field requires a valid ip-address';
         }
       }
@@ -64,7 +64,7 @@ abstract class IsmailFormValidators {
   static FormFieldValidator<String> fqdn([String? errorText]) {
     return (String? valueCandidate) {
       if (valueCandidate != null) {
-        if (isFQDN(valueCandidate)) {
+        if (!isFQDN(valueCandidate)) {
           return errorText ?? 'This field requires a valid FQDN';
         }
       }
@@ -74,7 +74,7 @@ abstract class IsmailFormValidators {
   static FormFieldValidator<String> numeric([String? errorText]) {
     return (String? valueCandidate) {
       if (valueCandidate != null) {
-        if (isNumeric(valueCandidate)) {
+        if (!isNumeric(valueCandidate)) {
           return errorText ?? 'This field has to contain only numeric values';
         }
       }
@@ -84,9 +84,19 @@ abstract class IsmailFormValidators {
   static FormFieldValidator<String> alphaNumeric([String? errorText]) {
     return (String? valueCandidate) {
       if (valueCandidate != null) {
-        if (isAlphanumeric(valueCandidate)) {
+        if (!isAlphanumeric(valueCandidate)) {
           return errorText ??
               'This field has to contain only alphanumeric values';
+        }
+      }
+    };
+  }
+
+  static FormFieldValidator<String> equal(String otherValue, String errorText) {
+    return (String? valueCandidate) {
+      if (valueCandidate != null) {
+        if (valueCandidate != otherValue) {
+          return errorText;
         }
       }
     };

@@ -2,15 +2,15 @@ import '../src.dart';
 
 /// ScreenSize enum that is used on [ScreenUtil]
 enum ScreenSize {
-  SmallPhone,
-  MediumPhone,
-  LargePhone,
-  XLargePhone,
-  SmallTab,
-  MediumTab,
-  LargeTab,
-  XLargeTab,
-  NONE
+  smallPhone,
+  mediumPhone,
+  largePhone,
+  xLargePhone,
+  smallTab,
+  mediumTab,
+  largeTab,
+  xLargeTab,
+  none
 }
 
 enum MouseClick { rightButton, leftButton, middleButton, unk }
