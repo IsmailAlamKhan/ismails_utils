@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 abstract class IsmailAnimatedWidget extends AnimatedWidget {
   final Animation<double> animation;
   final bool isReverse;
-  const IsmailAnimatedWidget({required this.animation, this.isReverse = false})
-      : super(listenable: animation);
+  const IsmailAnimatedWidget(
+      {Key? key, required this.animation, this.isReverse = false})
+      : super(listenable: animation, key: key);
 
   Animation<double> get progress {
     final _animation = listenable as Animation<double>;
@@ -36,16 +37,18 @@ class FadeSlideTransition extends IsmailAnimatedWidget {
   /// if you want a reversed transition use isReverseTrue or the
   /// [FadeSlideTransition.reverse] constructor
   const FadeSlideTransition({
+    Key? key,
     required Animation<double> animation,
     bool isReverse = false,
     required this.slide,
     required this.child,
-  }) : super(animation: animation, isReverse: isReverse);
+  }) : super(key: key, animation: animation, isReverse: isReverse);
   const FadeSlideTransition.reverse({
+    Key? key,
     required Animation<double> animation,
     required this.slide,
     required this.child,
-  }) : super(animation: animation, isReverse: true);
+  }) : super(key: key, animation: animation, isReverse: true);
 
   /// The slide that you want for the animation an example would be
   /// ```
@@ -84,18 +87,20 @@ class FadeSlideTransition extends IsmailAnimatedWidget {
 class FadeSizeTransition extends IsmailAnimatedWidget {
   /// Creates a transition which Fades in and out also animates the size
   const FadeSizeTransition({
+    Key? key,
     required final Animation<double> animation,
     required this.child,
     this.axisAlignment = 0.0,
     final bool isReverse = false,
     this.axis = Axis.vertical,
-  }) : super(animation: animation, isReverse: isReverse);
+  }) : super(key: key, animation: animation, isReverse: isReverse);
   const FadeSizeTransition.reverse({
+    Key? key,
     required final Animation<double> animation,
     required this.child,
     this.axisAlignment = 0.0,
     this.axis = Axis.vertical,
-  }) : super(animation: animation, isReverse: true);
+  }) : super(key: key, animation: animation, isReverse: true);
 
   final Widget child;
 

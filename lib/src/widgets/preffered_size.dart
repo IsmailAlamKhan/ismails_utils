@@ -20,7 +20,7 @@ class IsmailPreferredSize extends StatelessWidget
           .findAncestorWidgetOfExactType<PreferredSize>()!
           .preferredSize;
     } catch (e) {
-      throw FlutterError(notFoundOnScopeError('IsmailPreferredSize'));
+      throw notFoundOnScopeError('IsmailPreferredSize');
     }
   }
 

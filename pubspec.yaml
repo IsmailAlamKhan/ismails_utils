@@ -26,6 +26,7 @@ dependencies:
   shared_preferences: ^2.0.6
   sticky_headers: ^0.2.0
   validators: ^3.0.0
+  flutter_lints: ^1.0.4
 
 dev_dependencies:
   flutter_test:

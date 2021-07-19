@@ -170,6 +170,7 @@ class IsmailGroupedRadio<T> extends StatelessWidget {
   final ControlAffinity controlAffinity;
 
   const IsmailGroupedRadio({
+    Key? key,
     required this.options,
     required this.onChanged,
     this.value,
@@ -188,7 +189,7 @@ class IsmailGroupedRadio<T> extends StatelessWidget {
     this.wrapVerticalDirection = VerticalDirection.down,
     this.separator,
     this.controlAffinity = ControlAffinity.leading,
-  });
+  }): super(key: key);
 
   @override
   Widget build(BuildContext context) {

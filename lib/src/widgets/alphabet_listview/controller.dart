@@ -76,9 +76,10 @@ class AlphabetListViewInheritedWidget extends InheritedWidget {
   /// The InheritedWidget that is injected on [AlphabetListView] to
   /// acccess the [AlphabetController]
   const AlphabetListViewInheritedWidget({
+    Key? key,
     required Widget child,
     required this.controller,
-  }) : super(child: child);
+  }) : super(child: child, key: key);
 
   @override
   bool updateShouldNotify(_) => false;

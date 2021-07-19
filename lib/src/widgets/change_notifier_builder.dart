@@ -31,9 +31,7 @@ class ChangeNotifierBuilder<T extends ChangeNotifier> extends StatelessWidget {
         error: e,
         stackTrace: s,
       );
-      throw FlutterError(
-        notFoundOnScopeError('ChangeNotifierBuilder of type $T'),
-      );
+      throw notFoundOnScopeError('ChangeNotifierBuilder of type $T');
     }
   }
 

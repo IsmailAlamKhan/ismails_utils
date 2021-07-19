@@ -24,10 +24,11 @@ class IsmailFormFieldOption<T> extends StatelessWidget {
   final String? text;
 
   /// get [IsmailFormFieldOption] from json
-  IsmailFormFieldOption.fromJson(Map<String, dynamic> map)
+  IsmailFormFieldOption.fromJson(Map<String, dynamic> map, [Key? key])
       : value = map['value'],
         child = null,
-        text = map['text'] ?? map['Text'];
+        text = map['text'] ?? map['Text'],
+        super(key: key);
   @override
   Widget build(BuildContext context) {
     return child ?? Text(text ?? value.toString());

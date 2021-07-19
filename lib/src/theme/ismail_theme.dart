@@ -22,9 +22,7 @@ class IsmailTheme extends StatelessWidget {
       return context.dependOnInheritedWidgetOfExactType<_IsmailTheme>()!.theme
           as T;
     } catch (e) {
-      throw FlutterError(
-        notFoundOnScopeError('IsmailTheme or AnimatedIsmailTheme'),
-      );
+      throw notFoundOnScopeError('IsmailTheme or AnimatedIsmailTheme');
     }
   }
 
