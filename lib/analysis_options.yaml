@@ -14,3 +14,4 @@ linter:
   # producing the lint.
   rules:
     avoid_renaming_method_parameters: false
+    prefer_relative_imports: true
