@@ -137,7 +137,6 @@ class __ReorderGridViewItemState extends State<_ReorderGridViewItem> {
   void autoScroll(double deviceHeight, double currentDragPos) {
     if (isScrolling) return;
     double? offset;
-    IsmailLogger().info('$currentDragPos ');
     if (currentDragPos >= deviceHeight - 100) {
       offset = widget.scrollController.offset + 200;
     } else if (currentDragPos <= 100) {
@@ -159,7 +158,7 @@ class __ReorderGridViewItemState extends State<_ReorderGridViewItem> {
     final _widget = DragTarget<int>(
       onAccept: (data) {
         if (draggingIndex != index) {
-          widget.onReorder?.call(data, index);
+          widget.onReorder?.call(index, data);
         }
       },
       builder: (context, candidateData, rejectedData) {
