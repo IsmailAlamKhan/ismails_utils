@@ -31,6 +31,7 @@ class ReorderAbleGridView extends StatefulWidget {
   final String? restorationId;
   final Clip clipBehavior;
   final ReorderCallback? onReorder;
+  final bool isDraggalbe;
 
   const ReorderAbleGridView({
     Key? key,
@@ -54,6 +55,7 @@ class ReorderAbleGridView extends StatefulWidget {
     this.restorationId,
     this.clipBehavior = Clip.hardEdge,
     this.onReorder,
+    this.isDraggalbe = true,
   }) : super(key: key);
   @override
   _ReorderAbleGridViewState createState() => _ReorderAbleGridViewState();
@@ -77,12 +79,17 @@ class _ReorderAbleGridViewState extends State<ReorderAbleGridView> {
   Widget build(BuildContext context) {
     return GridView.builder(
       gridDelegate: widget.gridDelegate,
-      itemBuilder: (context, index) => _ReorderGridViewItem(
-        index: index,
-        item: (isDragging) => widget.itemBuilder(context, index, isDragging),
-        scrollController: scrollController,
-        onReorder: widget.onReorder,
-      ),
+      itemBuilder: (context, index) {
+        if (!widget.isDraggalbe) {
+          return widget.itemBuilder(context, index, false);
+        }
+        return _ReorderGridViewItem(
+          index: index,
+          item: (isDragging) => widget.itemBuilder(context, index, isDragging),
+          scrollController: scrollController,
+          onReorder: widget.onReorder,
+        );
+      },
       addAutomaticKeepAlives: widget.addAutomaticKeepAlives,
       addRepaintBoundaries: widget.addRepaintBoundaries,
       addSemanticIndexes: widget.addSemanticIndexes,
