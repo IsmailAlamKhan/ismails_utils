@@ -176,7 +176,7 @@ class __ReorderGridViewItemState extends State<_ReorderGridViewItem> {
         });
       },
     );
-    return LongPressDraggable<int>(
+    return Draggable<int>(
       onDragStarted: () => setState(() {
         isDragging = true;
         draggingIndex = index;
