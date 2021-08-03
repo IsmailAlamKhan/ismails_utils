@@ -13,3 +13,4 @@ export 'responsive.dart';
 export 'scrollview/scrollview.dart';
 export 'size_notifier.dart';
 export 'transitions.dart';
+export 'reorderable_gridview.dart';

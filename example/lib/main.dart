@@ -1,16 +1,15 @@
-import 'dart:io';
-import 'dart:typed_data';
-import 'package:pedantic/pedantic.dart';
 import 'package:flutter/material.dart';
 import 'package:ismails_utils/ismails_utils.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(title: 'Material App', home: Home());
+    return const MaterialApp(
+      title: 'Material App',
+      home: Home(),
+    );
   }
 }
 
@@ -21,71 +20,29 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-enum ImageType { file, byte }
-
 class _HomeState extends State<Home> {
-  late final screenShotController = ScreenshotController();
-
+  final list = List.generate(10, (index) => 'ITEM ${index + 1}');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Material App Bar'),
-        actions: [
-          PopupMenuButton<ImageType>(
-            onSelected: (value) async {
-              if (value == ImageType.file) {
-                try {
-                  final image = await screenShotController.capture<File>();
-                  unawaited(
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        scrollable: true,
-                        content: Image.file(image),
-                      ),
-                    ),
-                  );
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('$e')),
-                  );
-                  rethrow;
-                }
-              } else {
-                try {
-                  final image = await screenShotController.capture<Uint8List>();
-                  unawaited(
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        scrollable: true,
-                        content: Image.memory(image),
-                      ),
-                    ),
-                  );
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('$e')),
-                  );
-                  rethrow;
-                }
-              }
-            },
-            itemBuilder: (context) => ImageType.values
-                .map<PopupMenuEntry<ImageType>>(
-                  (e) => PopupMenuItem(
-                    value: e,
-                    child: Text(e.getString.toUpperCaseFirst()),
-                  ),
-                )
-                .toList(),
-          ),
-        ],
       ),
-      body: ScreenshotWidget(
-        screenshotController: screenShotController,
-        child: const Center(child: Text('Hello World')),
+      body: ReorderAbleGridView(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+        ),
+        itemCount: list.length,
+        onReorder: (oldIndex, newIndex) {
+          final oldData = list[oldIndex].toString();
+          final newData = list[newIndex].toString();
+          list[newIndex] = oldData;
+          list[oldIndex] = newData;
+        },
+        itemBuilder: (_, index, isDragging) => Card(
+          color: (isDragging) ? Colors.blue : Colors.red,
+          child: Center(child: Text(list[index])),
+        ),
       ),
     );
   }
