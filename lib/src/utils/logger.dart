@@ -31,6 +31,7 @@ class IsmailLogger {
     final messege = record.message;
     final error = record.error;
     final stack = record.stackTrace;
+    final name = record.loggerName;
 
     final isError = record.level.value.between(1000, 1300);
     final isWarning = record.level.value == 900;
@@ -50,6 +51,7 @@ class IsmailLogger {
       error: error,
       stackTrace: stack,
       level: level.value,
+      name: name,
     );
   }
 
