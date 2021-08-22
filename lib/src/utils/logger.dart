@@ -8,9 +8,14 @@ class IsmailLogger {
   factory IsmailLogger.root() => _root;
   static final _root = IsmailLogger('Ismail Logger')..init();
 
-  IsmailLogger(String name) : logger = Logger(name);
+  IsmailLogger(String name, [log_printer.LogPrinter? logPrinter])
+      : logger = Logger(name),
+        _logger = log_printer.Logger(
+          filter: log_printer.DevelopmentFilter(),
+          printer: logPrinter ?? log_printer.PrettyPrinter(printTime: true),
+        );
   final Logger logger;
-  final _logger = log_printer.Logger();
+  final log_printer.Logger _logger;
   late final StreamSubscription<LogRecord> streamSubscription;
 
   void error(Object? message, {Object? error, StackTrace? stackTrace}) =>
