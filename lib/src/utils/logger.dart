@@ -1,97 +1,50 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:logging/logging.dart';
-
+import 'package:logger/logger.dart' as log_printer;
 import '../src.dart';
 
-mixin IsmailLoggerMixin {
-  String get name => 'IsmailLogger';
-  IsmailLogger get _logger => IsmailLogger(name);
-  void logError(Object? messege, {Object? error, StackTrace? stackTrace}) {
-    _logger.error(messege, error: error, stackTrace: stackTrace);
-  }
-
-  void logWarning(Object? messege, {Object? warning, StackTrace? stackTrace}) {
-    _logger.warning(messege, warning: warning, stackTrace: stackTrace);
-  }
-
-  void logInfo(Object? messege) => _logger.info(messege);
-}
-
 class IsmailLogger {
-  final String name;
+  factory IsmailLogger.root() => _root;
+  static final _root = IsmailLogger('Ismail Logger')..init();
 
-  IsmailLogger([String? name]) : name = name ?? 'IsmailLogger';
+  IsmailLogger(String name) : logger = Logger(name);
+  final Logger logger;
+  final _logger = log_printer.Logger();
+  late final StreamSubscription<LogRecord> streamSubscription;
 
-  void error(Object? message, {Object? error, StackTrace? stackTrace}) {
-    // logger.shout(messege, error, stackTrace);
-    logRecord(LogRecord(
-      Level.SHOUT,
-      message.toString(),
-      name,
-      error,
-      stackTrace,
-      Zone.current,
-    ));
-  }
+  void error(Object? message, {Object? error, StackTrace? stackTrace}) =>
+      logger.shout(message, error, stackTrace);
 
-  void warning(Object? message, {Object? warning, StackTrace? stackTrace}) {
-    logRecord(LogRecord(
-      Level.WARNING,
-      message.toString(),
-      name,
-      warning,
-      stackTrace,
-      Zone.current,
-    ));
-  }
+  void warning(Object? message, {Object? warning, StackTrace? stackTrace}) =>
+      logger.warning(message, error, stackTrace);
 
-  void info(Object? message) => logRecord(
-        LogRecord(
-          Level.INFO,
-          message.toString(),
-          name,
-          null,
-          StackTrace.current,
-          Zone.current,
-        ),
-      );
+  void info(Object? message) => logger.info(message);
 
-  void logRecord(LogRecord record) {
-    final level = record.level;
+  void init() => streamSubscription = logger.onRecord.listen(_logRecord);
+
+  void _logRecord(LogRecord record) {
+    log_printer.Level? level;
     final messege = record.message;
-    final time = record.time;
     final error = record.error;
     final stack = record.stackTrace;
-    final name = record.loggerName;
-    final sequenceNumber = record.sequenceNumber;
-    final zone = record.zone;
 
-    final isError = level.value.between(1000, 1300);
-    final isWarning = level.value == 900;
-    final isNormal = level.value.between(0, 900);
-    var _messege = '';
+    final isError = record.level.value.between(1000, 1300);
+    final isWarning = record.level.value == 900;
+    final isNormal = record.level.value.between(0, 900);
     if (isError) {
-      _messege = '😭 $messege';
+      level = log_printer.Level.error;
     }
     if (isWarning) {
-      _messege = '⚠ $messege';
+      level = log_printer.Level.warning;
     }
     if (isNormal) {
-      _messege = 'ℹ $messege';
+      level = log_printer.Level.info;
+    } else {
+      level = log_printer.Level.verbose;
     }
-    log(
-      _messege,
-      time: time,
-      error: isNormal ? null : error,
-      stackTrace: isNormal ? null : stack,
-      name: name,
-      level: level.value,
-      sequenceNumber: sequenceNumber,
-      zone: zone,
-    );
+    _logger.log(level, messege, error, stack);
   }
 
-  IsmailLogger copyWith({String? name}) => IsmailLogger(name ?? this.name);
+  void dispose() => streamSubscription.cancel();
 }

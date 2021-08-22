@@ -27,6 +27,7 @@ dependencies:
   sticky_headers: ^0.2.0
   validators: ^3.0.0
   flutter_lints: ^1.0.4
+  logger: ^1.0.0
 
 dev_dependencies:
   flutter_test:

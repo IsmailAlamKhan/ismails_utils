@@ -1,6 +1,7 @@
 part of bottom_navigation;
 
-class BottomNavigationController extends ChangeNotifier with IsmailLoggerMixin {
+class BottomNavigationController extends ChangeNotifier {
+  final logger = IsmailLogger('BottomNavigationController')..init();
   BottomNavigationController(this.pageList);
   final List<BottomNavigationItem> pageList;
 
@@ -13,7 +14,7 @@ class BottomNavigationController extends ChangeNotifier with IsmailLoggerMixin {
   int get activeIndex => _currentIndex;
   set activeIndex(int newIndex) {
     _isGoingBack = newIndex < activeIndex;
-    logInfo(
+    logger.info(
       'Going ${_isGoingBack ? 'back' : ''} from $_currentIndex to $newIndex',
     );
     _currentIndex = newIndex;
@@ -46,6 +47,12 @@ class BottomNavigationController extends ChangeNotifier with IsmailLoggerMixin {
       unawaited(activeItem.navKey!.currentState!.maybePop());
       return false;
     }
+  }
+
+  @override
+  void dispose() {
+    logger.dispose();
+    super.dispose();
   }
 }
 

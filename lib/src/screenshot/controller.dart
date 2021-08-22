@@ -1,6 +1,6 @@
 part of screenshot;
 
-class ScreenshotController with IsmailLoggerMixin {
+class ScreenshotController {
   late final _globalKey = GlobalKey();
   static Future<T> _capture<T>(
     RenderRepaintBoundary boundary, {
@@ -19,10 +19,10 @@ class ScreenshotController with IsmailLoggerMixin {
       final dir = Directory.systemTemp.createTempSync();
       final file = File('${dir.path}/${getRandomString(10)}.png');
 
-      IsmailLogger().info(file.path);
+      IsmailLogger.root().info(file.path);
       file.createSync(recursive: true);
       file.writeAsBytesSync(_bytes.asUint8List());
-      IsmailLogger().warning(
+      IsmailLogger.root().warning(
         '**************************************'
         ' Make sure to delete this file if you upload it somewhere otherwise this will be kept on the storage '
         '*************************************',

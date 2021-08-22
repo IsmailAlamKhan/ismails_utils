@@ -6,15 +6,14 @@ import '../src.dart';
 
 const _themeFromStorageKey = 'thememode';
 
-class _ThemeChangeNotifier extends ChangeNotifier with IsmailLoggerMixin {
+class _ThemeChangeNotifier extends ChangeNotifier {
+  final logger = IsmailLogger('Theme changer');
   final SharedPreferences _sharedPreferences;
   _ThemeChangeNotifier(SharedPreferences sharedPreferences)
       : _sharedPreferences = sharedPreferences {
     _init();
   }
 
-  @override
-  String name = 'ThemeChanger';
   var _themeMode = ThemeMode.system;
   ThemeMode get themeMode => _themeMode;
   bool get isDark => _themeMode == ThemeMode.dark;
@@ -34,7 +33,7 @@ class _ThemeChangeNotifier extends ChangeNotifier with IsmailLoggerMixin {
 
   void changeTheme(ThemeMode themeMode) {
     if (themeMode == _themeMode) return;
-    logInfo('Changing theme from $_themeMode to $themeMode');
+    logger.info('Changing theme from $_themeMode to $themeMode');
     _themeMode = themeMode;
     _storeThemeToStorage();
     notifyListeners();
@@ -46,21 +45,29 @@ class _ThemeChangeNotifier extends ChangeNotifier with IsmailLoggerMixin {
   ThemeMode _getThemeFromStorage() {
     var _themeFromStorage = _sharedPreferences.getString(_themeFromStorageKey);
     if (_themeFromStorage == null) {
-      logInfo(
+      logger.info(
         'No theme found from storage using the default one',
       );
     } else {
-      logInfo('$_themeFromStorage got from storage');
+      logger.info('$_themeFromStorage got from storage');
     }
     _themeFromStorage ??= themeMode.toString();
 
     return _themeFromStorage.toEnum<ThemeMode>(ThemeMode.values);
   }
 
-  void _init() => changeTheme(_getThemeFromStorage());
+  void _init() {
+    logger.init();
+    changeTheme(_getThemeFromStorage());
+  }
 
   @override
   String toString() => 'ThemeChanger: CurrentThemeMode = $themeMode';
+  @override
+  void dispose() {
+    logger.dispose();
+    super.dispose();
+  }
 }
 
 class ThemeChanger extends StatefulWidget {

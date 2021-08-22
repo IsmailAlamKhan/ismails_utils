@@ -9,9 +9,8 @@ import '../src.dart';
 /// This is the dioclient which returns a response or an
 /// [IsmailException.fromDioError]
 /// {@endtemplate}
-class DioClient with IsmailLoggerMixin {
-  @override
-  String name = 'DioClient';
+class DioClient {
+  final logger = IsmailLogger('DioClient')..init();
 
   /// {@macro DioClient}
   DioClient(
@@ -22,7 +21,7 @@ class DioClient with IsmailLoggerMixin {
     this.responseBody = true,
   }) : assert(!wantConnectivityCheck || host != null || port != null,
             'DioClient- If you want connectivity check please provide host and port') {
-    logInfo('DioClient started, Base Url is ${baseOptions.baseUrl}');
+    logger.info('DioClient started, Base Url is ${baseOptions.baseUrl}');
     instance = this;
   }
 
@@ -55,7 +54,7 @@ class DioClient with IsmailLoggerMixin {
         requestBody: true,
         responseBody: responseBody,
         responseHeader: true,
-        logPrint: logInfo,
+        logPrint: logger.info,
       ),
     );
 

@@ -40,11 +40,11 @@ class FileServiceForIo extends FileManager {
     final localPath = await getLocalPath;
     final _file = File('${localPath.path}${extraPath ?? ''}$slash$name');
     if (_file.existsSync()) {
-      logInfo('File exists');
+      logger.info('File exists');
       return _file;
     } else {
       _file.createSync(recursive: true);
-      logInfo('File created at ${_file.path}');
+      logger.info('File created at ${_file.path}');
       return _file;
     }
   }
