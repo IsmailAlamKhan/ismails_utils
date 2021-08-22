@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:logging/logging.dart';
-import 'package:logger/logger.dart' as log_printer;
+import 'package:ansicolor/ansicolor.dart';
 import '../src.dart';
 
 class IsmailLogger {
@@ -10,7 +10,6 @@ class IsmailLogger {
 
   IsmailLogger(String name) : logger = Logger(name);
   final Logger logger;
-  final _logger = log_printer.Logger();
   late final StreamSubscription<LogRecord> streamSubscription;
 
   void error(Object? message, {Object? error, StackTrace? stackTrace}) =>
@@ -23,8 +22,12 @@ class IsmailLogger {
 
   void init() => streamSubscription = logger.onRecord.listen(_logRecord);
 
+  final redPen = AnsiPen()..red(bold: true);
+  final yellowPen = AnsiPen()..yellow(bold: true);
+  final bluePen = AnsiPen()..blue(bold: true);
+
   void _logRecord(LogRecord record) {
-    log_printer.Level? level;
+    final level = record.level;
     final messege = record.message;
     final error = record.error;
     final stack = record.stackTrace;
@@ -32,18 +35,22 @@ class IsmailLogger {
     final isError = record.level.value.between(1000, 1300);
     final isWarning = record.level.value == 900;
     final isNormal = record.level.value.between(0, 900);
+    var _messege = '';
     if (isError) {
-      level = log_printer.Level.error;
+      _messege = redPen(messege);
     }
     if (isWarning) {
-      level = log_printer.Level.warning;
+      _messege = yellowPen(messege);
     }
     if (isNormal) {
-      level = log_printer.Level.info;
-    } else {
-      level = log_printer.Level.verbose;
+      _messege = bluePen(messege);
     }
-    _logger.log(level, messege, error, stack);
+    log(
+      _messege,
+      error: error,
+      stackTrace: stack,
+      level: level.value,
+    );
   }
 
   void dispose() => streamSubscription.cancel();
