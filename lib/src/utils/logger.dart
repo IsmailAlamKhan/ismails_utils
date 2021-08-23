@@ -17,13 +17,7 @@ class IsmailLogger {
     Object? error,
     StackTrace? stackTrace,
   ]) =>
-      LogRecord(
-        level,
-        message.toString(),
-        name,
-        error,
-        stackTrace ?? StackTrace.current,
-      );
+      LogRecord(level, message.toString(), name, error, stackTrace);
 
   void error(Object? message, {Object? error, StackTrace? stackTrace}) =>
       _printLog(_logRecord(message, Level.SHOUT, error, stackTrace));
