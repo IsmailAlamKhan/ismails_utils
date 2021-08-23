@@ -23,7 +23,7 @@ class IsmailLogger {
       _printLog(_logRecord(message, Level.SHOUT, error, stackTrace));
 
   void warning(Object? message, {Object? warning, StackTrace? stackTrace}) =>
-      _printLog(_logRecord(message, Level.WARNING, error, stackTrace));
+      _printLog(_logRecord(message, Level.WARNING, warning, stackTrace));
 
   void info(Object? message) => _printLog(_logRecord(message, Level.INFO));
 
