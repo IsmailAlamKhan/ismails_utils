@@ -1,7 +1,7 @@
 part of bottom_navigation;
 
 class BottomNavigationController extends ChangeNotifier {
-  final logger = IsmailLogger('BottomNavigationController')..init();
+  final logger = IsmailLogger('BottomNavigationController');
   BottomNavigationController(this.pageList);
   final List<BottomNavigationItem> pageList;
 
@@ -47,12 +47,6 @@ class BottomNavigationController extends ChangeNotifier {
       unawaited(activeItem.navKey!.currentState!.maybePop());
       return false;
     }
-  }
-
-  @override
-  void dispose() {
-    logger.dispose();
-    super.dispose();
   }
 }
 

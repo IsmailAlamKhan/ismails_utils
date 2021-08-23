@@ -10,7 +10,7 @@ import '../src.dart';
 /// [IsmailException.fromDioError]
 /// {@endtemplate}
 class DioClient {
-  final logger = IsmailLogger('DioClient')..init();
+  final logger = IsmailLogger('DioClient');
 
   /// {@macro DioClient}
   DioClient(

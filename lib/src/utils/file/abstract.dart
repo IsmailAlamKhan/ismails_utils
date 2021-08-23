@@ -7,7 +7,7 @@ import 'stub.dart' if (dart.library.io) 'io.dart';
 
 /// a SimpleFileService which gives abbility to read/ write/ make and upload file
 abstract class FileManager {
-  final logger = IsmailLogger('File Service')..init();
+  final logger = IsmailLogger('File Service');
 
   static FileManager? _instance;
 

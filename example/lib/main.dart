@@ -32,7 +32,7 @@ class _HomeState extends State<Home> {
       body: IsmailDateTimePickerFormField(
         name: 'Hello',
         lastDate: DateTime(2009),
-        initialDate: DateTime(2009, 1, 1),
+        initialDate: DateTime(2009),
       ),
     );
   }

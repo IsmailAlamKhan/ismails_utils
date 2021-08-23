@@ -57,17 +57,11 @@ class _ThemeChangeNotifier extends ChangeNotifier {
   }
 
   void _init() {
-    logger.init();
     changeTheme(_getThemeFromStorage());
   }
 
   @override
   String toString() => 'ThemeChanger: CurrentThemeMode = $themeMode';
-  @override
-  void dispose() {
-    logger.dispose();
-    super.dispose();
-  }
 }
 
 class ThemeChanger extends StatefulWidget {
