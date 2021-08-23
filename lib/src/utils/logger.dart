@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
-import 'package:ansicolor/ansicolor.dart';
 import '../src.dart';
 
 class IsmailLogger {
@@ -34,10 +33,6 @@ class IsmailLogger {
 
   void _printLog(LogRecord record) {
     if (kDebugMode) {
-      final redPen = AnsiPen()..red(bold: true);
-      final yellowPen = AnsiPen()..yellow(bold: true);
-      final bluePen = AnsiPen()..blue(bold: true);
-
       final level = record.level;
       final recordMessege = record.message;
       final error = record.error;
@@ -51,13 +46,13 @@ class IsmailLogger {
           '[$name] $recordMessege ${error != null ? 'Error: $error' : ''}\n$stack';
       var _messege = '';
       if (isError) {
-        _messege = redPen(messege);
+        _messege = '🛑 \x1B[31m$messege\x1B[0m ';
       }
       if (isWarning) {
-        _messege = yellowPen(messege);
+        _messege = '⚠️ \x1B[33m$messege\x1B[0m ⚠️';
       }
       if (isNormal) {
-        _messege = bluePen(messege);
+        _messege = '\x1B[34m ℹ️ $messege ℹ️ \x1B[0m';
       }
 
       // ignore: avoid_print
