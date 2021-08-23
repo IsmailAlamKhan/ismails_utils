@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
 import '../src.dart';
@@ -42,21 +44,24 @@ class IsmailLogger {
       final isError = level.value.between(1000, 1300);
       final isWarning = level.value == 900;
       final isNormal = level.value.between(0, 900);
-      final messege =
-          '[$name] $recordMessege ${error != null ? 'Error: $error' : ''}\n$stack';
+
       var _messege = '';
       if (isError) {
-        _messege = '🛑 \x1B[31m$messege\x1B[0m ';
+        _messege = '🛑 \x1B[31m$recordMessege\x1B[0m ';
       }
       if (isWarning) {
-        _messege = '⚠️ \x1B[33m$messege\x1B[0m ⚠️';
+        _messege = '⚠️ \x1B[33m$recordMessege\x1B[0m ⚠️';
       }
       if (isNormal) {
-        _messege = '\x1B[34m ℹ️ $messege ℹ️ \x1B[0m';
+        _messege = '\x1B[34m ℹ️ $recordMessege ℹ️ \x1B[0m';
       }
 
-      // ignore: avoid_print
-      print(_messege);
+      log(
+        _messege,
+        name: name,
+        error: error,
+        stackTrace: stack,
+      );
     }
   }
 }
