@@ -8,26 +8,24 @@ class IsmailLogger {
   factory IsmailLogger.root() => _root;
   static final _root = IsmailLogger('Ismail Logger');
 
-  final String name;
-  IsmailLogger(this.name);
+  IsmailLogger(this.name) : logger = Logger(name);
 
-  LogRecord _logRecord(
-    Object? message,
-    Level level, [
-    Object? error,
-    StackTrace? stackTrace,
-  ]) =>
-      LogRecord(level, message.toString(), name, error, stackTrace);
+  final String name;
+  final Logger logger;
 
   void error(Object? message, {Object? error, StackTrace? stackTrace}) =>
-      _printLog(_logRecord(message, Level.SHOUT, error, stackTrace));
+      logger.shout(message, error, stackTrace);
 
   void warning(Object? message, {Object? warning, StackTrace? stackTrace}) =>
-      _printLog(_logRecord(message, Level.WARNING, warning, stackTrace));
+      logger.warning(message, warning, stackTrace);
 
-  void info(Object? message) => _printLog(_logRecord(message, Level.INFO));
+  void info(Object? message) => logger.info(message);
+  static void init() {
+    Logger.root.level = Level.ALL;
+    Logger.root.onRecord.listen(_printLog);
+  }
 
-  void _printLog(LogRecord record) {
+  static void _printLog(LogRecord record) {
     if (kDebugMode) {
       final level = record.level;
       final recordMessege = record.message;

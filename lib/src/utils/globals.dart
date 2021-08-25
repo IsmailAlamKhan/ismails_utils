@@ -47,8 +47,8 @@ TextStyle textStyleFromMap(Map<String, dynamic> map) {
   );
 }
 
-FlutterError notFoundOnScopeError(String type) {
-  return FlutterError(
+Never notFoundOnScopeError(String type) {
+  throw FlutterError(
     'No $type found on the scope. '
     'Make sure you have $type'
     ' high up on the widget tree, if you do have it but still get this'

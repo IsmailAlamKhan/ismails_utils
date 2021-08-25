@@ -14,7 +14,7 @@ dependencies:
     sdk: flutter
   just_motion:
     git: https://github.com/roipeker/just_motion.git
-  animations: ^2.0.0
+  animations: ^2.0.1
   bitsdojo_window: ^0.1.0+1
   cached_network_image: 3.1.0-alpha.1
   dio: ^4.0.0-beta7
@@ -23,12 +23,10 @@ dependencies:
   logging: ^1.0.1
   pretty_dio_logger: ^1.1.1
   scrollable_positioned_list: ^0.2.0-nullsafety.0
-  shared_preferences: ^2.0.6
+  shared_preferences: ^2.0.7
   sticky_headers: ^0.2.0
   validators: ^3.0.0
   flutter_lints: ^1.0.4
-  logger: ^1.0.0
-  ansicolor: ^2.0.1
 
 dev_dependencies:
   flutter_test:
