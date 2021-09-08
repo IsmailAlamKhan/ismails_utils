@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:graphx/graphx.dart';
 import '../src.dart';
 import 'utils.dart';
 
@@ -67,7 +67,11 @@ extension ExtendedAnimationController on AnimationStatus {
 }
 
 extension ExtendedBuildContext on BuildContext {
-  GRect? get getRenderObjectBounds => ContextUtils.getRenderObjectBounds(this);
+  Rect get getRenderObjectBounds {
+    final box = findRenderObject() as RenderBox;
+    return box.localToGlobal(Offset.zero) & box.size;
+  }
+
   ContextMenu get contextMenu => ContextMenu.of(this);
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> ismailSnackbar({
     required String text,
@@ -147,8 +151,7 @@ extension ExtendedType on Object {
 
 extension FileExtension on File {
   String get read => FileManager.instance.readFile(this);
-  void write(String val, [FileMode mode = FileMode.append]) =>
-      FileManager.instance.writeFile(
+  void write(String val, [FileMode mode = FileMode.append]) => FileManager.instance.writeFile(
         val,
         this,
         mode,
@@ -237,8 +240,7 @@ extension MyTextStyle on TextStyle {
 }
 
 extension ExtendedSliverOverlapInjector on SliverOverlapInjector {
-  static SliverOverlapInjector of(BuildContext context) =>
-      SliverOverlapInjector(
+  static SliverOverlapInjector of(BuildContext context) => SliverOverlapInjector(
         handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
           context,
         ),
@@ -246,8 +248,7 @@ extension ExtendedSliverOverlapInjector on SliverOverlapInjector {
 }
 
 extension ExtendedSliverOverlapAbsorber on SliverOverlapAbsorber {
-  static SliverOverlapAbsorber of(BuildContext context, {Widget? sliver}) =>
-      SliverOverlapAbsorber(
+  static SliverOverlapAbsorber of(BuildContext context, {Widget? sliver}) => SliverOverlapAbsorber(
         handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
           context,
         ),
@@ -261,11 +262,8 @@ extension NestedScrollViewExt on NestedScrollView {
 }
 
 extension CapExtension on String {
-  String toUpperCaseFirst() =>
-      length > 0 ? '${this[0].toUpperCase()}${substring(1)}' : '';
+  String toUpperCaseFirst() => length > 0 ? '${this[0].toUpperCase()}${substring(1)}' : '';
 
-  String toUpperCaseFirstForEachWord() => replaceAll(RegExp(' +'), ' ')
-      .split(' ')
-      .map((str) => str.toUpperCaseFirst())
-      .join(' ');
+  String toUpperCaseFirstForEachWord() =>
+      replaceAll(RegExp(' +'), ' ').split(' ').map((str) => str.toUpperCaseFirst()).join(' ');
 }

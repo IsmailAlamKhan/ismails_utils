@@ -1,7 +1,6 @@
 name: ismails_utils
 description: Some utils for any flutter project.
 version: 0.0.6
-author: Md Ismail Alam Khan
 homepage: "null"
 publish_to: "none"
 
@@ -12,13 +11,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  just_motion:
-    git: https://github.com/roipeker/just_motion.git
   animations: ^2.0.1
   bitsdojo_window: ^0.1.0+1
   cached_network_image: 3.1.0-alpha.1
   dio: ^4.0.0-beta7
-  graphx: ^1.0.0-nullsafety.0
   intl: ^0.17.0
   logging: ^1.0.1
   pretty_dio_logger: ^1.1.1
@@ -27,6 +23,7 @@ dependencies:
   sticky_headers: ^0.2.0
   validators: ^3.0.0
   flutter_lints: ^1.0.4
+  flutter_svg: ^0.22.0
 
 dev_dependencies:
   flutter_test:

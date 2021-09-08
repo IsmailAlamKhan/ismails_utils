@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:graphx/graphx.dart';
 
 import '../../src.dart';
 import '_listview.dart';
@@ -80,8 +79,7 @@ class AlphabetListView<T extends AlphabetListViewModel> extends StatefulWidget {
   /// which is a [ChangeNotifier]
   static AlphabetListViewInheritedWidget of(BuildContext context) {
     try {
-      return context.dependOnInheritedWidgetOfExactType<
-          AlphabetListViewInheritedWidget>()!;
+      return context.dependOnInheritedWidgetOfExactType<AlphabetListViewInheritedWidget>()!;
     } catch (e) {
       throw FlutterError(
         'To use AlphabetListView.of(context) the BuildContext '
@@ -91,8 +89,7 @@ class AlphabetListView<T extends AlphabetListViewModel> extends StatefulWidget {
   }
 }
 
-class _AlphabetListViewState<T extends AlphabetListViewModel>
-    extends State<AlphabetListView<T>> {
+class _AlphabetListViewState<T extends AlphabetListViewModel> extends State<AlphabetListView<T>> {
   late final AlphabetController _controller = AlphabetController(widget.list);
 
   @override

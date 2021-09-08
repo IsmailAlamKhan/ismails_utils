@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:graphx/graphx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../src.dart';
 
@@ -144,10 +143,7 @@ class DynamicImage<T> extends StatelessWidget {
           child: Builder(builder: (context) {
             return Text(
               'Unsupported format',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline6
-                  ?.copyWith(color: Colors.red),
+              style: Theme.of(context).textTheme.headline6?.copyWith(color: Colors.red),
             );
           }),
         ),
