@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
+
 import '../src.dart';
 
 class IsmailLogger {
@@ -48,12 +47,7 @@ class IsmailLogger {
         _messege = '\x1B[34m ℹ️ $recordMessege ℹ️ \x1B[0m';
       }
 
-      log(
-        _messege,
-        name: name,
-        error: error,
-        stackTrace: stack,
-      );
+      debugPrint("[$name] $_messege\n$error\n$stack");
     }
   }
 }

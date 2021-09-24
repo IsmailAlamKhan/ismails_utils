@@ -1,7 +1,9 @@
 import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+
 import '../src.dart';
 
 enum InputType { date, time, both }
