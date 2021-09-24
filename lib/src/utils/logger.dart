@@ -36,18 +36,20 @@ class IsmailLogger {
       final isWarning = level.value == 900;
       final isNormal = level.value.between(0, 900);
 
-      var _messege = '';
+      final output =
+          "[$name] $recordMessege${error != null ? '\n$error' : ''}${stack != null ? '\n$stack' : ''}";
+      var _messege = "";
       if (isError) {
-        _messege = '🛑 \x1B[31m$recordMessege\x1B[0m ';
+        _messege = '🛑 \x1B[31m$output\x1B[0m ';
       }
       if (isWarning) {
-        _messege = '⚠️ \x1B[33m$recordMessege\x1B[0m ⚠️';
+        _messege = '⚠️ \x1B[33m$output\x1B[0m ⚠️';
       }
       if (isNormal) {
-        _messege = '\x1B[34m ℹ️ $recordMessege ℹ️ \x1B[0m';
+        _messege = '\x1B[34m ℹ️ $output ℹ️ \x1B[0m';
       }
 
-      debugPrint("[$name] $_messege\n$error\n$stack");
+      debugPrint(_messege);
     }
   }
 }
