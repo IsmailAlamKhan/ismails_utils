@@ -63,10 +63,15 @@ const defaultColorShade = 400;
 
 const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
 final _rnd = Random();
-
-String getRandomString(int length) => String.fromCharCodes(
+String _getRandomString(int length, Random random) => String.fromCharCodes(
       Iterable.generate(
         length,
-        (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length)),
+        (_) => _chars.codeUnitAt(random.nextInt(_chars.length)),
       ),
     );
+
+String getRandomString(int length) => _getRandomString(length, _rnd);
+
+final _rndSecure = Random.secure();
+String getSecureRandomString(int length) =>
+    _getRandomString(length, _rndSecure);
