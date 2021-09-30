@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:ismails_utils/ismails_utils.dart';
 
@@ -25,14 +27,22 @@ class _HomeState extends State<Home> {
   final list = List.generate(10, (index) => 'ITEM ${index + 1}');
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Material App Bar'),
-      ),
-      body: IsmailDateTimePickerFormField(
-        name: 'Hello',
-        lastDate: DateTime(2009),
-        initialDate: DateTime(2009),
+    return DefaultRoundedLoadingButtonController(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Material App Bar'),
+        ),
+        body: Center(
+          child: RoundedLoadingButton(
+            builder: (context) => const Text('Hello'),
+            onPressed: () async {
+              await Future.delayed(const Duration(seconds: 1));
+              if (Random().nextBool()) {
+                throw Exception('Error');
+              }
+            },
+          ),
+        ),
       ),
     );
   }
