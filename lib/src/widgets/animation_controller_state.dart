@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
 
-abstract class AnimationControllerState<T extends StatefulWidget>
-    extends State<T> with SingleTickerProviderStateMixin {
+/// Have to initialize the [AnimationControllerMixin.animation] before using the
+/// animation controller otherwise you are gonna get a late initialization error.
+mixin AnimationControllerMixin<T extends StatefulWidget>
+    on TickerProviderStateMixin<T> {
   late final AnimationController animation;
   final duration = const Duration(milliseconds: 500);
   final reverseDuration = const Duration(milliseconds: 500);
-  double? value;
+  double value = 0;
   final lowerBound = 0.0;
   final upperBound = 1.0;
+
+  @override
+  void dispose() {
+    animation.dispose();
+    super.dispose();
+  }
+}
+
+/// Initialzies the [AnimationControllerMixin.animation] with a normal [AnimationController]
+/// and adds TickerProviderStateMixin to the State
+abstract class AnimationControllerState<T extends StatefulWidget>
+    extends State<T> with TickerProviderStateMixin, AnimationControllerMixin {
   @override
   void initState() {
     animation = AnimationController(
@@ -20,10 +34,20 @@ abstract class AnimationControllerState<T extends StatefulWidget>
     );
     super.initState();
   }
+}
 
+/// Initialzies the [AnimationControllerMixin.animation] with an [AnimationController.unbounded]
+/// and adds TickerProviderStateMixin to the State
+abstract class UnboundedAnimationController<T extends StatefulWidget>
+    extends State<T> with TickerProviderStateMixin, AnimationControllerMixin {
   @override
-  void dispose() {
-    animation.dispose();
-    super.dispose();
+  void initState() {
+    animation = AnimationController.unbounded(
+      vsync: this,
+      duration: duration,
+      reverseDuration: reverseDuration,
+      value: value,
+    );
+    super.initState();
   }
 }
