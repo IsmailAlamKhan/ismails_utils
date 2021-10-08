@@ -28,13 +28,10 @@ class BottomNavigationController extends ChangeNotifier {
       activeItem.navKey?.currentState?.canPop() ?? false;
 
   static BottomNavigationController of(BuildContext context) {
-    try {
-      return context
-          .dependOnInheritedWidgetOfExactType<_BottomNavigationScope>()!
-          .notifier!;
-    } catch (e) {
-      throw notFoundOnScopeError('BottomNavigation');
-    }
+    assert(inheritedWidgetNotFound<_BottomNavigationScope>(context));
+    return context
+        .dependOnInheritedWidgetOfExactType<_BottomNavigationScope>()!
+        .notifier!;
   }
 
   Future<bool> onWillPop() async {

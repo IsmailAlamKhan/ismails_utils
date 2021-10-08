@@ -47,16 +47,31 @@ TextStyle textStyleFromMap(Map<String, dynamic> map) {
   );
 }
 
-Never notFoundOnScopeError(String type) {
-  throw FlutterError(
-    'No $type found on the scope. '
-    'Make sure you have $type'
-    ' high up on the widget tree, if you do have it but still get this'
-    ' try wrapping the current widget with Builder'
-    ' and use the context from it or extract to a new Stateless '
-    'or Stateful Widget.',
-  );
+
+bool inheritedWidgetNotFound<T extends InheritedWidget>(BuildContext context) {
+  assert(() {
+    if (context.widget is! T &&
+        context.getElementForInheritedWidgetOfExactType<T>() == null) {
+      throw FlutterError.fromParts(<DiagnosticsNode>[
+        ErrorSummary('No $T widget ancestor found.'),
+        ErrorDescription(
+            '${context.widget.runtimeType} widgets require a $T widget ancestor.'),
+        context.describeWidget(
+            'The specific widget that could not find a $T ancestor was'),
+        context.describeOwnershipChain(
+            'The ownership chain for the affected widget is'),
+        ErrorHint(
+          'No $T ancestor could be found starting from the context '
+          'that was passed to $T.of(). This can happen because you '
+          'have not added a DefaultSlimySwitchController',
+        ),
+      ]);
+    }
+    return true;
+  }());
+  return true;
 }
+
 
 const materialcolorShades = {50, 100, 200, 300, 400, 500, 600, 700, 800, 900};
 const defaultColorShade = 400;

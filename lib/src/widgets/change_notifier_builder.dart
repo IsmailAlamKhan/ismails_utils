@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+
 import '../src.dart';
 import '../utils/typedef.dart';
 
@@ -20,19 +21,10 @@ class ChangeNotifierBuilder<T extends ChangeNotifier> extends StatelessWidget {
   final ChangeNotifierbuilderTypeDef<T> builder;
   final Widget? child;
   static T of<T extends ChangeNotifier>(BuildContext context) {
-    try {
-      return context
-          .dependOnInheritedWidgetOfExactType<_ChangeNotifierBuilder<T>>()!
-          .notifier!;
-    } catch (e, s) {
-      final logger = IsmailLogger.root();
-      logger.error(
-        'ChangeNotifierBuilder of type $T not found',
-        error: e,
-        stackTrace: s,
-      );
-      throw notFoundOnScopeError('ChangeNotifierBuilder of type $T');
-    }
+    assert(inheritedWidgetNotFound<_ChangeNotifierBuilder<T>>(context));
+    return context
+        .dependOnInheritedWidgetOfExactType<_ChangeNotifierBuilder<T>>()!
+        .notifier!;
   }
 
   @override

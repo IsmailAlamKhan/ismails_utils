@@ -18,25 +18,24 @@ class IsmailTheme extends StatelessWidget {
 
   /// Get the current [IsmailThemeData]
   static T of<T extends IsmailThemeData>(BuildContext context) {
-    try {
-      return context.dependOnInheritedWidgetOfExactType<_IsmailTheme>()!.theme
-          as T;
-    } catch (e) {
-      throw notFoundOnScopeError('IsmailTheme or AnimatedIsmailTheme');
-    }
+    assert(inheritedWidgetNotFound<_IsmailThemeScope>(context));
+
+    return context
+        .dependOnInheritedWidgetOfExactType<_IsmailThemeScope>()!
+        .theme as T;
   }
 
   @override
   Widget build(BuildContext context) {
-    return _IsmailTheme(
+    return _IsmailThemeScope(
       theme: data,
       child: child,
     );
   }
 }
 
-class _IsmailTheme extends InheritedWidget {
-  const _IsmailTheme({
+class _IsmailThemeScope extends InheritedWidget {
+  const _IsmailThemeScope({
     Key? key,
     required Widget child,
     required this.theme,
@@ -44,7 +43,8 @@ class _IsmailTheme extends InheritedWidget {
   final IsmailThemeData theme;
 
   @override
-  bool updateShouldNotify(_IsmailTheme oldWidget) => theme != oldWidget.theme;
+  bool updateShouldNotify(_IsmailThemeScope oldWidget) =>
+      theme != oldWidget.theme;
 }
 
 /// This is used for [AnimatedIsmailTheme] you don't need to extend this when
