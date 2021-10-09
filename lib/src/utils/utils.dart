@@ -1,10 +1,7 @@
 export 'const.dart';
 export 'custom_overlay.dart';
-export 'dio.dart';
 export 'enum.dart';
-export 'exception.dart';
 export 'extenstion.dart';
-export 'file/file.dart';
 export 'globals.dart';
 export 'logger.dart';
 export 'screen.dart';

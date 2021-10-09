@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:animations/animations.dart';
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 
 import '../../ismails_utils.dart';
@@ -13,55 +11,6 @@ class ContextMenu {
 
   /// Conetext menus
   ContextMenu.of(this.context);
-
-  /// Window's context menu when clicking on the titlebar
-  Future<T?> exitMenu<T>(Offset offset) {
-    return open(
-      offset: offset,
-      size: const Size(180, 138),
-      menu: (animation) => FadeScaleTransition(
-        animation: animation,
-        child: Card(
-          clipBehavior: Clip.antiAlias,
-          child: Column(
-            children: [
-              for (var fileIconMenu in fileIconMenuList)
-                if (fileIconMenu.text == 'Close')
-                  Column(
-                    children: [
-                      const Divider(height: 8),
-                      _item(fileIconMenu),
-                    ],
-                  )
-                else
-                  _item(fileIconMenu),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _item(FileIconMenuModel fileIconMenu) {
-    return InkWell(
-      onTap: () {
-        Navigator.of(context).pop();
-        fileIconMenu.onTap();
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            Icon(fileIconMenu.icon),
-            20.sizedWidth,
-            Text(fileIconMenu.text),
-            const Spacer(),
-            Text(fileIconMenu.hotKey ?? ''),
-          ],
-        ),
-      ),
-    );
-  }
 
   /// Open a contextMenu
   Future<T?> open<T>({
@@ -116,25 +65,6 @@ class FileIconMenuModel {
     this.hotKey,
   });
 }
-
-List<FileIconMenuModel> fileIconMenuList = [
-  FileIconMenuModel(
-    icon: Icons.close_fullscreen,
-    text: 'Minimize',
-    onTap: () => appWindow.minimize(),
-  ),
-  FileIconMenuModel(
-    icon: Icons.fullscreen,
-    text: 'Maximize',
-    onTap: () => appWindow.maximize(),
-  ),
-  FileIconMenuModel(
-    icon: Icons.close,
-    text: 'Close',
-    hotKey: 'Alt+F4',
-    onTap: () => appWindow.close(),
-  ),
-];
 
 class _Route<T> extends PopupRoute<T> {
   _Route(this.page, {this.barrierDismissible = true});
