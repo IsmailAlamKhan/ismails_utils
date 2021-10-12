@@ -43,7 +43,6 @@ extension ExtendedNum on num {
   EdgeInsetsGeometry get padHort => EdgeInsets.symmetric(horizontal: _double);
   EdgeInsetsGeometry get padVert => EdgeInsets.symmetric(vertical: _double);
   bool between(num begin, num end) => this >= begin && this < end;
-  double sp(BuildContext context) => context.screenUtil.sp(this);
 }
 
 extension ExtendedOrientation on Orientation {
@@ -100,18 +99,6 @@ extension ExtendedBuildContext on BuildContext {
         animation: animation,
         action: action,
       ).show(this);
-
-  ScreenUtil get screenUtil => ScreenUtil.of(this);
-
-  ScreenSize get screenSize => screenUtil.screenSize;
-  bool get phone => screenUtil.phone;
-  bool get tab => screenUtil.tab;
-  bool get desktop => screenUtil.desktop;
-  double sp(num i) => screenUtil.sp(i);
-}
-
-extension ExtendedScreenSize on ScreenSize {
-  String get string => toString().split('.')[1];
 }
 
 extension ExtendedButtonType on ButtonStyle {

@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import '../src.dart';
 
-/// The typedef that [ResponsiveBuilder] uses for the builder
-typedef ResponsiveWidgetBuilder = Widget Function(
-  BuildContext context,
-  ScreenUtil screenUtil,
-  Widget? child,
-  BoxConstraints constraints,
-);
+import '../src.dart';
 
 /// The typedef that [IsmailSnackbar] uses for the animation
 /// [IsmailSnackbar.animBuilder]

@@ -8,7 +8,6 @@ export 'group_radio.dart';
 export 'keepalive.dart';
 export 'loading_button/loading_button.dart';
 export 'reorderable_gridview.dart';
-export 'responsive.dart';
 export 'scrollview/scrollview.dart';
 export 'size_notifier.dart';
 export 'transitions.dart';
