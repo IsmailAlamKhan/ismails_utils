@@ -76,7 +76,7 @@ class SomeFutureResponseController extends ValueNotifier<FutureResponse<String>>
   void setState(FutureResponse<String> state) => value = state;
 
   @override
-  Future<String>? future() => Future.delayed(const Duration(seconds: 5), () {
+  Future<String?> future() => Future.delayed(const Duration(seconds: 5), () {
         if (Random().nextBool()) {
           throw const MyException('Error');
         }

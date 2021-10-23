@@ -17,7 +17,7 @@ mixin FutureResponseMixin<T extends Object> {
     setState(ErrorFutureResponse(e, s));
   }
 
-  Future<T>? future();
+  Future<T?> future();
 
   /// This is where you call the future and handle the response
   /// [future] is the future you want to call
