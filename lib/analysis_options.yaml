@@ -16,3 +16,10 @@ linter:
     avoid_renaming_method_parameters: false
     prefer_relative_imports: true
     avoid_redundant_argument_values: true
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+  errors:
+    invalid_annotation_target: ignore

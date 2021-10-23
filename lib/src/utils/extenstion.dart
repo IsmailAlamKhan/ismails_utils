@@ -71,34 +71,6 @@ extension ExtendedBuildContext on BuildContext {
   }
 
   ContextMenu get contextMenu => ContextMenu.of(this);
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> ismailSnackbar({
-    required String text,
-    required Color color,
-    Duration duration = const Duration(seconds: 3),
-    Animation<double>? animation,
-    SnackBarAction? action,
-    SnackBarBehavior behavior = SnackBarBehavior.floating,
-    double elevation = 6,
-    EdgeInsetsGeometry? margin,
-    VoidCallback? onVisible,
-    EdgeInsetsGeometry? padding,
-    ShapeBorder? shape,
-    double? width,
-  }) =>
-      IsmailSnackbar(
-        margin: margin,
-        onVisible: onVisible,
-        padding: padding,
-        shape: shape,
-        width: width,
-        elevation: elevation,
-        text: text,
-        color: color,
-        behavior: behavior,
-        duration: duration,
-        animation: animation,
-        action: action,
-      ).show(this);
 }
 
 extension ExtendedButtonType on ButtonStyle {
@@ -161,19 +133,6 @@ extension ExtendedControlAffinity on ControlAffinity {
   bool get leading => this == ControlAffinity.leading;
 }
 
-extension ExtendedFormFieldValidators<T> on List<FormFieldValidator<T>> {
-  /// {@macro IsmailFormValidators.compose}
-  FormFieldValidator<T> ismailFormValidatorCompose() {
-    return IsmailFormValidators.compose(this);
-  }
-}
-
-extension ExtendedListMapString on List<Map<String, dynamic>> {
-  /// Get List of [IsmailFormFieldOption] from a map
-  List<IsmailFormFieldOption<T>> ismailFormFieldOption<T>() =>
-      map((map) => IsmailFormFieldOption<T>.fromJson(map)).toList();
-}
-
 extension ExtendedChangeNotifer on ChangeNotifier {
   /// {@macro ismails_utils.widgets.ChangeNotifierBuilder}
   Widget builder<T extends ChangeNotifier>(
@@ -217,8 +176,7 @@ extension MyTextStyle on TextStyle {
 }
 
 extension ExtendedSliverOverlapInjector on SliverOverlapInjector {
-  static SliverOverlapInjector of(BuildContext context) =>
-      SliverOverlapInjector(
+  static SliverOverlapInjector of(BuildContext context) => SliverOverlapInjector(
         handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
           context,
         ),
@@ -226,8 +184,7 @@ extension ExtendedSliverOverlapInjector on SliverOverlapInjector {
 }
 
 extension ExtendedSliverOverlapAbsorber on SliverOverlapAbsorber {
-  static SliverOverlapAbsorber of(BuildContext context, {Widget? sliver}) =>
-      SliverOverlapAbsorber(
+  static SliverOverlapAbsorber of(BuildContext context, {Widget? sliver}) => SliverOverlapAbsorber(
         handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
           context,
         ),
@@ -241,11 +198,8 @@ extension NestedScrollViewExt on NestedScrollView {
 }
 
 extension CapExtension on String {
-  String toUpperCaseFirst() =>
-      length > 0 ? '${this[0].toUpperCase()}${substring(1)}' : '';
+  String toUpperCaseFirst() => length > 0 ? '${this[0].toUpperCase()}${substring(1)}' : '';
 
-  String toUpperCaseFirstForEachWord() => replaceAll(RegExp(' +'), ' ')
-      .split(' ')
-      .map((str) => str.toUpperCaseFirst())
-      .join(' ');
+  String toUpperCaseFirstForEachWord() =>
+      replaceAll(RegExp(' +'), ' ').split(' ').map((str) => str.toUpperCaseFirst()).join(' ');
 }

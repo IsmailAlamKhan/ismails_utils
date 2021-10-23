@@ -10,8 +10,7 @@ typedef SnackBarAnimBuilder = Widget Function(
 );
 
 /// The typedef that [AlphabetListView] uses to build item
-typedef AlphabetListViewItemBuilder<T extends AlphabetListViewModel> = Widget
-    Function(
+typedef AlphabetListViewItemBuilder<T extends AlphabetListViewModel> = Widget Function(
   BuildContext context,
   List<T> list,
   T item,
@@ -38,14 +37,12 @@ typedef CarouselWidgetBuilder<T> = Widget Function(
   T item,
 );
 
-typedef IsmailFormKey = GlobalKey<IsmailFormState>;
 typedef FormKey = GlobalKey<FormState>;
 typedef NavigatorKey = GlobalKey<NavigatorState>;
 typedef ScaffoldKey = GlobalKey<ScaffoldState>;
 
 typedef Messenger = ScaffoldMessenger;
-typedef SnackbarController
-    = ScaffoldFeatureController<SnackBar, SnackBarClosedReason>;
+typedef SnackbarController = ScaffoldFeatureController<SnackBar, SnackBarClosedReason>;
 typedef ValueTransformer<T> = dynamic Function(T value);
 
 typedef ChangeNotifierbuilderTypeDef<T> = Widget Function(
