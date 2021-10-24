@@ -27,10 +27,8 @@ mixin FutureResponseMixin<T extends Object> {
       final res = await future();
       if (res == null) {
         setState(const EmptyFutureResponse());
-      } else if (res is List) {
-        if (res.isEmpty) {
-          setState(const EmptyFutureResponse());
-        }
+      } else if (res is List && res.isEmpty) {
+        setState(const EmptyFutureResponse());
       } else {
         setState(SuccessFutureResponse(res));
       }

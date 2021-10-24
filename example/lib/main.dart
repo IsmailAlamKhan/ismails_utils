@@ -30,13 +30,14 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(title: const Text('Material App Bar')),
       body: Center(
-        child: ValueListenableBuilder<FutureResponse<String>>(
+        child: ValueListenableBuilder<FutureResponse<List<String>>>(
           valueListenable: _notifier,
           builder: (context, value, child) {
             debugPrint('value: $value');
             return value.when(
               idle: () => const Text('Idle'),
-              success: (value) => TextButton(onPressed: _notifier.reFetch, child: Text(value)),
+              success: (value) =>
+                  TextButton(onPressed: _notifier.reFetch, child: Text(value.join(','))),
               loading: () => const CircularProgressIndicator(),
               empty: () => const Text('Empty'),
               error: (e, s) {
@@ -48,7 +49,7 @@ class _HomeState extends State<Home> {
               },
               loadingMore: (value) => Column(
                 children: [
-                  Text(value),
+                  Text(value.join(',')),
                   const CircularProgressIndicator(),
                 ],
               ),
@@ -66,22 +67,25 @@ class _HomeState extends State<Home> {
   }
 }
 
-class SomeFutureResponseController extends ValueNotifier<FutureResponse<String>>
-    with FutureResponseMixin<String> {
+class SomeFutureResponseController extends ValueNotifier<FutureResponse<List<String>>>
+    with FutureResponseMixin<List<String>> {
   SomeFutureResponseController() : super(const IdleFutureResponse());
   @override
   bool get autoFetch => true;
 
   @override
-  void setState(FutureResponse<String> state) => value = state;
+  void setState(FutureResponse<List<String>> state) => value = state;
+  final _random = Random();
 
   @override
-  Future<String?> future() => Future.delayed(const Duration(seconds: 5), () {
-        if (Random().nextBool()) {
-          throw const MyException('Error');
-        }
-        return 'I am done';
-      });
+  Future<List<String>?> future() {
+    return Future.delayed(const Duration(seconds: 5), () {
+      if (_random.nextBool()) {
+        throw const MyException('Error');
+      }
+      return ['I am done'];
+    });
+  }
 }
 
 class MyException implements Exception {
