@@ -5,8 +5,8 @@ import '../models/models.dart';
 
 /// This class is used to handle futures easily use with what ever you want
 mixin FutureResponseMixin<T extends Object> {
-  /// If you want to auto fetch the data or not
-  bool get autoFetch => false;
+  /// If you want to auto fetch the data on init
+  bool get autoFetchOnInit => false;
 
   /// Must implement this class to update the state
   @protected
@@ -43,7 +43,7 @@ mixin FutureResponseMixin<T extends Object> {
   /// An init function which calls the fetch if [autoFetch] is true also
   /// your custom logic don't forget to call this in the class constructor
   void init() {
-    if (autoFetch) {
+    if (autoFetchOnInit) {
       fetch();
     }
   }

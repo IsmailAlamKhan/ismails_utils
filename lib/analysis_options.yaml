@@ -16,6 +16,7 @@ linter:
     avoid_renaming_method_parameters: false
     prefer_relative_imports: true
     avoid_redundant_argument_values: true
+    type_annotate_public_apis: true
 
 analyzer:
   exclude:
