@@ -22,6 +22,7 @@ extension ExtendedString on String {
   }
 
   DateTime toDate() => DateTime.parse(this);
+  DateTime toLocalDate() => toDate().toLocal();
   bool get isAlphabetic => isAlpha(this);
   T toEnum<T>(List<T> list) {
     return list.firstWhere((d) => d.toString() == this);
