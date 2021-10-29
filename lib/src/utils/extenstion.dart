@@ -2,9 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:intl/intl.dart' as intl;
 
 import '../src.dart';
 import 'utils.dart';
+
+extension MyDateTime on DateTime {
+  String get dateTimeWithTimeZone {
+    final _timeZoneOffset = timeZoneOffset.inHours;
+    final formattedTimeZoneOffset = intl.NumberFormat('00').format(_timeZoneOffset);
+    return "${intl.DateFormat('yyyy-MM-dd HH:mm:ss').format(this)} ${_timeZoneOffset.isNegative ? '-' : '+'}$formattedTimeZoneOffset";
+  }
+}
 
 extension ExtendedString on String {
   int? toInt() {
