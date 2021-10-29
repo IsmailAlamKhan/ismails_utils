@@ -71,7 +71,7 @@ class SomeFutureResponseController extends ValueNotifier<FutureResponse<List<Str
     with FutureResponseMixin<List<String>> {
   SomeFutureResponseController() : super(const IdleFutureResponse());
   @override
-  bool get autoFetch => true;
+  bool get autoFetchOnInit => true;
 
   @override
   void setState(FutureResponse<List<String>> state) => value = state;

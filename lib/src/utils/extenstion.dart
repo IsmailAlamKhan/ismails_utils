@@ -202,4 +202,57 @@ extension CapExtension on String {
 
   String toUpperCaseFirstForEachWord() =>
       replaceAll(RegExp(' +'), ' ').split(' ').map((str) => str.toUpperCaseFirst()).join(' ');
+  bool get isImageFile {
+    final ext = Uri.parse(this).path;
+    return ext.endsWith(".jpg") ||
+        ext.endsWith(".jpeg") ||
+        ext.endsWith(".png") ||
+        ext.endsWith(".gif") ||
+        ext.endsWith(".bmp");
+  }
+
+  bool get isVideoFile {
+    final ext = Uri.parse(this).path;
+    return ext.endsWith(".mp4") ||
+        ext.endsWith(".avi") ||
+        ext.endsWith(".wmv") ||
+        ext.endsWith(".rmvb") ||
+        ext.endsWith(".mpg") ||
+        ext.endsWith(".mpeg") ||
+        ext.endsWith(".3gp");
+  }
+
+  bool get isAudioFile {
+    final ext = Uri.parse(this).path;
+    return ext.endsWith(".mp4") ||
+        ext.endsWith(".avi") ||
+        ext.endsWith(".wmv") ||
+        ext.endsWith(".rmvb") ||
+        ext.endsWith(".mpg") ||
+        ext.endsWith(".mpeg") ||
+        ext.endsWith(".3gp") ||
+        ext.endsWith(".m4a");
+  }
+
+  bool get isPDFFile {
+    final ext = Uri.parse(this).path;
+    return ext.endsWith(".pdf");
+  }
+
+  bool get isTxtFile {
+    final ext = Uri.parse(this).path;
+    return ext.endsWith(".txt");
+  }
+
+  bool get isHTMLFile {
+    final ext = Uri.parse(this).path;
+    return ext.endsWith(".html");
+  }
+
+  bool get isDocumentFile {
+    final ext = Uri.parse(this).path;
+    return ext.endsWith(".doc");
+  }
+
+  bool get isTextFile => isTxtFile || isPDFFile || isHTMLFile || isDocumentFile;
 }
