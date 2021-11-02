@@ -7,8 +7,7 @@ import 'package:flutter/material.dart';
 abstract class IsmailAnimatedWidget extends AnimatedWidget {
   final Animation<double> animation;
   final bool isReverse;
-  const IsmailAnimatedWidget(
-      {Key? key, required this.animation, this.isReverse = false})
+  const IsmailAnimatedWidget({Key? key, required this.animation, this.isReverse = false})
       : super(listenable: animation, key: key);
 
   Animation<double> get progress {

@@ -21,8 +21,10 @@ mixin FutureResponseMixin<T extends Object> {
 
   /// This is where you call the future and handle the response
   /// [future] is the future you want to call
-  Future<void> fetch() async {
-    setState(const LoadingFutureResponse());
+  /// the [showLoadingState] is used to not revert the state to loading in case
+  /// you are gonna use a RefreshIndicator its true by default
+  Future<void> fetch([bool showLoadingState = true]) async {
+    if (showLoadingState) setState(const LoadingFutureResponse());
     try {
       final res = await future();
       if (res == null) {
@@ -38,7 +40,9 @@ mixin FutureResponseMixin<T extends Object> {
   }
 
   /// This is used to retry the fetch
-  Future<void> reFetch() => fetch();
+  /// the [showLoadingState] is used to not revert the state to loading in case
+  /// you are gonna use a RefreshIndicator its true by default
+  Future<void> reFetch([bool showLoadingState = true]) => fetch(showLoadingState);
 
   /// An init function which calls the fetch if [autoFetch] is true also
   /// your custom logic don't forget to call this in the class constructor
