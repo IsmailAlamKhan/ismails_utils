@@ -19,13 +19,13 @@ class IsmailLogger {
       logger.warning(message, warning, stackTrace);
 
   void info(Object? message) => logger.info(message);
-  static void init() {
+  static void init([bool? showWhen]) {
     Logger.root.level = Level.ALL;
-    Logger.root.onRecord.listen(_printLog);
+    Logger.root.onRecord.listen((data) => _printLog(data, showWhen ?? kDebugMode));
   }
 
-  static void _printLog(LogRecord record) {
-    if (kDebugMode) {
+  static void _printLog(LogRecord record, bool showWhen) {
+    if (showWhen) {
       final level = record.level;
       final recordMessege = record.message;
       final error = record.error;
