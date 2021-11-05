@@ -9,15 +9,24 @@ mixin AnimationControllerMixin<T extends StatefulWidget> on TickerProviderStateM
   double value = 0;
   final lowerBound = 0.0;
   final upperBound = 1.0;
-
-  @override
-  void initState() {
-    super.initState();
-    animation = AnimationController(
-      vsync: this,
-      duration: duration,
-      reverseDuration: reverseDuration,
-    );
+  void initializeAnimationController([bool isUnbounded = false]) {
+    if (isUnbounded) {
+      animation = AnimationController(
+        vsync: this,
+        duration: duration,
+        reverseDuration: reverseDuration,
+        value: value,
+        lowerBound: lowerBound,
+        upperBound: upperBound,
+      );
+    } else {
+      animation = AnimationController.unbounded(
+        vsync: this,
+        duration: duration,
+        reverseDuration: reverseDuration,
+        value: value,
+      );
+    }
   }
 
   @override
@@ -33,15 +42,8 @@ abstract class AnimationControllerState<T extends StatefulWidget> extends State<
     with TickerProviderStateMixin<T>, AnimationControllerMixin<T> {
   @override
   void initState() {
-    animation = AnimationController(
-      vsync: this,
-      duration: duration,
-      reverseDuration: reverseDuration,
-      value: value,
-      lowerBound: lowerBound,
-      upperBound: upperBound,
-    );
     super.initState();
+    initializeAnimationController();
   }
 }
 
@@ -51,12 +53,7 @@ abstract class UnboundedAnimationController<T extends StatefulWidget> extends St
     with TickerProviderStateMixin<T>, AnimationControllerMixin<T> {
   @override
   void initState() {
-    animation = AnimationController.unbounded(
-      vsync: this,
-      duration: duration,
-      reverseDuration: reverseDuration,
-      value: value,
-    );
     super.initState();
+    initializeAnimationController(true);
   }
 }
