@@ -2,14 +2,23 @@ import 'package:flutter/material.dart';
 
 /// Have to initialize the [AnimationControllerMixin.animation] before using the
 /// animation controller otherwise you are gonna get a late initialization error.
-mixin AnimationControllerMixin<T extends StatefulWidget>
-    on TickerProviderStateMixin<T> {
+mixin AnimationControllerMixin<T extends StatefulWidget> on TickerProviderStateMixin<T> {
   late final AnimationController animation;
   final duration = const Duration(milliseconds: 500);
   final reverseDuration = const Duration(milliseconds: 500);
   double value = 0;
   final lowerBound = 0.0;
   final upperBound = 1.0;
+
+  @override
+  void initState() {
+    super.initState();
+    animation = AnimationController(
+      vsync: this,
+      duration: duration,
+      reverseDuration: reverseDuration,
+    );
+  }
 
   @override
   void dispose() {
@@ -20,8 +29,8 @@ mixin AnimationControllerMixin<T extends StatefulWidget>
 
 /// Initialzies the [AnimationControllerMixin.animation] with a normal [AnimationController]
 /// and adds TickerProviderStateMixin to the State
-abstract class AnimationControllerState<T extends StatefulWidget>
-    extends State<T> with TickerProviderStateMixin, AnimationControllerMixin {
+abstract class AnimationControllerState<T extends StatefulWidget> extends State<T>
+    with TickerProviderStateMixin, AnimationControllerMixin {
   @override
   void initState() {
     animation = AnimationController(
@@ -38,8 +47,8 @@ abstract class AnimationControllerState<T extends StatefulWidget>
 
 /// Initialzies the [AnimationControllerMixin.animation] with an [AnimationController.unbounded]
 /// and adds TickerProviderStateMixin to the State
-abstract class UnboundedAnimationController<T extends StatefulWidget>
-    extends State<T> with TickerProviderStateMixin, AnimationControllerMixin {
+abstract class UnboundedAnimationController<T extends StatefulWidget> extends State<T>
+    with TickerProviderStateMixin, AnimationControllerMixin {
   @override
   void initState() {
     animation = AnimationController.unbounded(
