@@ -10,7 +10,7 @@ mixin AnimationControllerMixin<T extends StatefulWidget> on TickerProviderStateM
   final lowerBound = 0.0;
   final upperBound = 1.0;
   void initializeAnimationController([bool isUnbounded = false]) {
-    if (isUnbounded) {
+    if (!isUnbounded) {
       animation = AnimationController(
         vsync: this,
         duration: duration,
