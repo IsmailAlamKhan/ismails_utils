@@ -30,7 +30,7 @@ mixin AnimationControllerMixin<T extends StatefulWidget> on TickerProviderStateM
 /// Initialzies the [AnimationControllerMixin.animation] with a normal [AnimationController]
 /// and adds TickerProviderStateMixin to the State
 abstract class AnimationControllerState<T extends StatefulWidget> extends State<T>
-    with TickerProviderStateMixin, AnimationControllerMixin {
+    with TickerProviderStateMixin<T>, AnimationControllerMixin<T> {
   @override
   void initState() {
     animation = AnimationController(
@@ -48,7 +48,7 @@ abstract class AnimationControllerState<T extends StatefulWidget> extends State<
 /// Initialzies the [AnimationControllerMixin.animation] with an [AnimationController.unbounded]
 /// and adds TickerProviderStateMixin to the State
 abstract class UnboundedAnimationController<T extends StatefulWidget> extends State<T>
-    with TickerProviderStateMixin, AnimationControllerMixin {
+    with TickerProviderStateMixin<T>, AnimationControllerMixin<T> {
   @override
   void initState() {
     animation = AnimationController.unbounded(
