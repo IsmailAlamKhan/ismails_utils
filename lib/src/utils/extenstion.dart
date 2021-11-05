@@ -75,9 +75,9 @@ extension ExtendedAnimationController on AnimationStatus {
 }
 
 extension ExtendedBuildContext on BuildContext {
-  Offset get getRenderObjectBounds {
+  Rect get getRenderObjectBounds {
     final box = findRenderObject() as RenderBox;
-    return box.localToGlobal(Offset.zero);
+    return box.localToGlobal(Offset.zero) & box.size;
   }
 
   ContextMenu get contextMenu => ContextMenu.of(this);
