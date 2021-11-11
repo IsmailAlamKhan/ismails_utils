@@ -266,3 +266,22 @@ extension CapExtension on String {
 
   bool get isTextFile => isTxtFile || isPDFFile || isHTMLFile || isDocumentFile;
 }
+
+extension MyList<T> on List<T> {
+  List<E> indexedMap<E>(E Function(int index, T element) f) => asMap()
+      .map(
+        (index, value) => MapEntry(index, f(index, value)),
+      )
+      .values
+      .toList();
+
+  List<T> uniqueList([bool Function(T a, T b)? equals]) {
+    final list = <T>[];
+    for (final item in this) {
+      if (list.contains(item)) continue;
+      if (equals != null && list.any((element) => equals(element, item))) continue;
+      list.add(item);
+    }
+    return list;
+  }
+}
