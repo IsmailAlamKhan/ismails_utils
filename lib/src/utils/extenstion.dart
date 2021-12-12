@@ -106,7 +106,7 @@ extension ExtendedButtonType on ButtonStyle {
 }
 
 extension ExtendedType on Object {
-  bool get isEnum => toString().contains('.');
+  bool get isEnum => this is Enum;
 
   String get getString {
     if (isEnum) {
